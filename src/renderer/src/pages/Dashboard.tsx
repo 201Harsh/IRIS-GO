@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   Terminal,
   Activity,
-  Settings,
   Smartphone,
   Zap,
   CheckCircle,
