@@ -33,7 +33,6 @@ function createWindow(): void {
 }
 
 app.whenReady().then(() => {
-  // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
   // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
