@@ -71,7 +71,7 @@ const Dashboard = () => {
           <p className="text-sm font-bold">"Commit changes and push to origin main"</p>
         </div>
       </div>
-      <div className="flex-1 relative flex items-center justify-center bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-neon-green/5 via-background to-background">
+      <div className="flex-1 relative flex items-center justify-center bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-neon-green/5 via-background to-background">
         <div className="relative w-full max-w-2xl h-96 flex items-center justify-center">
           <div className="absolute top-0">
             <AgentNode
@@ -245,7 +245,7 @@ const Dashboard = () => {
           <Sliders size={24} />
         </button>
 
-        <div className="flex-grow" />
+        <div className="grow" />
         <div className="w-10 h-10 rounded-full border border-neon-green/30 flex items-center justify-center relative">
           <Server size={18} className="text-neon-green" />
           <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-neon-green rounded-full animate-pulse shadow-neon-green"></span>
