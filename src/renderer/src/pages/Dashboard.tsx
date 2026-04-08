@@ -85,7 +85,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="flex-1 relative flex items-center justify-center bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-neon-green/5 via-background to-background">
+        <div className="flex-1 relative flex items-center justify-center bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-neon-green/5 via-background to-background">
           <div className="absolute top-10 left-1/2 -translate-x-1/2 w-2/3 max-w-lg">
             <div className="border border-neon-green/30 bg-neon-green/5 backdrop-blur-md p-4 rounded-lg text-center shadow-neon-green">
               <p className="text-xs text-neon-green/70 mb-1">LATEST MOBILE COMMAND</p>
@@ -157,7 +157,7 @@ const Dashboard = () => {
         </div>
 
         <div className="h-64 border-t border-neon-blue/20 bg-black/80 relative">
-          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-neon-blue to-transparent opacity-50"></div>
+          <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-neon-blue to-transparent opacity-50"></div>
 
           <div className="p-4 h-full overflow-hidden flex flex-col">
             <div className="flex justify-between items-center mb-2">
