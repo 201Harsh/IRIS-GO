@@ -18,7 +18,6 @@ export default function Dashboard() {
   const [isThinking, setIsThinking] = useState(false)
   const endOfMessagesRef = useRef(null)
 
-  // The Mock Chat State based on your Stitch design
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -52,7 +51,6 @@ export default function Dashboard() {
     }
   ])
 
-  // Auto-scroll
   useEffect(() => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isThinking])
@@ -61,7 +59,6 @@ export default function Dashboard() {
     e.preventDefault()
     if (!inputValue.trim()) return
 
-    // Add user message
     const newMsg = {
       id: Date.now(),
       role: 'user',
@@ -77,7 +74,6 @@ export default function Dashboard() {
     setInputValue('')
     setIsThinking(true)
 
-    // Mock an agent response after 2 seconds
     setTimeout(() => {
       setIsThinking(false)
       setMessages((prev) => [
@@ -101,7 +97,6 @@ export default function Dashboard() {
 
   return (
     <div className="flex h-screen w-screen bg-[#050505] text-white font-mono overflow-hidden selection:bg-[#00FF9D] selection:text-black">
-      {/* --- CSS Background Pattern (The subtle dark mesh) --- */}
       <div
         className="absolute inset-0 z-0 opacity-20 pointer-events-none"
         style={{
@@ -110,7 +105,6 @@ export default function Dashboard() {
         }}
       ></div>
 
-      {/* --- LEFT SIDEBAR --- */}
       <div className="w-16 border-r border-white/10 flex flex-col items-center py-4 z-10 bg-[#050505]/80 backdrop-blur-sm">
         <div className="text-[#00FF9D] font-black text-xl mb-8 tracking-tighter">IG</div>
 
@@ -134,9 +128,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* --- MAIN CONTENT AREA --- */}
       <div className="flex-1 flex flex-col z-10 relative">
-        {/* TOP TELEMETRY BAR */}
         <div className="h-12 border-b border-white/10 flex items-center justify-between px-6 bg-[#050505]/80 backdrop-blur-md">
           <div className="flex items-center space-x-6 text-[10px] tracking-widest font-bold">
             <span className="text-[#00FF9D] text-sm">IRIS GO</span>
@@ -165,7 +157,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* CHAT FEED */}
         <div className="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar">
           {messages.map((msg: any) => (
             <motion.div
@@ -189,7 +180,6 @@ export default function Dashboard() {
                   </div>
                 )}
 
-                {/* Message Bubble */}
                 <div
                   className={`relative p-4 rounded text-sm shadow-lg ${
                     msg.role === 'user'
@@ -197,7 +187,6 @@ export default function Dashboard() {
                       : 'bg-[#0D0D0D] border border-white/5 text-white/80 rounded-tl-none'
                   }`}
                 >
-                  {/* Glowing Agent Left Border */}
                   {msg.role !== 'user' && (
                     <div
                       className="absolute left-0 top-0 w-0.5 h-full opacity-70"
@@ -205,10 +194,8 @@ export default function Dashboard() {
                     ></div>
                   )}
 
-                  {/* Standard Text */}
                   <div className="pl-2 leading-relaxed whitespace-pre-wrap">{msg.text}</div>
 
-                  {/* Terminal Execution Block */}
                   {msg.terminal && (
                     <div className="mt-4 bg-[#050505] border border-white/5 rounded-md p-4 font-mono text-xs text-[#00FF9D] w-full max-w-2xl relative overflow-hidden group">
                       <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[#00FF9D]/30 to-transparent"></div>
@@ -226,7 +213,6 @@ export default function Dashboard() {
                   )}
                 </div>
 
-                {/* Timestamp */}
                 <div className="text-[9px] text-white/30 mt-2 tracking-widest">
                   {msg.role === 'user' ? 'USER' : 'SYSTEM'} • {msg.timestamp}
                 </div>
@@ -236,9 +222,7 @@ export default function Dashboard() {
           <div ref={endOfMessagesRef} />
         </div>
 
-        {/* INPUT AREA */}
         <div className="px-8 pb-8 pt-4">
-          {/* Thinking Status */}
           <div className="h-6 flex items-center text-[10px] tracking-widest text-white/40 font-bold mb-2">
             {isThinking && (
               <motion.div
@@ -256,7 +240,6 @@ export default function Dashboard() {
             )}
           </div>
 
-          {/* Input Box */}
           <form
             onSubmit={handleSend}
             className="flex items-center bg-[#0D0D0D] border border-white/10 rounded focus-within:border-[#00FF9D]/50 focus-within:shadow-[0_0_20px_rgba(0,255,157,0.1)] transition-all"
