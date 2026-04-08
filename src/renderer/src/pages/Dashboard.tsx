@@ -19,8 +19,7 @@ import {
 import { FaGithub } from 'react-icons/fa'
 
 const Dashboard = () => {
-  // Navigation State
-  const [activeTab, setActiveTab] = useState('swarm') // 'swarm', 'integrations', 'agents'
+  const [activeTab, setActiveTab] = useState('swarm')
   const [activeAgent, setActiveAgent] = useState('planner')
 
   const AgentNode = ({ label, icon: Icon, colorClass, isActive }) => (
