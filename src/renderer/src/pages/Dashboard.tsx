@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import {
   Zap,
   CheckCircle,
-  Terminal,
   Paperclip,
   Send,
   MessageSquare,
@@ -30,7 +29,7 @@ export default function Dashboard() {
       role: 'planner',
       title: 'PLANNER // ORCHESTRATOR',
       icon: Zap,
-      color: '#00E5FF', // Cyber Blue
+      color: '#00E5FF',
       text: '[PLANNER] Orchestrating execution plan. Mapping dependencies and verifying branch integrity.',
       timestamp: '14:02:12'
     },
@@ -39,7 +38,7 @@ export default function Dashboard() {
       role: 'executor',
       title: 'EXECUTOR // SWARM_04',
       icon: CheckCircle,
-      color: '#00FF9D', // Neon Green
+      color: '#00FF9D',
       text: '[EXECUTOR] Step 2 complete. Authentication successful. Synchronizing upstream.',
       terminal: [
         '$ git add .',
