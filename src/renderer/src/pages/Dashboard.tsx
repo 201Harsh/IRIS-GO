@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   Terminal,
@@ -10,11 +9,24 @@ import {
   Search,
   ShieldAlert
 } from 'lucide-react'
+import { useState } from 'react'
 
 const Dashboard = () => {
   const [activeAgent, setActiveAgent] = useState('planner')
 
-  const AgentNode = ({ id, label, icon: Icon, colorClass, isActive }) => (
+  const AgentNode = ({
+    id,
+    label,
+    icon: Icon,
+    colorClass,
+    isActive
+  }: {
+    id: string
+    label: string
+    icon: any
+    colorClass: string
+    isActive: boolean
+  }) => (
     <motion.div
       className={`relative flex flex-col items-center justify-center p-4 rounded-xl border border-white/5 bg-surface backdrop-blur-md w-32 h-32 transition-all duration-300 ${isActive ? colorClass : 'opacity-50 grayscale'}`}
       animate={{
@@ -52,7 +64,7 @@ const Dashboard = () => {
         <button className="text-white/40 hover:text-white transition-colors">
           <Settings size={24} />
         </button>
-        <div className="flex-grow" />
+        <div className="grow" />
         <button className="text-neon-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.8)] relative">
           <Smartphone size={24} />
           <span className="absolute -top-1 -right-1 w-2 h-2 bg-neon-green rounded-full animate-pulse shadow-neon-green"></span>
