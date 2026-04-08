@@ -1,1 +1,33 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  /* Colors */
+  --color-background: #050505;
+  --color-surface: #0d0d0d;
+  --color-neon-green: #00ff9d;
+  --color-neon-blue: #00e5ff;
+
+  /* Custom Glow Effects (Shadows) */
+  --shadow-neon-green: 0 0 10px rgba(0, 255, 157, 0.5), 0 0 20px rgba(0, 255, 157, 0.3);
+  --shadow-neon-blue: 0 0 10px rgba(0, 229, 255, 0.5), 0 0 20px rgba(0, 229, 255, 0.3);
+
+  /* Typography */
+  --font-mono:
+    'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+}
+
+/* Optional: Smooth out the scrollbar for the terminal window */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neon-blue);
+}
