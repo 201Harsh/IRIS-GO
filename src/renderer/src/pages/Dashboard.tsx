@@ -12,10 +12,8 @@ import {
 } from 'lucide-react'
 
 const Dashboard = () => {
-  // Mock state: Which agent is currently active?
   const [activeAgent, setActiveAgent] = useState('planner')
 
-  // Agent Node Component using Framer Motion for low-cost GPU animations
   const AgentNode = ({ id, label, icon: Icon, colorClass, isActive }) => (
     <motion.div
       className={`relative flex flex-col items-center justify-center p-4 rounded-xl border border-white/5 bg-surface backdrop-blur-md w-32 h-32 transition-all duration-300 ${isActive ? colorClass : 'opacity-50 grayscale'}`}
@@ -28,7 +26,6 @@ const Dashboard = () => {
         ease: 'easeInOut'
       }}
     >
-      {/* Glowing background ring if active */}
       {isActive && (
         <div
           className={`absolute inset-0 rounded-xl blur-md opacity-30 ${colorClass.replace('border-', 'bg-').replace('text-', 'bg-')}`}
@@ -44,7 +41,6 @@ const Dashboard = () => {
 
   return (
     <div className="h-screen w-screen bg-background text-white flex overflow-hidden font-mono selection:bg-neon-green selection:text-black">
-      {/* ZONE A: Sidebar */}
       <div className="w-16 border-r border-white/5 flex flex-col items-center py-6 space-y-8 bg-surface/50">
         <div className="text-neon-green font-black text-xl mb-4">IG</div>
         <button className="text-neon-green drop-shadow-[0_0_8px_rgba(0,255,157,0.8)]">
@@ -57,16 +53,13 @@ const Dashboard = () => {
           <Settings size={24} />
         </button>
         <div className="flex-grow" />
-        {/* Phone Connection Status */}
         <button className="text-neon-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.8)] relative">
           <Smartphone size={24} />
           <span className="absolute -top-1 -right-1 w-2 h-2 bg-neon-green rounded-full animate-pulse shadow-neon-green"></span>
         </button>
       </div>
 
-      {/* Main Content Column */}
       <div className="flex-1 flex flex-col h-full relative">
-        {/* ZONE B: Top Bar / Command Hub */}
         <div className="h-16 border-b border-white/5 flex items-center justify-between px-6 bg-surface/30">
           <div className="flex items-center space-x-4">
             <span className="text-xs text-neon-blue border border-neon-blue/30 px-2 py-1 rounded shadow-[0_0_10px_rgba(0,229,255,0.2)]">
@@ -80,9 +73,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* ZONE C: Swarm Visualizer (Center) */}
         <div className="flex-1 relative flex items-center justify-center bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-neon-green/5 via-background to-background">
-          {/* Incoming Payload Display */}
           <div className="absolute top-10 left-1/2 -translate-x-1/2 w-2/3 max-w-lg">
             <div className="border border-neon-green/30 bg-neon-green/5 backdrop-blur-md p-4 rounded-lg text-center shadow-neon-green">
               <p className="text-xs text-neon-green/70 mb-1">LATEST MOBILE COMMAND</p>
@@ -90,9 +81,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Node Grid Layout */}
           <div className="relative w-full max-w-2xl h-96 flex items-center justify-center">
-            {/* SVG Connecting Lines (Mockup) */}
             <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none">
               <line
                 x1="50%"
@@ -116,7 +105,6 @@ const Dashboard = () => {
               <line x1="80%" y1="50%" x2="50%" y2="80%" stroke="#00FF9D" strokeWidth="2" />
             </svg>
 
-            {/* Nodes */}
             <div className="absolute top-0">
               <AgentNode
                 id="planner"
@@ -156,9 +144,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* ZONE D: The Terminal (Bottom) */}
         <div className="h-64 border-t border-neon-blue/20 bg-black/80 relative">
-          {/* Subtle Glow Line */}
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-neon-blue to-transparent opacity-50"></div>
 
           <div className="p-4 h-full overflow-hidden flex flex-col">
@@ -173,7 +159,6 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Terminal Output Area (We will replace this with xterm.js later) */}
             <div className="flex-1 overflow-y-auto text-sm opacity-80 space-y-1">
               <p>
                 <span className="text-neon-blue">[SYSTEM]</span> Awaiting connection payload...
