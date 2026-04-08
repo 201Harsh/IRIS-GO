@@ -23,8 +23,6 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('swarm') // 'swarm', 'integrations', 'agents'
   const [activeAgent, setActiveAgent] = useState('planner')
 
-  // --- REUSABLE COMPONENTS ---
-
   const AgentNode = ({ label, icon: Icon, colorClass, isActive }) => (
     <motion.div
       className={`relative flex flex-col items-center justify-center p-4 rounded-xl border border-white/5 bg-surface backdrop-blur-md w-32 h-32 transition-all duration-300 ${isActive ? colorClass : 'opacity-40 grayscale'}`}
@@ -65,8 +63,6 @@ const Dashboard = () => {
     </div>
   )
 
-  // --- VIEWS ---
-
   const renderSwarmView = () => (
     <div className="flex-1 flex flex-col h-full relative">
       <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10">
@@ -77,7 +73,6 @@ const Dashboard = () => {
           <p className="text-sm font-bold">"Commit changes and push to origin main"</p>
         </div>
       </div>
-      {/* Node Grid Layout */}
       <div className="flex-1 relative flex items-center justify-center bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-neon-green/5 via-background to-background">
         <div className="relative w-full max-w-2xl h-96 flex items-center justify-center">
           <div className="absolute top-0">
@@ -114,7 +109,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      {/* Terminal */}
       <div className="h-64 border-t border-white/5 bg-[#030303] p-4 flex flex-col">
         <span className="text-[10px] font-bold text-white/40 tracking-widest mb-2">
           SYSTEM STDOUT
@@ -229,7 +223,6 @@ const Dashboard = () => {
 
   return (
     <div className="h-screen w-screen bg-background text-white flex overflow-hidden font-mono selection:bg-neon-green selection:text-black">
-      {/* SIDEBAR */}
       <div className="w-20 border-r border-white/5 flex flex-col items-center py-6 space-y-8 bg-surface/50 z-20 shadow-[4px_0_24px_rgba(0,0,0,0.5)]">
         <div className="text-neon-green font-black text-xl mb-4 border border-neon-green/30 p-2 rounded shadow-neon-green">
           IG
@@ -261,9 +254,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col h-full">
-        {/* Top Telemetry Bar */}
         <div className="h-12 border-b border-white/5 flex items-center justify-between px-6 bg-surface/30 z-10">
           <div className="flex items-center space-x-4">
             <span className="text-[10px] text-neon-blue border border-neon-blue/30 px-2 py-0.5 rounded shadow-[0_0_10px_rgba(0,229,255,0.2)]">
@@ -277,7 +268,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Dynamic Tab Rendering */}
         {activeTab === 'swarm' && renderSwarmView()}
         {activeTab === 'integrations' && renderIntegrationsView()}
         {activeTab === 'agents' && renderAgentSettingsView()}
