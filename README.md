@@ -1,31 +1,39 @@
-# iris-go
+# 🚀 IRIS GO: Remote Multi-Agent OS Command System
 
-An Electron application with React and TypeScript
+**IRIS GO** is a high-performance, remote execution layer designed to bridge the gap between human intent and real-world computer action. It transforms your local machine into an autonomous, remotely-controllable "Neural OS" that you can command from anywhere in the world via simple mobile messaging.
 
-## Recommended IDE Setup
+---
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+### 🧠 The Core Concept: "Intent to Execution"
 
-## Project Setup
+Most AI tools are restricted to a chat box. **IRIS GO** breaks those walls. It isn't a chatbot; it is a **Remote Execution Engine**. By sending a command through WhatsApp or Telegram, you trigger a local, multi-agent swarm on your desktop that physically manipulates your Operating System, IDE, and Terminal to complete complex tasks while you are away.
 
-### Install
+### 🧩 How the "Swarm" Works
 
-```bash
-$ npm install
-```
+Powered by **LangGraph** and **LangChain**, IRIS GO utilizes a specialized "Manager-Employee" architecture to ensure tasks are completed with 100% accuracy:
 
-### Development
+- **The Planner:** Analyzes your mobile text and breaks it down into a logical, multi-step execution roadmap.
+- **The Executor:** The muscle of the operation. It drives the Electron-based system tools to write code, run shell commands, and manage files.
+- **The Researcher:** Scans your local codebase and directories to provide the necessary context for the agents.
+- **The Critic:** The quality control layer. It analyzes terminal output and logs to detect errors, forcing the agents to self-correct until the job is done.
 
-```bash
-$ npm run dev
-```
+### ⚡ Key Features
 
-### Build
+- 📱 **Mobile Telekinesis:** Command your entire PC (VS Code, Terminal, Browser) using natural language from your phone.
+- 🔐 **Secure Remote Relay:** End-to-end encrypted tunneling ensures only your authorized device can trigger system actions.
+- 🛠️ **Native OS Control:** Built with **Electron + Vite**, giving the AI swarm deep access to the file system and native application lifecycles.
+- 📸 **Live Visual Feedback:** Receive real-time screenshots and sanitized terminal logs back to your phone as the agents work.
+- 🤖 **Autonomous Self-Healing:** If a command fails, the agents analyze the error and try alternative solutions without needing your input.
 
-```bash
-$ npm run build:win
+### 🏗️ Technical Stack
 
-$ npm run build:mac
+- **Frontend:** Vite + React (Neural Core UI)
+- **Backend:** Node.js / Electron (Main Process)
+- **Orchestration:** LangGraph (Cyclic Agentic Workflows)
+- **Models:** Gemini 1.5 Pro (Reasoning) & Groq (Ultra-fast Execution)
+- **Communication:** Webhook Relay (WhatsApp/Telegram Integration)
 
-$ npm run build:linux
-```
+---
+
+**Status:** `BUILDING SOON` 🚀  
+_Part of the IRIS Neural OS Series._
