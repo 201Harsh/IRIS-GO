@@ -2,9 +2,8 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { LocalGateway } from './api/gateway' // 🔥 Import the Gateway
+import { LocalGateway } from './api/gateway'
 
-// Hold a global reference so it doesn't get garbage collected
 let gateway: LocalGateway | null = null
 
 function createWindow(): void {
