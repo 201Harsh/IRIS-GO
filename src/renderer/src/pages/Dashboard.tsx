@@ -1,473 +1,322 @@
-import { useState, useRef } from 'react'
-import { motion } from 'framer-motion'
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Zap,
-  CheckCircle,
-  Paperclip,
-  Send,
-  MessageSquare,
-  Settings,
+  Bot,
+  Plug,
   Activity,
+  Settings,
+  Terminal,
+  FolderGit2,
+  Globe,
   Shield,
-  Mail,
-  X,
-  Server,
-  Loader2
+  Plus,
+  Save,
+  Power,
+  Smartphone,
+  Mail
 } from 'lucide-react'
-import { BsGithub } from 'react-icons/bs'
 
 export default function Dashboard() {
-  const [isSetupComplete, setIsSetupComplete] = useState(false)
-  const [activeModal, setActiveModal] = useState<any>(null)
-  const [isConnecting, setIsConnecting] = useState(false)
-  const [connectedApps, setConnectedApps] = useState({
-    telegram: false,
-    whatsapp: false,
-    github: false,
-    google: false
-  })
+  const [activeTab, setActiveTab] = useState('agents')
 
-  const [inputValue, setInputValue] = useState('')
-  const [isThinking, setIsThinking] = useState(false)
-  const endOfMessagesRef = useRef(null)
-
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      role: 'user',
-      text: 'Commit changes and push to origin main.',
-      timestamp: '14:02:11'
-    },
-    {
-      id: 2,
-      role: 'planner',
-      title: 'PLANNER // ORCHESTRATOR',
-      icon: Zap,
-      color: '#00E5FF',
-      text: '[PLANNER] Orchestrating execution plan. Mapping dependencies and verifying branch integrity.',
-      timestamp: '14:02:12'
-    },
-    {
-      id: 3,
-      role: 'executor',
-      title: 'EXECUTOR // SWARM_04',
-      icon: CheckCircle,
-      color: '#00FF9D',
-      text: '[EXECUTOR] Step 2 complete. Authentication successful. Synchronizing upstream.',
-      terminal: [
-        '$ git add .',
-        '$ git commit -m "System optimization: Core UI update"',
-        '[main 042a1bc] System optimization: Core UI update',
-        '$ git push origin main ... SUCCESS'
-      ],
-      timestamp: '14:02:15'
-    }
+  // Mock Data: The Custom Agents
+  const [agents, setAgents] = useState([
+    { id: 1, name: 'Core Orchestrator', status: 'active', model: 'Gemini 1.5 Pro' },
+    { id: 2, name: 'Local Executor', status: 'active', model: 'Groq Llama 3' },
+    { id: 3, name: 'Git Manager', status: 'idle', model: 'Gemini 1.5 Flash' }
   ])
+  const [selectedAgent, setSelectedAgent] = useState(agents[0])
 
-  const handleConnectApp = (appId) => {
-    setIsConnecting(true)
-    setTimeout(() => {
-      setConnectedApps((prev) => ({ ...prev, [appId]: true }))
-      setIsConnecting(false)
-      setActiveModal(null)
-    }, 1500)
-  }
+  // --- VIEWS ---
 
-  const canProceed = connectedApps.telegram || connectedApps.whatsapp
-
-  const handleSend = (e) => {
-    e.preventDefault()
-    if (!inputValue.trim()) return
-
-    const newMsg = {
-      id: Date.now(),
-      role: 'user',
-      text: inputValue,
-      timestamp: new Date().toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      })
-    }
-
-    setMessages((prev) => [...prev, newMsg])
-    setInputValue('')
-    setIsThinking(true)
-
-    setTimeout(() => {
-      setIsThinking(false)
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          role: 'planner',
-          title: 'PLANNER // ORCHESTRATOR',
-          icon: Zap,
-          color: '#00E5FF',
-          text: '[PLANNER] Analyzing command context. Preparing terminal hooks.',
-          timestamp: new Date().toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-          })
-        }
-      ])
-    }, 2000)
-  }
-
-  const renderModal = () => {
-    if (!activeModal) return null
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="bg-[#0D0D0D] border border-white/10 p-6 rounded-xl w-full max-w-sm shadow-[0_0_30px_rgba(0,0,0,0.8)] relative"
-        >
-          <button
-            onClick={() => setActiveModal(null)}
-            className="absolute top-4 right-4 text-white/30 hover:text-white"
-          >
-            <X size={18} />
+  const renderAgentArchitect = () => (
+    <div className="flex h-full">
+      {/* Agent List */}
+      <div className="w-1/3 border-r border-white/5 flex flex-col bg-[#0A0A0A]">
+        <div className="p-4 border-b border-white/5 flex justify-between items-center bg-[#050505]">
+          <h2 className="text-xs font-bold text-white/50 tracking-widest">DEPLOYED AGENTS</h2>
+          <button className="text-[#00FF9D] hover:bg-[#00FF9D]/10 p-1 rounded transition-colors">
+            <Plus size={16} />
           </button>
-          <div className="flex flex-col items-center text-center mt-4">
-            <div className={`p-4 rounded-full mb-4 ${activeModal.colorClass}`}>
-              <activeModal.icon size={32} />
-            </div>
-            <h3 className="text-lg font-bold mb-2">Connect {activeModal.name}</h3>
-            <p className="text-xs text-white/50 mb-6">{activeModal.desc}</p>
-
+        </div>
+        <div className="flex-1 overflow-y-auto p-4 space-y-2">
+          {agents.map((agent) => (
             <button
-              onClick={() => handleConnectApp(activeModal.id)}
-              disabled={isConnecting}
-              className="w-full py-3 bg-white/5 border border-white/10 rounded font-bold tracking-widest text-xs hover:bg-white/10 transition flex justify-center items-center"
+              key={agent.id}
+              onClick={() => setSelectedAgent(agent)}
+              className={`w-full text-left p-4 rounded border transition-all ${
+                selectedAgent.id === agent.id
+                  ? 'border-[#00FF9D]/30 bg-[#00FF9D]/5 shadow-[inset_2px_0_0_#00FF9D]'
+                  : 'border-white/5 bg-transparent hover:border-white/20'
+              }`}
             >
-              {isConnecting ? (
-                <Loader2 size={16} className="animate-spin text-[#00FF9D]" />
-              ) : (
-                'AUTHORIZE CONNECTION'
-              )}
+              <div className="flex justify-between items-center mb-1">
+                <span
+                  className={`text-sm font-bold ${selectedAgent.id === agent.id ? 'text-[#00FF9D]' : 'text-white'}`}
+                >
+                  {agent.name}
+                </span>
+                <span
+                  className={`w-2 h-2 rounded-full ${agent.status === 'active' ? 'bg-[#00FF9D] shadow-[0_0_8px_#00FF9D]' : 'bg-white/20'}`}
+                ></span>
+              </div>
+              <div className="text-[10px] text-white/40 tracking-widest uppercase">
+                {agent.model}
+              </div>
             </button>
-          </div>
-        </motion.div>
+          ))}
+        </div>
       </div>
-    )
-  }
 
-  if (!isSetupComplete) {
-    return (
-      <div className="min-h-screen w-screen bg-background text-white font-mono flex flex-col items-center justify-center relative overflow-hidden selection:bg-[#00FF9D] selection:text-black p-6">
-        <div
-          className="absolute inset-0 z-0 opacity-10 pointer-events-none"
-          style={{
-            backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)',
-            backgroundSize: '40px 40px'
-          }}
-        ></div>
-
-        {renderModal()}
-
-        <div className="z-10 w-full max-w-3xl">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center space-x-2 border border-[#00FF9D]/30 px-3 py-1 rounded bg-[#00FF9D]/5 mb-6">
-              <Shield size={14} className="text-[#00FF9D]" />
-              <span className="text-[#00FF9D] text-[10px] tracking-widest font-bold">
-                SYSTEM INITIALIZATION
-              </span>
-            </div>
-            <h1 className="text-3xl font-black tracking-tighter mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-              ESTABLISH <span className="text-[#00FF9D]">REMOTE UPLINK</span>
-            </h1>
-            <p className="text-white/40 text-xs">
-              Connect your mobile relay and grant access to cloud tools before entering the command
-              center.
+      {/* Agent Configuration Editor */}
+      <div className="flex-1 flex flex-col bg-[#050505]">
+        <div className="p-6 border-b border-white/5 flex justify-between items-center">
+          <div>
+            <h2 className="text-xl font-bold">{selectedAgent.name} // Configuration</h2>
+            <p className="text-xs text-white/40 mt-1 tracking-widest">
+              Define system instructions and resource bounds.
             </p>
           </div>
-
-          <h2 className="text-[10px] text-[#00E5FF] tracking-widest font-bold mb-3 border-b border-white/10 pb-2">
-            REQUIRED: MOBILE COMMAND RELAY
-          </h2>
-          <div className="grid grid-cols-2 gap-4 mb-8">
-            {[
-              {
-                id: 'telegram',
-                name: 'Telegram Bot',
-                icon: Send,
-                colorClass: 'text-[#00E5FF] bg-[#00E5FF]/10',
-                desc: 'Control via Telegram BotFather.'
-              },
-              {
-                id: 'whatsapp',
-                name: 'WhatsApp',
-                icon: MessageSquare,
-                colorClass: 'text-[#00FF9D] bg-[#00FF9D]/10',
-                desc: 'Control via WhatsApp Business.'
-              }
-            ].map((app) => (
-              <div
-                key={app.id}
-                className="bg-[#0D0D0D] border border-white/10 p-5 rounded-lg relative overflow-hidden"
-              >
-                {connectedApps[app.id] && (
-                  <div className="absolute top-0 left-0 w-full h-1 bg-[#00FF9D] shadow-[0_0_10px_#00FF9D]"></div>
-                )}
-                <div className="flex justify-between items-start mb-4">
-                  <app.icon size={24} className={app.colorClass.split(' ')[0]} />
-                  {connectedApps[app.id] ? (
-                    <span className="text-[9px] flex items-center text-[#00FF9D] border border-[#00FF9D]/30 px-2 py-1 rounded bg-[#00FF9D]/5">
-                      <CheckCircle size={10} className="mr-1" /> LINKED
-                    </span>
-                  ) : (
-                    <button
-                      onClick={() => setActiveModal(app)}
-                      className="text-[9px] tracking-widest border border-white/20 px-2 py-1 rounded hover:bg-white/5 transition text-white/50 hover:text-white"
-                    >
-                      CONNECT
-                    </button>
-                  )}
-                </div>
-                <h3 className="text-sm font-bold">{app.name}</h3>
-              </div>
-            ))}
-          </div>
-
-          {/* Tools */}
-          <h2 className="text-[10px] text-white/40 tracking-widest font-bold mb-3 border-b border-white/10 pb-2">
-            OPTIONAL: CLOUD INTEGRATIONS
-          </h2>
-          <div className="grid grid-cols-2 gap-4 mb-12">
-            {[
-              {
-                id: 'github',
-                name: 'GitHub',
-                icon: BsGithub,
-                colorClass: 'text-white bg-white/10',
-                desc: 'Read/Write access to repos.'
-              },
-              {
-                id: 'google',
-                name: 'Google Workspace',
-                icon: Mail,
-                colorClass: 'text-red-400 bg-red-400/10',
-                desc: 'Access Gmail & Docs API (Free-tier).'
-              }
-            ].map((app) => (
-              <div
-                key={app.id}
-                className="bg-[#0D0D0D] border border-white/10 p-5 rounded-lg relative"
-              >
-                {connectedApps[app.id] && (
-                  <div className="absolute top-0 left-0 w-full h-1 bg-[#00FF9D]"></div>
-                )}
-                <div className="flex justify-between items-start mb-4">
-                  <app.icon size={24} className={app.colorClass.split(' ')[0]} />
-                  {connectedApps[app.id] ? (
-                    <span className="text-[9px] flex items-center text-[#00FF9D] border border-[#00FF9D]/30 px-2 py-1 rounded bg-[#00FF9D]/5">
-                      <CheckCircle size={10} className="mr-1" /> LINKED
-                    </span>
-                  ) : (
-                    <button
-                      onClick={() => setActiveModal(app)}
-                      className="text-[9px] tracking-widest border border-white/20 px-2 py-1 rounded hover:bg-white/5 transition text-white/50 hover:text-white"
-                    >
-                      CONNECT
-                    </button>
-                  )}
-                </div>
-                <h3 className="text-sm font-bold">{app.name}</h3>
-              </div>
-            ))}
-          </div>
-
-          {/* Proceed Button */}
-          <button
-            onClick={() => setIsSetupComplete(true)}
-            disabled={!canProceed}
-            className={`w-full py-4 rounded font-bold tracking-widest text-xs transition-all flex justify-center items-center space-x-2 ${
-              canProceed
-                ? 'bg-[#00FF9D]/10 text-[#00FF9D] border border-[#00FF9D]/50 hover:bg-[#00FF9D]/20 shadow-[0_0_20px_rgba(0,255,157,0.2)]'
-                : 'bg-white/5 text-white/20 border border-white/10 cursor-not-allowed'
-            }`}
-          >
-            <Server size={16} />
-            <span>INITIALIZE UPLINK</span>
+          <button className="flex items-center space-x-2 bg-white/5 border border-white/10 hover:border-[#00FF9D]/50 hover:text-[#00FF9D] px-4 py-2 rounded text-xs tracking-widest transition-all">
+            <Save size={14} /> <span>SAVE DEPLOYMENT</span>
           </button>
         </div>
+
+        <div className="flex-1 overflow-y-auto p-6 space-y-8">
+          {/* System Prompt Box */}
+          <div>
+            <label className="block text-[10px] font-bold text-white/50 tracking-widest mb-3">
+              SYSTEM INSTRUCTIONS (PROMPT)
+            </label>
+            <textarea
+              className="w-full h-40 bg-[#0A0A0A] border border-white/10 rounded p-4 text-sm font-mono focus:border-[#00E5FF]/50 focus:outline-none transition-colors resize-none"
+              defaultValue={`You are the Core Orchestrator. Your objective is to parse incoming mobile payloads, determine the necessary local actions, and delegate tasks to specialized sub-agents. You do not execute code directly. You strictly return JSON execution plans.`}
+            />
+          </div>
+
+          {/* Assigned Tools */}
+          <div>
+            <label className="block text-[10px] font-bold text-white/50 tracking-widest mb-3">
+              AUTHORIZED SYSTEM TOOLS
+            </label>
+            <div className="grid grid-cols-3 gap-4">
+              {[
+                { name: 'Local Terminal', icon: Terminal, active: true },
+                { name: 'File System (R/W)', icon: FolderGit2, active: true },
+                { name: 'Network Access', icon: Globe, active: false }
+              ].map((tool, i) => (
+                <div
+                  key={i}
+                  className={`p-4 rounded border flex items-center justify-between cursor-pointer transition-colors ${tool.active ? 'border-[#00E5FF]/30 bg-[#00E5FF]/5' : 'border-white/5 bg-[#0A0A0A] opacity-50 hover:opacity-100'}`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <tool.icon
+                      size={18}
+                      className={tool.active ? 'text-[#00E5FF]' : 'text-white/40'}
+                    />
+                    <span className="text-xs font-bold">{tool.name}</span>
+                  </div>
+                  <div
+                    className={`w-8 h-4 rounded-full relative transition-colors ${tool.active ? 'bg-[#00E5FF]/30' : 'bg-white/10'}`}
+                  >
+                    <div
+                      className={`absolute top-0.5 w-3 h-3 rounded-full transition-transform ${tool.active ? 'bg-[#00E5FF] translate-x-4' : 'bg-white/40 translate-x-0.5'}`}
+                    ></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Security Bounds */}
+          <div>
+            <label className="block text-[10px] font-bold text-[#FF3366] tracking-widest mb-3 flex items-center">
+              <Shield size={12} className="mr-2" /> SECURITY & BOUNDS
+            </label>
+            <div className="p-5 border border-[#FF3366]/20 bg-[#FF3366]/5 rounded">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm font-bold text-white/80">Require Mobile Confirmation</span>
+                <span className="text-xs text-[#FF3366] border border-[#FF3366]/30 px-2 py-0.5 rounded bg-[#FF3366]/10">
+                  STRICT
+                </span>
+              </div>
+              <p className="text-xs text-white/40">
+                If the agent requests `sudo` access or attempts to delete directories, a
+                confirmation payload will be sent to the linked mobile app before execution.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-    )
-  }
+    </div>
+  )
+
+  const renderIntegrations = () => (
+    <div className="p-8 h-full overflow-y-auto bg-[#050505]">
+      <div className="max-w-4xl">
+        <h2 className="text-xl font-bold mb-2">Platform Integrations</h2>
+        <p className="text-xs text-white/40 mb-8 tracking-widest">
+          Manage your mobile control gateways and local app access.
+        </p>
+
+        <h3 className="text-[10px] text-[#00FF9D] tracking-widest font-bold mb-4 border-b border-white/5 pb-2">
+          MOBILE CONTROL RELAYS
+        </h3>
+        <div className="grid grid-cols-2 gap-4 mb-10">
+          <div className="p-5 border border-[#00FF9D]/30 bg-[#00FF9D]/5 rounded-lg flex justify-between items-center">
+            <div className="flex items-center space-x-4">
+              <div className="p-3 bg-[#00FF9D]/10 text-[#00FF9D] rounded">
+                <Smartphone size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold">IRIS Mobile App (iOS/Android)</h4>
+                <p className="text-[10px] text-white/40 mt-1">Status: Listening on WSS://</p>
+              </div>
+            </div>
+            <span className="text-[10px] font-bold text-[#00FF9D] px-2 py-1 border border-[#00FF9D]/30 rounded bg-[#00FF9D]/10">
+              CONNECTED
+            </span>
+          </div>
+        </div>
+
+        <h3 className="text-[10px] text-[#00E5FF] tracking-widest font-bold mb-4 border-b border-white/5 pb-2">
+          AUTHORIZED SYSTEM TOOLS
+        </h3>
+        <div className="grid grid-cols-2 gap-4">
+          {[
+            { name: 'GitHub Local', icon: Github, status: 'linked' },
+            { name: 'Google Workspace', icon: Mail, status: 'connect' }
+          ].map((app, i) => (
+            <div
+              key={i}
+              className="p-5 border border-white/10 bg-[#0A0A0A] rounded-lg flex justify-between items-center hover:border-white/30 transition-colors cursor-pointer"
+            >
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-white/5 text-white/80 rounded">
+                  <app.icon size={20} />
+                </div>
+                <h4 className="text-sm font-bold">{app.name}</h4>
+              </div>
+              {app.status === 'linked' ? (
+                <span className="text-[10px] font-bold text-white/60 px-2 py-1 border border-white/10 rounded">
+                  CONFIGURED
+                </span>
+              ) : (
+                <span className="text-[10px] font-bold text-[#00E5FF] px-2 py-1 border border-[#00E5FF]/30 rounded hover:bg-[#00E5FF]/10 transition-colors">
+                  CONNECT
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+
+  const renderTelemetry = () => (
+    <div className="p-8 h-full flex flex-col bg-[#050505]">
+      <h2 className="text-xl font-bold mb-2">Engine Telemetry</h2>
+      <p className="text-xs text-white/40 mb-8 tracking-widest">
+        Live monitoring of headless agent execution.
+      </p>
+
+      <div className="grid grid-cols-3 gap-6 mb-8">
+        <div className="p-6 border border-white/5 bg-[#0A0A0A] rounded-lg">
+          <div className="text-[10px] text-white/40 tracking-widest font-bold mb-2">UPTIME</div>
+          <div className="text-2xl font-mono text-white">42:14:05</div>
+        </div>
+        <div className="p-6 border border-[#00FF9D]/20 bg-[#00FF9D]/5 rounded-lg">
+          <div className="text-[10px] text-[#00FF9D] tracking-widest font-bold mb-2">
+            ACTIVE TASKS
+          </div>
+          <div className="text-2xl font-mono text-[#00FF9D]">0</div>
+        </div>
+        <div className="p-6 border border-white/5 bg-[#0A0A0A] rounded-lg">
+          <div className="text-[10px] text-white/40 tracking-widest font-bold mb-2">
+            TOTAL ACTIONS EXECUTED
+          </div>
+          <div className="text-2xl font-mono text-white">1,204</div>
+        </div>
+      </div>
+
+      {/* System Log / Event Ledger (Replacing Chat) */}
+      <div className="flex-1 border border-white/10 bg-[#0A0A0A] rounded-lg flex flex-col overflow-hidden">
+        <div className="p-3 border-b border-white/5 bg-[#050505] flex justify-between items-center">
+          <span className="text-[10px] font-bold text-white/50 tracking-widest">
+            SYSTEM EVENT LEDGER
+          </span>
+          <div className="flex space-x-2">
+            <div className="w-2 h-2 rounded-full bg-white/20"></div>
+            <div className="w-2 h-2 rounded-full bg-[#00FF9D] animate-pulse shadow-[0_0_5px_#00FF9D]"></div>
+          </div>
+        </div>
+        <div className="flex-1 p-4 font-mono text-xs overflow-y-auto space-y-2 opacity-80">
+          <div className="text-white/40">
+            2026-04-09 11:42:10 <span className="text-[#00E5FF]">[SYSTEM]</span> Gateway connection
+            established.
+          </div>
+          <div className="text-white/40">
+            2026-04-09 11:45:00 <span className="text-[#00FF9D]">[MOBILE]</span> Payload received:
+            "Sync git repo"
+          </div>
+          <div className="text-white/40">
+            2026-04-09 11:45:02 <span className="text-white/80">[Git_Manager]</span> Action invoked:
+            git status
+          </div>
+          <div className="text-white/40">
+            2026-04-09 11:45:05 <span className="text-white/80">[Git_Manager]</span> Action invoked:
+            git pull origin main
+          </div>
+          <div className="text-white/40">
+            2026-04-09 11:45:06 <span className="text-[#00FF9D]">[SYSTEM]</span> Task completed
+            successfully. Awaiting input.
+          </div>
+          <div className="animate-pulse text-[#00FF9D] pt-2">_</div>
+        </div>
+      </div>
+    </div>
+  )
 
   return (
-    <div className="flex h-screen w-screen bg-background text-white font-mono overflow-hidden selection:bg-[#00FF9D] selection:text-black">
-      <div
-        className="absolute inset-0 z-0 opacity-20 pointer-events-none"
-        style={{
-          backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)',
-          backgroundSize: '30px 30px'
-        }}
-      ></div>
+    <div className="flex h-screen w-screen bg-[#050505] text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black">
+      {/* SIDEBAR NAVIGATION */}
+      <div className="w-20 border-r border-white/5 flex flex-col items-center py-6 bg-[#030303] z-20">
+        <div className="w-10 h-10 border border-[#00FF9D]/30 rounded flex items-center justify-center bg-[#00FF9D]/10 text-[#00FF9D] font-black tracking-tighter mb-8 shadow-[0_0_15px_rgba(0,255,157,0.1)]">
+          IG
+        </div>
 
-      <div className="w-16 border-r border-white/10 flex flex-col items-center py-4 z-10 bg-background/80 backdrop-blur-sm">
-        <div className="text-[#00FF9D] font-black text-xl mb-8 tracking-tighter">IG</div>
-        <div className="flex flex-col space-y-6 w-full items-center">
-          <button className="flex flex-col items-center text-[#00FF9D] relative group">
-            <div className="absolute inset-0 bg-[#00FF9D]/10 blur-md rounded-full"></div>
-            <MessageSquare size={20} className="relative z-10" />
-            <span className="text-[8px] mt-1 tracking-widest">UPLINK</span>
-            <div className="absolute left-0 w-1 h-full bg-[#00FF9D] rounded-r shadow-[0_0_10px_#00FF9D]"></div>
+        <div className="flex flex-col space-y-4 w-full px-4">
+          <button
+            onClick={() => setActiveTab('agents')}
+            className={`p-3 rounded-lg flex items-center justify-center transition-all ${activeTab === 'agents' ? 'bg-[#00E5FF]/10 text-[#00E5FF] shadow-[inset_2px_0_0_#00E5FF]' : 'text-white/30 hover:text-white hover:bg-white/5'}`}
+          >
+            <Bot size={22} />
           </button>
-          <button className="flex flex-col items-center text-white/30 hover:text-white transition-colors">
-            <Activity size={20} />
-            <span className="text-[8px] mt-1 tracking-widest">SWARM</span>
+          <button
+            onClick={() => setActiveTab('integrations')}
+            className={`p-3 rounded-lg flex items-center justify-center transition-all ${activeTab === 'integrations' ? 'bg-[#00FF9D]/10 text-[#00FF9D] shadow-[inset_2px_0_0_#00FF9D]' : 'text-white/30 hover:text-white hover:bg-white/5'}`}
+          >
+            <Plug size={22} />
           </button>
-          <button className="flex flex-col items-center text-white/30 hover:text-white transition-colors">
-            <Settings size={20} />
-            <span className="text-[8px] mt-1 tracking-widest">CONFIG</span>
+          <button
+            onClick={() => setActiveTab('telemetry')}
+            className={`p-3 rounded-lg flex items-center justify-center transition-all ${activeTab === 'telemetry' ? 'bg-white/10 text-white shadow-[inset_2px_0_0_#FFF]' : 'text-white/30 hover:text-white hover:bg-white/5'}`}
+          >
+            <Activity size={22} />
           </button>
         </div>
+
+        <div className="flex-grow"></div>
+        <button className="text-white/30 hover:text-white p-3 rounded-lg hover:bg-white/5 transition-all">
+          <Settings size={22} />
+        </button>
       </div>
 
-      <div className="flex-1 flex flex-col z-10 relative">
-        <div className="h-12 border-b border-white/10 flex items-center justify-between px-6 bg-background/80 backdrop-blur-md">
-          <div className="flex items-center space-x-6 text-[10px] tracking-widest font-bold">
-            <span className="text-[#00FF9D] text-sm">IRIS GO</span>
-            <div className="flex items-center space-x-2">
-              <span className="text-white/50">CPU:</span>
-              <span className="text-[#00FF9D]">12%</span>
-              <div className="w-12 h-1 bg-white/10 rounded overflow-hidden">
-                <div className="h-full w-[12%] bg-[#00FF9D]"></div>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-white/50">RAM:</span>
-              <span className="text-[#00E5FF]">4.2GB</span>
-              <div className="w-12 h-1 bg-white/10 rounded overflow-hidden">
-                <div className="h-full w-[45%] bg-[#00E5FF]"></div>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2 border border-[#00FF9D]/30 px-2 py-0.5 rounded bg-[#00FF9D]/5 shadow-[0_0_8px_rgba(0,255,157,0.2)]">
-              <div className="w-1.5 h-1.5 bg-[#00FF9D] rounded-full animate-pulse"></div>
-              <span className="text-[#00FF9D]">LINK: ACTIVE</span>
-            </div>
-          </div>
-          <div className="flex items-center space-x-2 text-[10px] text-[#00FF9D] tracking-widest border border-[#00FF9D]/20 px-3 py-1 rounded">
-            <Shield size={12} />
-            <span>SECURE CONNECTION</span>
-          </div>
-        </div>
-
-        <div className="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar">
-          {messages.map((msg: any) => (
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
-              key={msg.id}
-              className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
-              <div
-                className={`max-w-3xl flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
-              >
-                {msg.role !== 'user' && (
-                  <div
-                    className="flex items-center space-x-2 mb-2 text-[10px] tracking-widest font-bold opacity-80"
-                    style={{ color: msg.color }}
-                  >
-                    <msg.icon size={12} />
-                    <span>{msg.title}</span>
-                  </div>
-                )}
-
-                <div
-                  className={`relative p-4 rounded text-sm shadow-lg ${
-                    msg.role === 'user'
-                      ? 'bg-[#00E5FF]/10 border border-[#00E5FF]/30 text-[#00E5FF] shadow-[0_0_15px_rgba(0,229,255,0.1)] rounded-tr-none'
-                      : 'bg-[#0D0D0D] border border-white/5 text-white/80 rounded-tl-none'
-                  }`}
-                >
-                  {msg.role !== 'user' && (
-                    <div
-                      className="absolute left-0 top-0 w-0.5 h-full opacity-70"
-                      style={{ backgroundColor: msg.color, boxShadow: `0 0 10px ${msg.color}` }}
-                    ></div>
-                  )}
-
-                  <div className="pl-2 leading-relaxed whitespace-pre-wrap">{msg.text}</div>
-
-                  {msg.terminal && (
-                    <div className="mt-4 bg-background border border-white/5 rounded-md p-4 font-mono text-xs text-[#00FF9D] w-full max-w-2xl relative overflow-hidden group">
-                      <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-[#00FF9D]/30 to-transparent"></div>
-                      {msg.terminal.map((line, idx) => (
-                        <div
-                          key={idx}
-                          className={
-                            line.includes('SUCCESS') ? 'text-[#00FF9D] font-bold' : 'opacity-80'
-                          }
-                        >
-                          {line}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div className="text-[9px] text-white/30 mt-2 tracking-widest">
-                  {msg.role === 'user' ? 'USER' : 'SYSTEM'} • {msg.timestamp}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-          <div ref={endOfMessagesRef} />
-        </div>
-
-        <div className="px-8 pb-8 pt-4">
-          <div className="h-6 flex items-center text-[10px] tracking-widest text-white/40 font-bold mb-2">
-            {isThinking && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex items-center space-x-2 text-[#00E5FF]"
-              >
-                <div className="flex space-x-1">
-                  <div className="w-1.5 h-4 bg-[#00E5FF] animate-pulse"></div>
-                  <div className="w-1.5 h-4 bg-[#00E5FF] animate-pulse delay-75"></div>
-                  <div className="w-1.5 h-4 bg-[#00E5FF] animate-pulse delay-150"></div>
-                </div>
-                <span>PLANNER THINKING...</span>
-              </motion.div>
-            )}
-          </div>
-
-          <form
-            onSubmit={handleSend}
-            className="flex items-center bg-[#0D0D0D] border border-white/10 rounded focus-within:border-[#00FF9D]/50 focus-within:shadow-[0_0_20px_rgba(0,255,157,0.1)] transition-all"
-          >
-            <button
-              type="button"
-              className="p-4 text-white/30 hover:text-[#00FF9D] transition-colors"
-            >
-              <Paperclip size={18} />
-            </button>
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Command the swarm..."
-              className="flex-1 bg-transparent text-white placeholder-white/30 outline-none py-4 text-sm"
-            />
-            <button
-              type="submit"
-              disabled={!inputValue.trim()}
-              className="p-4 text-[#00FF9D] disabled:text-white/20 hover:text-white transition-colors"
-            >
-              <Send size={18} />
-            </button>
-          </form>
-
-          <div className="flex justify-end mt-2">
-            <span className="text-[8px] tracking-widest text-white/20">ENCRYPTION: AES-256</span>
-          </div>
-        </div>
+      {/* MAIN DYNAMIC CONTENT */}
+      <div className="flex-1 flex flex-col relative z-10">
+        {activeTab === 'agents' && renderAgentArchitect()}
+        {activeTab === 'integrations' && renderIntegrations()}
+        {activeTab === 'telemetry' && renderTelemetry()}
       </div>
     </div>
   )
