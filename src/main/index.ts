@@ -8,7 +8,7 @@ let gateway: LocalGateway | null = null
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
-    width: 1200, // Widened for the platform dashboard
+    width: 1200,
     height: 800,
     show: false,
     autoHideMenuBar: true,
