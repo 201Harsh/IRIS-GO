@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState } from 'react'
 import {
   Bot,
   Plug,
@@ -11,16 +10,16 @@ import {
   Shield,
   Plus,
   Save,
-  Power,
   Smartphone,
   Mail
 } from 'lucide-react'
+import { BsGithub } from 'react-icons/bs'
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('agents')
 
   // Mock Data: The Custom Agents
-  const [agents, setAgents] = useState([
+  const [agents] = useState([
     { id: 1, name: 'Core Orchestrator', status: 'active', model: 'Gemini 1.5 Pro' },
     { id: 2, name: 'Local Executor', status: 'active', model: 'Groq Llama 3' },
     { id: 3, name: 'Git Manager', status: 'idle', model: 'Gemini 1.5 Flash' }
@@ -33,7 +32,7 @@ export default function Dashboard() {
     <div className="flex h-full">
       {/* Agent List */}
       <div className="w-1/3 border-r border-white/5 flex flex-col bg-[#0A0A0A]">
-        <div className="p-4 border-b border-white/5 flex justify-between items-center bg-[#050505]">
+        <div className="p-4 border-b border-white/5 flex justify-between items-center bg-background">
           <h2 className="text-xs font-bold text-white/50 tracking-widest">DEPLOYED AGENTS</h2>
           <button className="text-[#00FF9D] hover:bg-[#00FF9D]/10 p-1 rounded transition-colors">
             <Plus size={16} />
@@ -69,7 +68,7 @@ export default function Dashboard() {
       </div>
 
       {/* Agent Configuration Editor */}
-      <div className="flex-1 flex flex-col bg-[#050505]">
+      <div className="flex-1 flex flex-col bg-background">
         <div className="p-6 border-b border-white/5 flex justify-between items-center">
           <div>
             <h2 className="text-xl font-bold">{selectedAgent.name} // Configuration</h2>
@@ -130,7 +129,7 @@ export default function Dashboard() {
 
           {/* Security Bounds */}
           <div>
-            <label className="block text-[10px] font-bold text-[#FF3366] tracking-widest mb-3 flex items-center">
+            <label className="text-[10px] font-bold text-[#FF3366] tracking-widest mb-3 flex items-center">
               <Shield size={12} className="mr-2" /> SECURITY & BOUNDS
             </label>
             <div className="p-5 border border-[#FF3366]/20 bg-[#FF3366]/5 rounded">
@@ -152,7 +151,7 @@ export default function Dashboard() {
   )
 
   const renderIntegrations = () => (
-    <div className="p-8 h-full overflow-y-auto bg-[#050505]">
+    <div className="p-8 h-full overflow-y-auto bg-background">
       <div className="max-w-4xl">
         <h2 className="text-xl font-bold mb-2">Platform Integrations</h2>
         <p className="text-xs text-white/40 mb-8 tracking-widest">
@@ -184,7 +183,7 @@ export default function Dashboard() {
         </h3>
         <div className="grid grid-cols-2 gap-4">
           {[
-            { name: 'GitHub Local', icon: Github, status: 'linked' },
+            { name: 'GitHub Local', icon: BsGithub, status: 'linked' },
             { name: 'Google Workspace', icon: Mail, status: 'connect' }
           ].map((app, i) => (
             <div
@@ -214,7 +213,7 @@ export default function Dashboard() {
   )
 
   const renderTelemetry = () => (
-    <div className="p-8 h-full flex flex-col bg-[#050505]">
+    <div className="p-8 h-full flex flex-col bg-background">
       <h2 className="text-xl font-bold mb-2">Engine Telemetry</h2>
       <p className="text-xs text-white/40 mb-8 tracking-widest">
         Live monitoring of headless agent execution.
@@ -241,7 +240,7 @@ export default function Dashboard() {
 
       {/* System Log / Event Ledger (Replacing Chat) */}
       <div className="flex-1 border border-white/10 bg-[#0A0A0A] rounded-lg flex flex-col overflow-hidden">
-        <div className="p-3 border-b border-white/5 bg-[#050505] flex justify-between items-center">
+        <div className="p-3 border-b border-white/5 bg-background flex justify-between items-center">
           <span className="text-[10px] font-bold text-white/50 tracking-widest">
             SYSTEM EVENT LEDGER
           </span>
@@ -278,7 +277,7 @@ export default function Dashboard() {
   )
 
   return (
-    <div className="flex h-screen w-screen bg-[#050505] text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black">
+    <div className="flex h-screen w-screen bg-background text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black">
       {/* SIDEBAR NAVIGATION */}
       <div className="w-20 border-r border-white/5 flex flex-col items-center py-6 bg-[#030303] z-20">
         <div className="w-10 h-10 border border-[#00FF9D]/30 rounded flex items-center justify-center bg-[#00FF9D]/10 text-[#00FF9D] font-black tracking-tighter mb-8 shadow-[0_0_15px_rgba(0,255,157,0.1)]">
@@ -306,7 +305,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        <div className="flex-grow"></div>
+        <div className="grow"></div>
         <button className="text-white/30 hover:text-white p-3 rounded-lg hover:bg-white/5 transition-all">
           <Settings size={22} />
         </button>
