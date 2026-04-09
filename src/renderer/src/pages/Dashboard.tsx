@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Plug,
   Settings,
-  Terminal,
   Shield,
   Smartphone,
   Mail,
@@ -59,7 +58,7 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-3 gap-6">
-          <div className="relative p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all flex flex-col justify-between h-48 group">
+          <div className="relative p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all flex flex-col justify-between h-48 group">
             {connections.telegram && (
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-[#00E5FF] shadow-[0_0_15px_#00E5FF] rounded-b-full" />
             )}
@@ -80,7 +79,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="relative p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all flex flex-col justify-between h-48 group">
+          <div className="relative p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all flex flex-col justify-between h-48 group">
             {connections.whatsapp && (
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-[#00FF9D] shadow-[0_0_15px_#00FF9D] rounded-b-full" />
             )}
@@ -102,7 +101,7 @@ export default function Dashboard() {
           </div>
 
           <div className="relative p-6 rounded-3xl border border-white/5 bg-black/40 backdrop-blur-xl flex flex-col justify-between h-48 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-linear-to-br from-white/2 to-transparent pointer-events-none" />
             <div className="flex justify-between items-start opacity-50">
               <div className="p-3 bg-white/5 text-white rounded-2xl">
                 <Smartphone size={24} />
@@ -129,7 +128,7 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-2 gap-6">
-          <div className="p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all">
+          <div className="p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all">
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center space-x-4">
                 <div className="p-4 bg-white/5 text-white rounded-2xl border border-white/10">
@@ -159,7 +158,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all">
+          <div className="p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all">
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center space-x-4">
                 <div className="p-4 bg-white/5 text-white rounded-2xl border border-white/10">
@@ -189,7 +188,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all">
+          <div className="p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all">
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center space-x-4">
                 <div className="p-4 bg-[#00E5FF]/10 text-[#00E5FF] rounded-2xl border border-[#00E5FF]/20">
@@ -239,7 +238,7 @@ export default function Dashboard() {
       </div>
 
       <div className="space-y-8">
-        <div className="p-8 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl">
+        <div className="p-8 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl">
           <div className="flex justify-between items-center mb-6">
             <label className="text-xs font-semibold text-white/60 uppercase tracking-widest flex items-center">
               <Cpu size={16} className="mr-2 text-[#00FF9D]" /> Master Instructions
@@ -308,7 +307,7 @@ export default function Dashboard() {
         ].map((job, i) => (
           <div
             key={i}
-            className="p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl flex justify-between items-center hover:bg-white/[0.04] transition-colors cursor-pointer group"
+            className="p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl flex justify-between items-center hover:bg-white/4 transition-colors cursor-pointer group"
           >
             <div className="flex items-start space-x-4">
               <div
@@ -348,7 +347,7 @@ export default function Dashboard() {
     >
       <h2 className="text-3xl font-semibold text-white mb-2 tracking-tight">System Settings</h2>
       <p className="text-sm text-white/40">Platform configuration and API keys.</p>
-      <div className="mt-10 p-8 rounded-3xl border border-white/10 bg-white/[0.02] flex items-center justify-center h-64 text-white/30 text-sm font-mono tracking-widest">
+      <div className="mt-10 p-8 rounded-3xl border border-white/10 bg-white/2 flex items-center justify-center h-64 text-white/30 text-sm font-mono tracking-widest">
         [ SETTINGS MODULE UNAVAILABLE IN SECURE BOOT ]
       </div>
     </motion.div>
@@ -356,8 +355,8 @@ export default function Dashboard() {
 
   return (
     <div className="relative h-screen w-screen bg-[#020202] text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#00E5FF]/[0.02] rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-[#00FF9D]/[0.015] rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-250 h-125 bg-[#00E5FF]/2 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-200 h-200 bg-[#00FF9D]/1.5 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="h-full w-full overflow-y-auto px-6">
         <AnimatePresence mode="wait">
@@ -369,7 +368,7 @@ export default function Dashboard() {
       </div>
 
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
-        <div className="flex items-center space-x-3 p-3 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+        <div className="flex items-center space-x-3 p-3 rounded-3xl bg-white/10 text-white/3 border border-white/10 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
           {[
             { id: 'apps', icon: Plug, label: 'Gateways' },
             { id: 'behavior', icon: Cpu, label: 'Behavior' },
@@ -381,7 +380,7 @@ export default function Dashboard() {
               <button
                 key={item.id}
                 onClick={() => setActiveView(item.id as ViewState)}
-                className={`relative group flex items-center justify-center w-14 h-14 rounded-2xl transition-all duration-300 ${
+                className={`cursor-pointer relative group flex items-center justify-center w-14 h-14 rounded-2xl transition-all duration-300 ${
                   isActive
                     ? 'bg-white/10 text-white shadow-inner'
                     : 'text-white/40 hover:text-white hover:bg-white/5'
