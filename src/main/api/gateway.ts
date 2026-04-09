@@ -21,8 +21,8 @@ export class LocalGateway {
   }
 
   private setupRoutes() {
-    // Basic health check
     this.app.get('/ping', (req: Request, res: Response) => {
+      console.log('📡 [GATEWAY] Ping received from UI')
       res.status(200).json({ status: 'IRIS_CORE_ONLINE', uptime: process.uptime() })
     })
 
