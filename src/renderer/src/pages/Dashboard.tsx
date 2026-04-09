@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { motion} from 'framer-motion'
+import { motion } from 'framer-motion'
 import {
   Zap,
   CheckCircle,
@@ -17,9 +17,6 @@ import {
 import { BsGithub } from 'react-icons/bs'
 
 export default function Dashboard() {
-  // ==========================================
-  // STATE: GATEWAY & SETUP
-  // ==========================================
   const [isSetupComplete, setIsSetupComplete] = useState(false)
   const [activeModal, setActiveModal] = useState<any>(null)
   const [isConnecting, setIsConnecting] = useState(false)
@@ -30,9 +27,6 @@ export default function Dashboard() {
     google: false
   })
 
-  // ==========================================
-  // STATE: MAIN DASHBOARD
-  // ==========================================
   const [inputValue, setInputValue] = useState('')
   const [isThinking, setIsThinking] = useState(false)
   const endOfMessagesRef = useRef(null)
@@ -70,12 +64,8 @@ export default function Dashboard() {
     }
   ])
 
-  // ==========================================
-  // LOGIC: SETUP APP CONNECTIONS
-  // ==========================================
   const handleConnectApp = (appId) => {
     setIsConnecting(true)
-    // Simulate API connection delay
     setTimeout(() => {
       setConnectedApps((prev) => ({ ...prev, [appId]: true }))
       setIsConnecting(false)
@@ -83,12 +73,8 @@ export default function Dashboard() {
     }, 1500)
   }
 
-  // Check if user is allowed to proceed (needs at least one relay connected)
   const canProceed = connectedApps.telegram || connectedApps.whatsapp
 
-  // ==========================================
-  // LOGIC: CHAT HANDLER
-  // ==========================================
   const handleSend = (e) => {
     e.preventDefault()
     if (!inputValue.trim()) return
@@ -129,9 +115,6 @@ export default function Dashboard() {
     }, 2000)
   }
 
-  // ==========================================
-  // VIEW: CONNECTION POPUP MODAL
-  // ==========================================
   const renderModal = () => {
     if (!activeModal) return null
     return (
@@ -171,13 +154,9 @@ export default function Dashboard() {
     )
   }
 
-  // ==========================================
-  // VIEW: SETUP GATEWAY (STAGE 1)
-  // ==========================================
   if (!isSetupComplete) {
     return (
       <div className="min-h-screen w-screen bg-background text-white font-mono flex flex-col items-center justify-center relative overflow-hidden selection:bg-[#00FF9D] selection:text-black p-6">
-        {/* Background Mesh */}
         <div
           className="absolute inset-0 z-0 opacity-10 pointer-events-none"
           style={{
@@ -205,7 +184,6 @@ export default function Dashboard() {
             </p>
           </div>
 
-          {/* Relays */}
           <h2 className="text-[10px] text-[#00E5FF] tracking-widest font-bold mb-3 border-b border-white/10 pb-2">
             REQUIRED: MOBILE COMMAND RELAY
           </h2>
@@ -319,9 +297,6 @@ export default function Dashboard() {
     )
   }
 
-  // ==========================================
-  // VIEW: DASHBOARD COMMAND CENTER (STAGE 2)
-  // ==========================================
   return (
     <div className="flex h-screen w-screen bg-background text-white font-mono overflow-hidden selection:bg-[#00FF9D] selection:text-black">
       <div
@@ -332,7 +307,6 @@ export default function Dashboard() {
         }}
       ></div>
 
-      {/* SIDEBAR */}
       <div className="w-16 border-r border-white/10 flex flex-col items-center py-4 z-10 bg-background/80 backdrop-blur-sm">
         <div className="text-[#00FF9D] font-black text-xl mb-8 tracking-tighter">IG</div>
         <div className="flex flex-col space-y-6 w-full items-center">
@@ -353,7 +327,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col z-10 relative">
         <div className="h-12 border-b border-white/10 flex items-center justify-between px-6 bg-background/80 backdrop-blur-md">
           <div className="flex items-center space-x-6 text-[10px] tracking-widest font-bold">
@@ -383,7 +356,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* CHAT LOGS */}
         <div className="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar">
           {messages.map((msg: any) => (
             <motion.div
@@ -448,7 +420,6 @@ export default function Dashboard() {
           <div ref={endOfMessagesRef} />
         </div>
 
-        {/* INPUT TRAY */}
         <div className="px-8 pb-8 pt-4">
           <div className="h-6 flex items-center text-[10px] tracking-widest text-white/40 font-bold mb-2">
             {isThinking && (
