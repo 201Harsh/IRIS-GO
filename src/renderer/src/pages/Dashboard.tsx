@@ -368,7 +368,7 @@ export default function Dashboard() {
       </div>
 
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
-        <div className="flex items-center space-x-3 p-3 rounded-3xl bg-white/10 text-white/3 border border-white/10 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+        <div className="flex items-center space-x-3 p-3 rounded-3xl bg-white/3 text-white/3 border border-white/10 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
           {[
             { id: 'apps', icon: Plug, label: 'Gateways' },
             { id: 'behavior', icon: Cpu, label: 'Behavior' },
@@ -383,7 +383,7 @@ export default function Dashboard() {
                 className={`cursor-pointer relative group flex items-center justify-center w-14 h-14 rounded-2xl transition-all duration-300 ${
                   isActive
                     ? 'bg-white/10 text-white shadow-inner'
-                    : 'text-white/40 hover:text-white hover:bg-white/5'
+                    : 'text-white/40 hover:text-white hover:bg-white/15'
                 }`}
               >
                 <item.icon
