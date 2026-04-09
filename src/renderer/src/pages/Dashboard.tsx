@@ -49,10 +49,6 @@ export default function Dashboard() {
     }
   ])
 
-  useEffect(() => {
-    endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, isThinking])
-
   const handleSend = (e) => {
     e.preventDefault()
     if (!inputValue.trim()) return
