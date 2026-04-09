@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Bot,
@@ -30,7 +30,7 @@ interface Agent {
 export default function Dashboard() {
   const [activeView, setActiveView] = useState<ViewState>('agents')
 
-  const [agents, setAgents] = useState<Agent[]>([
+  const [agents] = useState<Agent[]>([
     {
       id: '1',
       name: 'Core Orchestrator',
@@ -118,7 +118,7 @@ export default function Dashboard() {
               System Context
             </label>
             <textarea
-              className="w-full h-32 bg-[#050505] border border-white/10 rounded-xl p-4 text-sm font-mono text-white/80 focus:border-[#00E5FF]/50 focus:ring-1 focus:ring-[#00E5FF]/50 transition-all outline-none resize-none"
+              className="w-full h-32 bg-background border border-white/10 rounded-xl p-4 text-sm font-mono text-white/80 focus:border-[#00E5FF]/50 focus:ring-1 focus:ring-[#00E5FF]/50 transition-all outline-none resize-none"
               value={selectedAgent.prompt}
               onChange={(e) => setSelectedAgent({ ...selectedAgent, prompt: e.target.value })}
             />
@@ -137,7 +137,7 @@ export default function Dashboard() {
               ].map((tool) => (
                 <div
                   key={tool.id}
-                  className={`flex items-center justify-between p-4 rounded-xl border transition-all ${tool.active ? 'border-[#00E5FF]/30 bg-[#00E5FF]/5' : 'border-white/5 bg-[#050505] opacity-60 hover:opacity-100 cursor-pointer'}`}
+                  className={`flex items-center justify-between p-4 rounded-xl border transition-all ${tool.active ? 'border-[#00E5FF]/30 bg-[#00E5FF]/5' : 'border-white/5 bg-background opacity-60 hover:opacity-100 cursor-pointer'}`}
                 >
                   <div className="flex items-center space-x-3">
                     <tool.icon
@@ -269,7 +269,7 @@ export default function Dashboard() {
       </div>
 
       <div className="flex-1 rounded-2xl border border-white/5 bg-[#0A0A0A] flex flex-col overflow-hidden relative">
-        <div className="px-6 py-4 border-b border-white/5 flex justify-between items-center bg-[#050505]">
+        <div className="px-6 py-4 border-b border-white/5 flex justify-between items-center bg-background">
           <span className="text-xs font-medium text-white/50 flex items-center">
             <Activity size={14} className="mr-2" /> Headless Execution Log
           </span>
@@ -305,7 +305,7 @@ export default function Dashboard() {
   return (
     <div className="relative h-screen w-screen bg-[#020202] text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black">
       {/* Subtle Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#00E5FF]/[0.02] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-[#00E5FF]/2 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Main Content Render */}
       <div className="h-full w-full px-8 overflow-y-auto">
@@ -318,9 +318,9 @@ export default function Dashboard() {
 
       {/* FLOATING MAC-STYLE DOCK */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50">
-        <div className="flex items-center space-x-2 p-2 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+        <div className="flex items-center space-x-2 p-2 rounded-2xl bg-white/3 border border-white/10 backdrop-blur-2xl shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
           <div className="px-3 flex items-center justify-center border-r border-white/10 mr-1">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#00FF9D]/20 to-[#00E5FF]/20 flex items-center justify-center border border-white/10 shadow-[0_0_15px_rgba(0,255,157,0.1)]">
+            <div className="w-8 h-8 rounded-full bg-linear-to-br from-[#00FF9D]/20 to-[#00E5FF]/20 flex items-center justify-center border border-white/10 shadow-[0_0_15px_rgba(0,255,157,0.1)]">
               <Cpu size={16} className="text-[#00FF9D]" />
             </div>
           </div>
