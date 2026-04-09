@@ -382,7 +382,7 @@ export default function Dashboard() {
                 onClick={() => setActiveView(item.id as ViewState)}
                 className={`cursor-pointer relative group flex items-center justify-center w-14 h-14 rounded-2xl transition-all duration-300 ${
                   isActive
-                    ? 'bg-white/10 text-white shadow-inner'
+                    ? 'bg-green-500/30 text-white shadow-inner'
                     : 'text-white/40 hover:text-white hover:bg-white/15'
                 }`}
               >
