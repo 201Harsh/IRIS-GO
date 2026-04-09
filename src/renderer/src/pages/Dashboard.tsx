@@ -16,7 +16,6 @@ import {
 } from 'lucide-react'
 import { BsGithub } from 'react-icons/bs'
 
-// --- TYPES ---
 type ViewState = 'agents' | 'integrations' | 'telemetry'
 
 interface Agent {
@@ -49,8 +48,6 @@ export default function Dashboard() {
   ])
   const [selectedAgent, setSelectedAgent] = useState<Agent>(agents[0])
 
-  // --- VIEWS ---
-
   const renderAgentsView = () => (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -58,7 +55,6 @@ export default function Dashboard() {
       exit={{ opacity: 0, y: -10 }}
       className="flex h-full w-full max-w-6xl mx-auto gap-8 pt-10 pb-32"
     >
-      {/* Left Column: Agent Selection Grid */}
       <div className="w-1/3 flex flex-col space-y-4">
         <div className="flex justify-between items-center px-2">
           <h2 className="text-sm font-semibold text-white/60">Deployed Agents</h2>
@@ -99,9 +95,7 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Right Column: Configuration Editor */}
       <div className="flex-1 bg-[#0A0A0A] border border-white/5 rounded-3xl p-8 flex flex-col relative overflow-hidden">
-        {/* Subtle background glow */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#00FF9D]/5 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="mb-8 z-10">
@@ -112,7 +106,6 @@ export default function Dashboard() {
         </div>
 
         <div className="space-y-8 z-10 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-          {/* Instructions */}
           <div>
             <label className="text-[11px] font-medium text-white/50 uppercase tracking-widest mb-3 block">
               System Context
@@ -124,7 +117,6 @@ export default function Dashboard() {
             />
           </div>
 
-          {/* Capabilities */}
           <div>
             <label className="text-[11px] font-medium text-white/50 uppercase tracking-widest mb-3 block">
               Authorized Tooling
@@ -158,7 +150,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Security */}
           <div className="p-5 border border-red-500/10 bg-red-500/5 rounded-xl">
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center space-x-2 text-red-400">
@@ -194,7 +185,6 @@ export default function Dashboard() {
       </div>
 
       <div className="w-full grid grid-cols-2 gap-6">
-        {/* Mobile App Link */}
         <div className="col-span-2 p-6 rounded-2xl border border-[#00FF9D]/20 bg-[#00FF9D]/5 flex justify-between items-center">
           <div className="flex items-center space-x-5">
             <div className="p-4 bg-[#00FF9D]/10 text-[#00FF9D] rounded-xl">
@@ -210,7 +200,6 @@ export default function Dashboard() {
           </span>
         </div>
 
-        {/* Local Integrations */}
         {[
           { name: 'GitHub Local', icon: BsGithub, desc: 'Repository access', status: 'Active' },
           { name: 'Google Workspace', icon: Mail, desc: 'OAuth token required', status: 'Connect' }
@@ -304,10 +293,8 @@ export default function Dashboard() {
 
   return (
     <div className="relative h-screen w-screen bg-[#020202] text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black">
-      {/* Subtle Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-[#00E5FF]/2 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Main Content Render */}
       <div className="h-full w-full px-8 overflow-y-auto">
         <AnimatePresence mode="wait">
           {activeView === 'agents' && renderAgentsView()}
@@ -316,7 +303,6 @@ export default function Dashboard() {
         </AnimatePresence>
       </div>
 
-      {/* FLOATING MAC-STYLE DOCK */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50">
         <div className="flex items-center space-x-2 p-2 rounded-2xl bg-white/3 border border-white/10 backdrop-blur-2xl shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
           <div className="px-3 flex items-center justify-center border-r border-white/10 mr-1">
@@ -344,14 +330,12 @@ export default function Dashboard() {
                 }`}
               >
                 <item.icon size={22} className="relative z-10" />
-                {/* Active Indicator Dot */}
                 {isActive && (
                   <motion.div
                     layoutId="activeDot"
                     className="absolute bottom-1 w-1 h-1 rounded-full bg-[#00FF9D] shadow-[0_0_8px_#00FF9D]"
                   />
                 )}
-                {/* Tooltip */}
                 <div className="absolute -top-10 scale-0 group-hover:scale-100 transition-transform bg-[#111] border border-white/10 px-3 py-1 rounded-lg text-[10px] font-medium tracking-widest pointer-events-none">
                   {item.label}
                 </div>
