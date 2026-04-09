@@ -23,7 +23,6 @@ type ViewState = 'apps' | 'behavior' | 'cron' | 'settings'
 export default function Dashboard() {
   const [activeView, setActiveView] = useState<ViewState>('apps')
 
-  // Mock Connection State
   const [connections, setConnections] = useState({
     telegram: true,
     whatsapp: false,
@@ -35,8 +34,6 @@ export default function Dashboard() {
   const toggleConnection = (key: keyof typeof connections) => {
     setConnections((prev) => ({ ...prev, [key]: !prev[key] }))
   }
-
-  // --- VIEWS ---
 
   const renderAppsView = () => (
     <motion.div
@@ -52,7 +49,6 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* PHASE 1: COMMAND RELAYS */}
       <div className="mb-12">
         <div className="flex items-center space-x-3 mb-6">
           <div className="h-px bg-white/10 flex-1" />
@@ -63,7 +59,6 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-3 gap-6">
-          {/* Telegram */}
           <div className="relative p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all flex flex-col justify-between h-48 group">
             {connections.telegram && (
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-[#00E5FF] shadow-[0_0_15px_#00E5FF] rounded-b-full" />
@@ -85,7 +80,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* WhatsApp */}
           <div className="relative p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all flex flex-col justify-between h-48 group">
             {connections.whatsapp && (
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-[#00FF9D] shadow-[0_0_15px_#00FF9D] rounded-b-full" />
@@ -107,7 +101,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* IRIS Mobile (Coming Soon) */}
           <div className="relative p-6 rounded-3xl border border-white/5 bg-black/40 backdrop-blur-xl flex flex-col justify-between h-48 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
             <div className="flex justify-between items-start opacity-50">
@@ -126,7 +119,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* PHASE 2: INTEGRATIONS */}
       <div>
         <div className="flex items-center space-x-3 mb-6">
           <div className="h-px bg-white/10 flex-1" />
@@ -137,7 +129,6 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-2 gap-6">
-          {/* GitHub Card */}
           <div className="p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all">
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center space-x-4">
@@ -168,7 +159,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Google Workspace */}
           <div className="p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all">
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center space-x-4">
@@ -199,7 +189,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* VS Code */}
           <div className="p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all">
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center space-x-4">
@@ -250,7 +239,6 @@ export default function Dashboard() {
       </div>
 
       <div className="space-y-8">
-        {/* System Prompt */}
         <div className="p-8 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl">
           <div className="flex justify-between items-center mb-6">
             <label className="text-xs font-semibold text-white/60 uppercase tracking-widest flex items-center">
@@ -266,7 +254,6 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* Security Bounds */}
         <div className="p-8 rounded-3xl border border-red-500/10 bg-red-500/5 backdrop-blur-xl flex justify-between items-center">
           <div>
             <h3 className="text-base font-medium text-white flex items-center">
@@ -361,7 +348,6 @@ export default function Dashboard() {
     >
       <h2 className="text-3xl font-semibold text-white mb-2 tracking-tight">System Settings</h2>
       <p className="text-sm text-white/40">Platform configuration and API keys.</p>
-      {/* Placeholder for settings */}
       <div className="mt-10 p-8 rounded-3xl border border-white/10 bg-white/[0.02] flex items-center justify-center h-64 text-white/30 text-sm font-mono tracking-widest">
         [ SETTINGS MODULE UNAVAILABLE IN SECURE BOOT ]
       </div>
@@ -370,11 +356,9 @@ export default function Dashboard() {
 
   return (
     <div className="relative h-screen w-screen bg-[#020202] text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black">
-      {/* Subtle Background Lighting */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#00E5FF]/[0.02] rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-[#00FF9D]/[0.015] rounded-full blur-[150px] pointer-events-none" />
 
-      {/* Main Content Render */}
       <div className="h-full w-full overflow-y-auto px-6">
         <AnimatePresence mode="wait">
           {activeView === 'apps' && renderAppsView()}
@@ -384,7 +368,6 @@ export default function Dashboard() {
         </AnimatePresence>
       </div>
 
-      {/* FLOATING DOCK */}
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
         <div className="flex items-center space-x-3 p-3 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
           {[
@@ -409,7 +392,6 @@ export default function Dashboard() {
                   className={`relative z-10 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}
                 />
 
-                {/* Active Indicator Dot */}
                 {isActive && (
                   <motion.div
                     layoutId="activeDot"
@@ -417,7 +399,6 @@ export default function Dashboard() {
                   />
                 )}
 
-                {/* Tooltip */}
                 <div className="absolute -top-12 scale-0 group-hover:scale-100 transition-transform origin-bottom bg-[#111] border border-white/10 px-3 py-1.5 rounded-xl text-[10px] font-bold tracking-widest text-white/80 pointer-events-none shadow-xl">
                   {item.label}
                 </div>
