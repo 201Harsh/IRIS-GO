@@ -13,9 +13,8 @@ export class LocalGateway {
     this.mainWindow = window
     this.app = express()
 
-    // Middleware
     this.app.use(cors())
-    this.app.use(express.json()) // Crucial for parsing WhatsApp/Telegram webhooks
+    this.app.use(express.json())
 
     this.setupRoutes()
   }
