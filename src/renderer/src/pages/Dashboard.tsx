@@ -177,7 +177,7 @@ export default function Dashboard() {
   // ==========================================
   if (!isSetupComplete) {
     return (
-      <div className="min-h-screen w-screen bg-[#050505] text-white font-mono flex flex-col items-center justify-center relative overflow-hidden selection:bg-[#00FF9D] selection:text-black p-6">
+      <div className="min-h-screen w-screen bg-background text-white font-mono flex flex-col items-center justify-center relative overflow-hidden selection:bg-[#00FF9D] selection:text-black p-6">
         {/* Background Mesh */}
         <div
           className="absolute inset-0 z-0 opacity-10 pointer-events-none"
@@ -324,7 +324,7 @@ export default function Dashboard() {
   // VIEW: DASHBOARD COMMAND CENTER (STAGE 2)
   // ==========================================
   return (
-    <div className="flex h-screen w-screen bg-[#050505] text-white font-mono overflow-hidden selection:bg-[#00FF9D] selection:text-black">
+    <div className="flex h-screen w-screen bg-background text-white font-mono overflow-hidden selection:bg-[#00FF9D] selection:text-black">
       <div
         className="absolute inset-0 z-0 opacity-20 pointer-events-none"
         style={{
@@ -334,7 +334,7 @@ export default function Dashboard() {
       ></div>
 
       {/* SIDEBAR */}
-      <div className="w-16 border-r border-white/10 flex flex-col items-center py-4 z-10 bg-[#050505]/80 backdrop-blur-sm">
+      <div className="w-16 border-r border-white/10 flex flex-col items-center py-4 z-10 bg-background/80 backdrop-blur-sm">
         <div className="text-[#00FF9D] font-black text-xl mb-8 tracking-tighter">IG</div>
         <div className="flex flex-col space-y-6 w-full items-center">
           <button className="flex flex-col items-center text-[#00FF9D] relative group">
@@ -356,7 +356,7 @@ export default function Dashboard() {
 
       {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col z-10 relative">
-        <div className="h-12 border-b border-white/10 flex items-center justify-between px-6 bg-[#050505]/80 backdrop-blur-md">
+        <div className="h-12 border-b border-white/10 flex items-center justify-between px-6 bg-background/80 backdrop-blur-md">
           <div className="flex items-center space-x-6 text-[10px] tracking-widest font-bold">
             <span className="text-[#00FF9D] text-sm">IRIS GO</span>
             <div className="flex items-center space-x-2">
@@ -424,7 +424,7 @@ export default function Dashboard() {
                   <div className="pl-2 leading-relaxed whitespace-pre-wrap">{msg.text}</div>
 
                   {msg.terminal && (
-                    <div className="mt-4 bg-[#050505] border border-white/5 rounded-md p-4 font-mono text-xs text-[#00FF9D] w-full max-w-2xl relative overflow-hidden group">
+                    <div className="mt-4 bg-background border border-white/5 rounded-md p-4 font-mono text-xs text-[#00FF9D] w-full max-w-2xl relative overflow-hidden group">
                       <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[#00FF9D]/30 to-transparent"></div>
                       {msg.terminal.map((line, idx) => (
                         <div
