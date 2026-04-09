@@ -58,7 +58,7 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-3 gap-6">
-          <div className="relative p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all flex flex-col justify-between h-48 group">
+          <div className="cursor-pointer relative p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all flex flex-col justify-between h-48 group">
             {connections.telegram && (
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-[#00E5FF] shadow-[0_0_15px_#00E5FF] rounded-b-full" />
             )}
@@ -79,7 +79,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="relative p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all flex flex-col justify-between h-48 group">
+          <div className="cursor-pointer relative p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all flex flex-col justify-between h-48 group">
             {connections.whatsapp && (
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-[#00FF9D] shadow-[0_0_15px_#00FF9D] rounded-b-full" />
             )}
@@ -89,7 +89,7 @@ export default function Dashboard() {
               </div>
               <button
                 onClick={() => toggleConnection('whatsapp')}
-                className={`text-[10px] font-bold px-3 py-1.5 rounded-xl border transition-all ${connections.whatsapp ? 'border-[#00FF9D]/30 text-[#00FF9D] bg-[#00FF9D]/10' : 'border-white/10 text-white/50 hover:text-white'}`}
+                className={`cursor-pointer text-[10px] font-bold px-3 py-1.5 rounded-xl border transition-all ${connections.whatsapp ? 'border-[#00FF9D]/30 text-[#00FF9D] bg-[#00FF9D]/10' : 'border-white/10 text-white/50 hover:text-white'}`}
               >
                 {connections.whatsapp ? 'ACTIVE' : 'CONNECT'}
               </button>
@@ -100,7 +100,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="relative p-6 rounded-3xl border border-white/5 bg-black/40 backdrop-blur-xl flex flex-col justify-between h-48 overflow-hidden">
+          <div className="cursor-not-allowed relative p-6 rounded-3xl border border-white/5 bg-black/40 backdrop-blur-xl flex flex-col justify-between h-48 overflow-hidden">
             <div className="absolute inset-0 bg-linear-to-br from-white/2 to-transparent pointer-events-none" />
             <div className="flex justify-between items-start opacity-50">
               <div className="p-3 bg-white/5 text-white rounded-2xl">
@@ -128,7 +128,7 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-2 gap-6">
-          <div className="p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all">
+          <div className="cursor-pointer p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all">
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center space-x-4">
                 <div className="p-4 bg-white/5 text-white rounded-2xl border border-white/10">
@@ -158,7 +158,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all">
+          <div className="cursor-pointer p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all">
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center space-x-4">
                 <div className="p-4 bg-white/5 text-white rounded-2xl border border-white/10">
@@ -188,7 +188,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all">
+          <div className="cursor-pointer p-6 rounded-3xl border border-white/10 bg-white/2 backdrop-blur-xl hover:bg-white/4 transition-all">
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center space-x-4">
                 <div className="p-4 bg-[#00E5FF]/10 text-[#00E5FF] rounded-2xl border border-[#00E5FF]/20">
