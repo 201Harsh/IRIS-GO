@@ -2,11 +2,15 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { LocalGateway } from './api/gateway' // 🔥 Import the Gateway
+
+// Hold a global reference so it doesn't get garbage collected
+let gateway: LocalGateway | null = null
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1200, // Widened for the platform dashboard
+    height: 800,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -30,26 +34,51 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  // 🔥 Initialize and start the Express server, passing the window for telemetry
+  gateway = new LocalGateway(mainWindow)
+  gateway.start()
 }
 
 app.whenReady().then(() => {
+  // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
+  // Default open or close DevTools by F12 in development
+  // and ignore CommandOrControl + R in production.
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  // IPC test
   ipcMain.on('ping', () => console.log('pong'))
 
   createWindow()
 
   app.on('activate', function () {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
 
+// Quit when all windows are closed, except on macOS. There, it's common
+// for applications and their menu bar to stay active until the user quits
+// explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+  // 🔥 Shut down the Express server so it releases port 3042
+  if (gateway) {
+    gateway.stop()
+  }
+
   if (process.platform !== 'darwin') {
     app.quit()
+  }
+})
+
+// Extra safety net: kill the server if the app quits through the menu/dock
+app.on('before-quit', () => {
+  if (gateway) {
+    gateway.stop()
   }
 })
