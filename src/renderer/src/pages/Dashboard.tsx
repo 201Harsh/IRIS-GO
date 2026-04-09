@@ -18,7 +18,6 @@ import { BsGithub } from 'react-icons/bs'
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('agents')
 
-  // Mock Data: The Custom Agents
   const [agents] = useState([
     { id: 1, name: 'Core Orchestrator', status: 'active', model: 'Gemini 1.5 Pro' },
     { id: 2, name: 'Local Executor', status: 'active', model: 'Groq Llama 3' },
@@ -26,11 +25,8 @@ export default function Dashboard() {
   ])
   const [selectedAgent, setSelectedAgent] = useState(agents[0])
 
-  // --- VIEWS ---
-
   const renderAgentArchitect = () => (
     <div className="flex h-full">
-      {/* Agent List */}
       <div className="w-1/3 border-r border-white/5 flex flex-col bg-[#0A0A0A]">
         <div className="p-4 border-b border-white/5 flex justify-between items-center bg-background">
           <h2 className="text-xs font-bold text-white/50 tracking-widest">DEPLOYED AGENTS</h2>
@@ -67,7 +63,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Agent Configuration Editor */}
       <div className="flex-1 flex flex-col bg-background">
         <div className="p-6 border-b border-white/5 flex justify-between items-center">
           <div>
@@ -82,7 +77,6 @@ export default function Dashboard() {
         </div>
 
         <div className="flex-1 overflow-y-auto p-6 space-y-8">
-          {/* System Prompt Box */}
           <div>
             <label className="block text-[10px] font-bold text-white/50 tracking-widest mb-3">
               SYSTEM INSTRUCTIONS (PROMPT)
@@ -93,7 +87,6 @@ export default function Dashboard() {
             />
           </div>
 
-          {/* Assigned Tools */}
           <div>
             <label className="block text-[10px] font-bold text-white/50 tracking-widest mb-3">
               AUTHORIZED SYSTEM TOOLS
@@ -127,7 +120,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Security Bounds */}
           <div>
             <label className="text-[10px] font-bold text-[#FF3366] tracking-widest mb-3 flex items-center">
               <Shield size={12} className="mr-2" /> SECURITY & BOUNDS
@@ -238,7 +230,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* System Log / Event Ledger (Replacing Chat) */}
       <div className="flex-1 border border-white/10 bg-[#0A0A0A] rounded-lg flex flex-col overflow-hidden">
         <div className="p-3 border-b border-white/5 bg-background flex justify-between items-center">
           <span className="text-[10px] font-bold text-white/50 tracking-widest">
@@ -278,7 +269,6 @@ export default function Dashboard() {
 
   return (
     <div className="flex h-screen w-screen bg-background text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black">
-      {/* SIDEBAR NAVIGATION */}
       <div className="w-20 border-r border-white/5 flex flex-col items-center py-6 bg-[#030303] z-20">
         <div className="w-10 h-10 border border-[#00FF9D]/30 rounded flex items-center justify-center bg-[#00FF9D]/10 text-[#00FF9D] font-black tracking-tighter mb-8 shadow-[0_0_15px_rgba(0,255,157,0.1)]">
           IG
@@ -311,7 +301,6 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* MAIN DYNAMIC CONTENT */}
       <div className="flex-1 flex flex-col relative z-10">
         {activeTab === 'agents' && renderAgentArchitect()}
         {activeTab === 'integrations' && renderIntegrations()}
