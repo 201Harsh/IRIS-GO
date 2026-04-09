@@ -394,7 +394,7 @@ export default function Dashboard() {
                 {isActive && (
                   <motion.div
                     layoutId="activeDot"
-                    className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-[#00FF9D] shadow-[0_0_10px_#00FF9D]"
+                    className="absolute bottom-1 w-5.5 h-0.5 rounded-full bg-[#00FF9D] shadow-[0_0_10px_#00FF9D]"
                   />
                 )}
 
