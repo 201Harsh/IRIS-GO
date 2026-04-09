@@ -11,10 +11,10 @@ import {
   Shield,
   Plus,
   Smartphone,
-  Github,
   Mail,
   Cpu
 } from 'lucide-react'
+import { BsGithub } from 'react-icons/bs'
 
 // --- TYPES ---
 type ViewState = 'agents' | 'integrations' | 'telemetry'
@@ -212,7 +212,7 @@ export default function Dashboard() {
 
         {/* Local Integrations */}
         {[
-          { name: 'GitHub Local', icon: Github, desc: 'Repository access', status: 'Active' },
+          { name: 'GitHub Local', icon: BsGithub, desc: 'Repository access', status: 'Active' },
           { name: 'Google Workspace', icon: Mail, desc: 'OAuth token required', status: 'Connect' }
         ].map((app, i) => (
           <div
