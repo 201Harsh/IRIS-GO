@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   Bot,
   Plug,
@@ -9,302 +10,364 @@ import {
   Globe,
   Shield,
   Plus,
-  Save,
   Smartphone,
-  Mail
+  Github,
+  Mail,
+  Cpu
 } from 'lucide-react'
-import { BsGithub } from 'react-icons/bs'
+
+// --- TYPES ---
+type ViewState = 'agents' | 'integrations' | 'telemetry'
+
+interface Agent {
+  id: string
+  name: string
+  status: 'active' | 'idle'
+  model: string
+  prompt: string
+}
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('agents')
+  const [activeView, setActiveView] = useState<ViewState>('agents')
 
-  const [agents] = useState([
-    { id: 1, name: 'Core Orchestrator', status: 'active', model: 'Gemini 1.5 Pro' },
-    { id: 2, name: 'Local Executor', status: 'active', model: 'Groq Llama 3' },
-    { id: 3, name: 'Git Manager', status: 'idle', model: 'Gemini 1.5 Flash' }
+  const [agents, setAgents] = useState<Agent[]>([
+    {
+      id: '1',
+      name: 'Core Orchestrator',
+      status: 'active',
+      model: 'Gemini 1.5 Pro',
+      prompt:
+        'Parse incoming mobile payloads, determine local actions, delegate to sub-agents. Return JSON execution plans.'
+    },
+    {
+      id: '2',
+      name: 'Local Executor',
+      status: 'idle',
+      model: 'Groq Llama 3',
+      prompt: 'Execute delegated shell commands and report standard output/errors.'
+    }
   ])
-  const [selectedAgent, setSelectedAgent] = useState(agents[0])
+  const [selectedAgent, setSelectedAgent] = useState<Agent>(agents[0])
 
-  const renderAgentArchitect = () => (
-    <div className="flex h-full">
-      <div className="w-1/3 border-r border-white/5 flex flex-col bg-[#0A0A0A]">
-        <div className="p-4 border-b border-white/5 flex justify-between items-center bg-background">
-          <h2 className="text-xs font-bold text-white/50 tracking-widest">DEPLOYED AGENTS</h2>
-          <button className="text-[#00FF9D] hover:bg-[#00FF9D]/10 p-1 rounded transition-colors">
-            <Plus size={16} />
+  // --- VIEWS ---
+
+  const renderAgentsView = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      className="flex h-full w-full max-w-6xl mx-auto gap-8 pt-10 pb-32"
+    >
+      {/* Left Column: Agent Selection Grid */}
+      <div className="w-1/3 flex flex-col space-y-4">
+        <div className="flex justify-between items-center px-2">
+          <h2 className="text-sm font-semibold text-white/60">Deployed Agents</h2>
+          <button className="text-white/40 hover:text-[#00FF9D] transition-colors">
+            <Plus size={18} />
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto p-4 space-y-2">
-          {agents.map((agent) => (
-            <button
-              key={agent.id}
-              onClick={() => setSelectedAgent(agent)}
-              className={`w-full text-left p-4 rounded border transition-all ${
-                selectedAgent.id === agent.id
-                  ? 'border-[#00FF9D]/30 bg-[#00FF9D]/5 shadow-[inset_2px_0_0_#00FF9D]'
-                  : 'border-white/5 bg-transparent hover:border-white/20'
-              }`}
-            >
-              <div className="flex justify-between items-center mb-1">
-                <span
-                  className={`text-sm font-bold ${selectedAgent.id === agent.id ? 'text-[#00FF9D]' : 'text-white'}`}
+
+        {agents.map((agent) => (
+          <div
+            key={agent.id}
+            onClick={() => setSelectedAgent(agent)}
+            className={`cursor-pointer p-5 rounded-2xl border transition-all duration-300 ${
+              selectedAgent.id === agent.id
+                ? 'bg-white/5 border-[#00FF9D]/30 shadow-[0_8px_30px_rgba(0,255,157,0.05)]'
+                : 'bg-transparent border-white/5 hover:border-white/15'
+            }`}
+          >
+            <div className="flex justify-between items-start mb-4">
+              <div className="flex items-center space-x-3">
+                <div
+                  className={`p-2 rounded-lg ${selectedAgent.id === agent.id ? 'bg-[#00FF9D]/10 text-[#00FF9D]' : 'bg-white/5 text-white/50'}`}
                 >
-                  {agent.name}
-                </span>
-                <span
-                  className={`w-2 h-2 rounded-full ${agent.status === 'active' ? 'bg-[#00FF9D] shadow-[0_0_8px_#00FF9D]' : 'bg-white/20'}`}
-                ></span>
+                  <Bot size={18} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-white">{agent.name}</h3>
+                  <p className="text-[11px] text-white/40 uppercase tracking-wider mt-0.5">
+                    {agent.model}
+                  </p>
+                </div>
               </div>
-              <div className="text-[10px] text-white/40 tracking-widest uppercase">
-                {agent.model}
-              </div>
-            </button>
-          ))}
-        </div>
+              <div
+                className={`w-2 h-2 rounded-full ${agent.status === 'active' ? 'bg-[#00FF9D] shadow-[0_0_8px_#00FF9D]' : 'bg-white/20'}`}
+              />
+            </div>
+          </div>
+        ))}
       </div>
 
-      <div className="flex-1 flex flex-col bg-background">
-        <div className="p-6 border-b border-white/5 flex justify-between items-center">
-          <div>
-            <h2 className="text-xl font-bold">{selectedAgent.name} // Configuration</h2>
-            <p className="text-xs text-white/40 mt-1 tracking-widest">
-              Define system instructions and resource bounds.
-            </p>
-          </div>
-          <button className="flex items-center space-x-2 bg-white/5 border border-white/10 hover:border-[#00FF9D]/50 hover:text-[#00FF9D] px-4 py-2 rounded text-xs tracking-widest transition-all">
-            <Save size={14} /> <span>SAVE DEPLOYMENT</span>
-          </button>
+      {/* Right Column: Configuration Editor */}
+      <div className="flex-1 bg-[#0A0A0A] border border-white/5 rounded-3xl p-8 flex flex-col relative overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#00FF9D]/5 rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="mb-8 z-10">
+          <h2 className="text-2xl font-semibold text-white mb-1">{selectedAgent.name}</h2>
+          <p className="text-sm text-white/40">
+            Configure system limits, context, and capabilities.
+          </p>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 space-y-8">
+        <div className="space-y-8 z-10 flex-1 overflow-y-auto pr-2 custom-scrollbar">
+          {/* Instructions */}
           <div>
-            <label className="block text-[10px] font-bold text-white/50 tracking-widest mb-3">
-              SYSTEM INSTRUCTIONS (PROMPT)
+            <label className="text-[11px] font-medium text-white/50 uppercase tracking-widest mb-3 block">
+              System Context
             </label>
             <textarea
-              className="w-full h-40 bg-[#0A0A0A] border border-white/10 rounded p-4 text-sm font-mono focus:border-[#00E5FF]/50 focus:outline-none transition-colors resize-none"
-              defaultValue={`You are the Core Orchestrator. Your objective is to parse incoming mobile payloads, determine the necessary local actions, and delegate tasks to specialized sub-agents. You do not execute code directly. You strictly return JSON execution plans.`}
+              className="w-full h-32 bg-[#050505] border border-white/10 rounded-xl p-4 text-sm font-mono text-white/80 focus:border-[#00E5FF]/50 focus:ring-1 focus:ring-[#00E5FF]/50 transition-all outline-none resize-none"
+              value={selectedAgent.prompt}
+              onChange={(e) => setSelectedAgent({ ...selectedAgent, prompt: e.target.value })}
             />
           </div>
 
+          {/* Capabilities */}
           <div>
-            <label className="block text-[10px] font-bold text-white/50 tracking-widest mb-3">
-              AUTHORIZED SYSTEM TOOLS
+            <label className="text-[11px] font-medium text-white/50 uppercase tracking-widest mb-3 block">
+              Authorized Tooling
             </label>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               {[
-                { name: 'Local Terminal', icon: Terminal, active: true },
-                { name: 'File System (R/W)', icon: FolderGit2, active: true },
-                { name: 'Network Access', icon: Globe, active: false }
-              ].map((tool, i) => (
+                { id: 'term', name: 'Terminal Access', icon: Terminal, active: true },
+                { id: 'fs', name: 'File System (R/W)', icon: FolderGit2, active: true },
+                { id: 'net', name: 'Network Requests', icon: Globe, active: false }
+              ].map((tool) => (
                 <div
-                  key={i}
-                  className={`p-4 rounded border flex items-center justify-between cursor-pointer transition-colors ${tool.active ? 'border-[#00E5FF]/30 bg-[#00E5FF]/5' : 'border-white/5 bg-[#0A0A0A] opacity-50 hover:opacity-100'}`}
+                  key={tool.id}
+                  className={`flex items-center justify-between p-4 rounded-xl border transition-all ${tool.active ? 'border-[#00E5FF]/30 bg-[#00E5FF]/5' : 'border-white/5 bg-[#050505] opacity-60 hover:opacity-100 cursor-pointer'}`}
                 >
                   <div className="flex items-center space-x-3">
                     <tool.icon
-                      size={18}
+                      size={16}
                       className={tool.active ? 'text-[#00E5FF]' : 'text-white/40'}
                     />
-                    <span className="text-xs font-bold">{tool.name}</span>
+                    <span className="text-xs font-medium">{tool.name}</span>
                   </div>
                   <div
                     className={`w-8 h-4 rounded-full relative transition-colors ${tool.active ? 'bg-[#00E5FF]/30' : 'bg-white/10'}`}
                   >
                     <div
-                      className={`absolute top-0.5 w-3 h-3 rounded-full transition-transform ${tool.active ? 'bg-[#00E5FF] translate-x-4' : 'bg-white/40 translate-x-0.5'}`}
-                    ></div>
+                      className={`absolute top-0.5 w-3 h-3 rounded-full transition-transform ${tool.active ? 'bg-[#00E5FF] translate-x-4.5' : 'bg-white/40 translate-x-0.5'}`}
+                    />
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div>
-            <label className="text-[10px] font-bold text-[#FF3366] tracking-widest mb-3 flex items-center">
-              <Shield size={12} className="mr-2" /> SECURITY & BOUNDS
-            </label>
-            <div className="p-5 border border-[#FF3366]/20 bg-[#FF3366]/5 rounded">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-bold text-white/80">Require Mobile Confirmation</span>
-                <span className="text-xs text-[#FF3366] border border-[#FF3366]/30 px-2 py-0.5 rounded bg-[#FF3366]/10">
-                  STRICT
-                </span>
+          {/* Security */}
+          <div className="p-5 border border-red-500/10 bg-red-500/5 rounded-xl">
+            <div className="flex justify-between items-center mb-2">
+              <div className="flex items-center space-x-2 text-red-400">
+                <Shield size={14} />
+                <span className="text-xs font-semibold">Strict Mobile Confirmation</span>
               </div>
-              <p className="text-xs text-white/40">
-                If the agent requests `sudo` access or attempts to delete directories, a
-                confirmation payload will be sent to the linked mobile app before execution.
-              </p>
+              <div className="w-8 h-4 rounded-full bg-red-500/30 relative">
+                <div className="absolute top-0.5 w-3 h-3 rounded-full bg-red-500 translate-x-4.5" />
+              </div>
             </div>
+            <p className="text-[11px] text-white/40 leading-relaxed">
+              Commands requiring `sudo` or file deletion will halt execution and ping the mobile
+              uplink for authorization.
+            </p>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 
-  const renderIntegrations = () => (
-    <div className="p-8 h-full overflow-y-auto bg-background">
-      <div className="max-w-4xl">
-        <h2 className="text-xl font-bold mb-2">Platform Integrations</h2>
-        <p className="text-xs text-white/40 mb-8 tracking-widest">
-          Manage your mobile control gateways and local app access.
+  const renderIntegrationsView = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      className="flex flex-col items-center justify-center h-full w-full max-w-4xl mx-auto pt-10 pb-32"
+    >
+      <div className="w-full mb-8 text-center">
+        <h2 className="text-2xl font-semibold text-white mb-2">Access & Gateways</h2>
+        <p className="text-sm text-white/40">
+          Manage remote control surfaces and local authorizations.
         </p>
-
-        <h3 className="text-[10px] text-[#00FF9D] tracking-widest font-bold mb-4 border-b border-white/5 pb-2">
-          MOBILE CONTROL RELAYS
-        </h3>
-        <div className="grid grid-cols-2 gap-4 mb-10">
-          <div className="p-5 border border-[#00FF9D]/30 bg-[#00FF9D]/5 rounded-lg flex justify-between items-center">
-            <div className="flex items-center space-x-4">
-              <div className="p-3 bg-[#00FF9D]/10 text-[#00FF9D] rounded">
-                <Smartphone size={20} />
-              </div>
-              <div>
-                <h4 className="text-sm font-bold">IRIS Mobile App (iOS/Android)</h4>
-                <p className="text-[10px] text-white/40 mt-1">Status: Listening on WSS://</p>
-              </div>
-            </div>
-            <span className="text-[10px] font-bold text-[#00FF9D] px-2 py-1 border border-[#00FF9D]/30 rounded bg-[#00FF9D]/10">
-              CONNECTED
-            </span>
-          </div>
-        </div>
-
-        <h3 className="text-[10px] text-[#00E5FF] tracking-widest font-bold mb-4 border-b border-white/5 pb-2">
-          AUTHORIZED SYSTEM TOOLS
-        </h3>
-        <div className="grid grid-cols-2 gap-4">
-          {[
-            { name: 'GitHub Local', icon: BsGithub, status: 'linked' },
-            { name: 'Google Workspace', icon: Mail, status: 'connect' }
-          ].map((app, i) => (
-            <div
-              key={i}
-              className="p-5 border border-white/10 bg-[#0A0A0A] rounded-lg flex justify-between items-center hover:border-white/30 transition-colors cursor-pointer"
-            >
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-white/5 text-white/80 rounded">
-                  <app.icon size={20} />
-                </div>
-                <h4 className="text-sm font-bold">{app.name}</h4>
-              </div>
-              {app.status === 'linked' ? (
-                <span className="text-[10px] font-bold text-white/60 px-2 py-1 border border-white/10 rounded">
-                  CONFIGURED
-                </span>
-              ) : (
-                <span className="text-[10px] font-bold text-[#00E5FF] px-2 py-1 border border-[#00E5FF]/30 rounded hover:bg-[#00E5FF]/10 transition-colors">
-                  CONNECT
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
       </div>
-    </div>
+
+      <div className="w-full grid grid-cols-2 gap-6">
+        {/* Mobile App Link */}
+        <div className="col-span-2 p-6 rounded-2xl border border-[#00FF9D]/20 bg-[#00FF9D]/5 flex justify-between items-center">
+          <div className="flex items-center space-x-5">
+            <div className="p-4 bg-[#00FF9D]/10 text-[#00FF9D] rounded-xl">
+              <Smartphone size={24} />
+            </div>
+            <div>
+              <h3 className="text-base font-medium text-white mb-1">IRIS Mobile Uplink</h3>
+              <p className="text-xs text-white/50">WSS Tunnel Active • Device: iPhone 15 Pro</p>
+            </div>
+          </div>
+          <span className="text-[10px] font-bold text-[#00FF9D] px-3 py-1.5 border border-[#00FF9D]/30 rounded-lg bg-[#00FF9D]/10">
+            CONNECTED
+          </span>
+        </div>
+
+        {/* Local Integrations */}
+        {[
+          { name: 'GitHub Local', icon: Github, desc: 'Repository access', status: 'Active' },
+          { name: 'Google Workspace', icon: Mail, desc: 'OAuth token required', status: 'Connect' }
+        ].map((app, i) => (
+          <div
+            key={i}
+            className="p-6 rounded-2xl border border-white/5 bg-[#0A0A0A] hover:border-white/10 transition-colors flex flex-col justify-between h-40"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="p-3 bg-white/5 text-white/70 rounded-xl">
+                <app.icon size={20} />
+              </div>
+              <h3 className="text-sm font-medium">{app.name}</h3>
+            </div>
+            <div className="flex justify-between items-end">
+              <p className="text-xs text-white/40">{app.desc}</p>
+              <button
+                className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border transition-all ${
+                  app.status === 'Active'
+                    ? 'border-white/10 text-white/50 bg-white/5'
+                    : 'border-[#00E5FF]/30 text-[#00E5FF] hover:bg-[#00E5FF]/10'
+                }`}
+              >
+                {app.status}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
   )
 
-  const renderTelemetry = () => (
-    <div className="p-8 h-full flex flex-col bg-background">
-      <h2 className="text-xl font-bold mb-2">Engine Telemetry</h2>
-      <p className="text-xs text-white/40 mb-8 tracking-widest">
-        Live monitoring of headless agent execution.
-      </p>
-
+  const renderTelemetryView = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      className="flex flex-col h-full w-full max-w-5xl mx-auto pt-10 pb-32"
+    >
       <div className="grid grid-cols-3 gap-6 mb-8">
-        <div className="p-6 border border-white/5 bg-[#0A0A0A] rounded-lg">
-          <div className="text-[10px] text-white/40 tracking-widest font-bold mb-2">UPTIME</div>
-          <div className="text-2xl font-mono text-white">42:14:05</div>
-        </div>
-        <div className="p-6 border border-[#00FF9D]/20 bg-[#00FF9D]/5 rounded-lg">
-          <div className="text-[10px] text-[#00FF9D] tracking-widest font-bold mb-2">
-            ACTIVE TASKS
+        {[
+          { label: 'Uptime', value: '42:14:05', color: 'text-white' },
+          { label: 'Active Tasks', value: '0', color: 'text-[#00FF9D]' },
+          { label: 'Total Actions', value: '1,204', color: 'text-white' }
+        ].map((stat, i) => (
+          <div
+            key={i}
+            className="p-6 rounded-2xl border border-white/5 bg-[#0A0A0A] flex flex-col items-center justify-center"
+          >
+            <span className="text-[10px] uppercase tracking-widest text-white/40 font-medium mb-2">
+              {stat.label}
+            </span>
+            <span className={`text-3xl font-light font-mono ${stat.color}`}>{stat.value}</span>
           </div>
-          <div className="text-2xl font-mono text-[#00FF9D]">0</div>
-        </div>
-        <div className="p-6 border border-white/5 bg-[#0A0A0A] rounded-lg">
-          <div className="text-[10px] text-white/40 tracking-widest font-bold mb-2">
-            TOTAL ACTIONS EXECUTED
-          </div>
-          <div className="text-2xl font-mono text-white">1,204</div>
-        </div>
+        ))}
       </div>
 
-      <div className="flex-1 border border-white/10 bg-[#0A0A0A] rounded-lg flex flex-col overflow-hidden">
-        <div className="p-3 border-b border-white/5 bg-background flex justify-between items-center">
-          <span className="text-[10px] font-bold text-white/50 tracking-widest">
-            SYSTEM EVENT LEDGER
+      <div className="flex-1 rounded-2xl border border-white/5 bg-[#0A0A0A] flex flex-col overflow-hidden relative">
+        <div className="px-6 py-4 border-b border-white/5 flex justify-between items-center bg-[#050505]">
+          <span className="text-xs font-medium text-white/50 flex items-center">
+            <Activity size={14} className="mr-2" /> Headless Execution Log
           </span>
-          <div className="flex space-x-2">
-            <div className="w-2 h-2 rounded-full bg-white/20"></div>
-            <div className="w-2 h-2 rounded-full bg-[#00FF9D] animate-pulse shadow-[0_0_5px_#00FF9D]"></div>
-          </div>
+          <div className="w-2 h-2 rounded-full bg-[#00FF9D] animate-pulse" />
         </div>
-        <div className="flex-1 p-4 font-mono text-xs overflow-y-auto space-y-2 opacity-80">
-          <div className="text-white/40">
-            2026-04-09 11:42:10 <span className="text-[#00E5FF]">[SYSTEM]</span> Gateway connection
-            established.
+        <div className="flex-1 p-6 font-mono text-sm overflow-y-auto space-y-3 opacity-80 text-white/60">
+          <div>
+            <span className="text-white/30">12:45:00</span>{' '}
+            <span className="text-[#00E5FF]">[SYSTEM]</span> WSS tunnel established.
           </div>
-          <div className="text-white/40">
-            2026-04-09 11:45:00 <span className="text-[#00FF9D]">[MOBILE]</span> Payload received:
-            "Sync git repo"
+          <div>
+            <span className="text-white/30">12:45:02</span>{' '}
+            <span className="text-[#00FF9D]">[MOBILE]</span> Payload: "Sync git repo"
           </div>
-          <div className="text-white/40">
-            2026-04-09 11:45:02 <span className="text-white/80">[Git_Manager]</span> Action invoked:
-            git status
+          <div>
+            <span className="text-white/30">12:45:03</span>{' '}
+            <span className="text-white">[GitManager]</span> Executing: git status
           </div>
-          <div className="text-white/40">
-            2026-04-09 11:45:05 <span className="text-white/80">[Git_Manager]</span> Action invoked:
-            git pull origin main
+          <div>
+            <span className="text-white/30">12:45:05</span>{' '}
+            <span className="text-white">[GitManager]</span> Executing: git pull origin main
           </div>
-          <div className="text-white/40">
-            2026-04-09 11:45:06 <span className="text-[#00FF9D]">[SYSTEM]</span> Task completed
-            successfully. Awaiting input.
+          <div>
+            <span className="text-white/30">12:45:06</span>{' '}
+            <span className="text-[#00FF9D]">[SYSTEM]</span> Task complete. Standing by.
           </div>
           <div className="animate-pulse text-[#00FF9D] pt-2">_</div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 
   return (
-    <div className="flex h-screen w-screen bg-background text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black">
-      <div className="w-20 border-r border-white/5 flex flex-col items-center py-6 bg-[#030303] z-20">
-        <div className="w-10 h-10 border border-[#00FF9D]/30 rounded flex items-center justify-center bg-[#00FF9D]/10 text-[#00FF9D] font-black tracking-tighter mb-8 shadow-[0_0_15px_rgba(0,255,157,0.1)]">
-          IG
-        </div>
+    <div className="relative h-screen w-screen bg-[#020202] text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black">
+      {/* Subtle Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#00E5FF]/[0.02] rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="flex flex-col space-y-4 w-full px-4">
-          <button
-            onClick={() => setActiveTab('agents')}
-            className={`p-3 rounded-lg flex items-center justify-center transition-all ${activeTab === 'agents' ? 'bg-[#00E5FF]/10 text-[#00E5FF] shadow-[inset_2px_0_0_#00E5FF]' : 'text-white/30 hover:text-white hover:bg-white/5'}`}
-          >
-            <Bot size={22} />
-          </button>
-          <button
-            onClick={() => setActiveTab('integrations')}
-            className={`p-3 rounded-lg flex items-center justify-center transition-all ${activeTab === 'integrations' ? 'bg-[#00FF9D]/10 text-[#00FF9D] shadow-[inset_2px_0_0_#00FF9D]' : 'text-white/30 hover:text-white hover:bg-white/5'}`}
-          >
-            <Plug size={22} />
-          </button>
-          <button
-            onClick={() => setActiveTab('telemetry')}
-            className={`p-3 rounded-lg flex items-center justify-center transition-all ${activeTab === 'telemetry' ? 'bg-white/10 text-white shadow-[inset_2px_0_0_#FFF]' : 'text-white/30 hover:text-white hover:bg-white/5'}`}
-          >
-            <Activity size={22} />
-          </button>
-        </div>
-
-        <div className="grow"></div>
-        <button className="text-white/30 hover:text-white p-3 rounded-lg hover:bg-white/5 transition-all">
-          <Settings size={22} />
-        </button>
+      {/* Main Content Render */}
+      <div className="h-full w-full px-8 overflow-y-auto">
+        <AnimatePresence mode="wait">
+          {activeView === 'agents' && renderAgentsView()}
+          {activeView === 'integrations' && renderIntegrationsView()}
+          {activeView === 'telemetry' && renderTelemetryView()}
+        </AnimatePresence>
       </div>
 
-      <div className="flex-1 flex flex-col relative z-10">
-        {activeTab === 'agents' && renderAgentArchitect()}
-        {activeTab === 'integrations' && renderIntegrations()}
-        {activeTab === 'telemetry' && renderTelemetry()}
+      {/* FLOATING MAC-STYLE DOCK */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50">
+        <div className="flex items-center space-x-2 p-2 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+          <div className="px-3 flex items-center justify-center border-r border-white/10 mr-1">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#00FF9D]/20 to-[#00E5FF]/20 flex items-center justify-center border border-white/10 shadow-[0_0_15px_rgba(0,255,157,0.1)]">
+              <Cpu size={16} className="text-[#00FF9D]" />
+            </div>
+          </div>
+
+          {[
+            { id: 'agents', icon: Bot, label: 'Agents' },
+            { id: 'integrations', icon: Plug, label: 'Gateways' },
+            { id: 'telemetry', icon: Activity, label: 'Telemetry' }
+          ].map((item) => {
+            const isActive = activeView === item.id
+            return (
+              <motion.button
+                key={item.id}
+                onClick={() => setActiveView(item.id as ViewState)}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className={`relative group flex flex-col items-center justify-center w-14 h-14 rounded-xl transition-all duration-200 ${
+                  isActive
+                    ? 'bg-white/10 text-white'
+                    : 'text-white/40 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <item.icon size={22} className="relative z-10" />
+                {/* Active Indicator Dot */}
+                {isActive && (
+                  <motion.div
+                    layoutId="activeDot"
+                    className="absolute bottom-1 w-1 h-1 rounded-full bg-[#00FF9D] shadow-[0_0_8px_#00FF9D]"
+                  />
+                )}
+                {/* Tooltip */}
+                <div className="absolute -top-10 scale-0 group-hover:scale-100 transition-transform bg-[#111] border border-white/10 px-3 py-1 rounded-lg text-[10px] font-medium tracking-widest pointer-events-none">
+                  {item.label}
+                </div>
+              </motion.button>
+            )
+          })}
+
+          <div className="w-px h-8 bg-white/10 mx-2" />
+
+          <motion.button
+            whileHover={{ scale: 1.05, y: -2 }}
+            className="w-14 h-14 flex items-center justify-center rounded-xl text-white/40 hover:text-white hover:bg-white/5 transition-colors"
+          >
+            <Settings size={22} />
+          </motion.button>
+        </div>
       </div>
     </div>
   )
