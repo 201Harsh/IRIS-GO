@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion} from 'framer-motion'
 import {
   Zap,
   CheckCircle,
@@ -10,7 +10,6 @@ import {
   Activity,
   Shield,
   Mail,
-  Smartphone,
   X,
   Server,
   Loader2
@@ -425,7 +424,7 @@ export default function Dashboard() {
 
                   {msg.terminal && (
                     <div className="mt-4 bg-background border border-white/5 rounded-md p-4 font-mono text-xs text-[#00FF9D] w-full max-w-2xl relative overflow-hidden group">
-                      <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[#00FF9D]/30 to-transparent"></div>
+                      <div className="absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-[#00FF9D]/30 to-transparent"></div>
                       {msg.terminal.map((line, idx) => (
                         <div
                           key={idx}
