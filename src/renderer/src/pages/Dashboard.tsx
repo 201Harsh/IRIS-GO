@@ -1,356 +1,429 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Bot,
   Plug,
-  Activity,
   Settings,
   Terminal,
-  FolderGit2,
-  Globe,
   Shield,
-  Plus,
   Smartphone,
   Mail,
-  Cpu
+  Cpu,
+  Send,
+  MessageSquare,
+  Code2,
+  CalendarClock,
+  Zap,
+  CheckCircle2,
+  Lock
 } from 'lucide-react'
 import { BsGithub } from 'react-icons/bs'
 
-type ViewState = 'agents' | 'integrations' | 'telemetry'
-
-interface Agent {
-  id: string
-  name: string
-  status: 'active' | 'idle'
-  model: string
-  prompt: string
-}
+type ViewState = 'apps' | 'behavior' | 'cron' | 'settings'
 
 export default function Dashboard() {
-  const [activeView, setActiveView] = useState<ViewState>('agents')
+  const [activeView, setActiveView] = useState<ViewState>('apps')
 
-  const [agents] = useState<Agent[]>([
-    {
-      id: '1',
-      name: 'Core Orchestrator',
-      status: 'active',
-      model: 'Gemini 1.5 Pro',
-      prompt:
-        'Parse incoming mobile payloads, determine local actions, delegate to sub-agents. Return JSON execution plans.'
-    },
-    {
-      id: '2',
-      name: 'Local Executor',
-      status: 'idle',
-      model: 'Groq Llama 3',
-      prompt: 'Execute delegated shell commands and report standard output/errors.'
-    }
-  ])
-  const [selectedAgent, setSelectedAgent] = useState<Agent>(agents[0])
+  // Mock Connection State
+  const [connections, setConnections] = useState({
+    telegram: true,
+    whatsapp: false,
+    github: false,
+    google: false,
+    vscode: false
+  })
 
-  const renderAgentsView = () => (
+  const toggleConnection = (key: keyof typeof connections) => {
+    setConnections((prev) => ({ ...prev, [key]: !prev[key] }))
+  }
+
+  // --- VIEWS ---
+
+  const renderAppsView = () => (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className="flex h-full w-full max-w-6xl mx-auto gap-8 pt-10 pb-32"
+      exit={{ opacity: 0, y: -15 }}
+      className="flex flex-col w-full max-w-5xl mx-auto pt-12 pb-40"
     >
-      <div className="w-1/3 flex flex-col space-y-4">
-        <div className="flex justify-between items-center px-2">
-          <h2 className="text-sm font-semibold text-white/60">Deployed Agents</h2>
-          <button className="text-white/40 hover:text-[#00FF9D] transition-colors">
-            <Plus size={18} />
-          </button>
+      <div className="mb-10">
+        <h2 className="text-3xl font-semibold text-white mb-2 tracking-tight">System Gateways</h2>
+        <p className="text-sm text-white/40">
+          Activate your mobile command relays and authorize local application access.
+        </p>
+      </div>
+
+      {/* PHASE 1: COMMAND RELAYS */}
+      <div className="mb-12">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="h-px bg-white/10 flex-1" />
+          <span className="text-[10px] uppercase tracking-widest text-[#00E5FF] font-semibold">
+            1. Primary Command Relays
+          </span>
+          <div className="h-px bg-white/10 flex-1" />
         </div>
 
-        {agents.map((agent) => (
-          <div
-            key={agent.id}
-            onClick={() => setSelectedAgent(agent)}
-            className={`cursor-pointer p-5 rounded-2xl border transition-all duration-300 ${
-              selectedAgent.id === agent.id
-                ? 'bg-white/5 border-[#00FF9D]/30 shadow-[0_8px_30px_rgba(0,255,157,0.05)]'
-                : 'bg-transparent border-white/5 hover:border-white/15'
-            }`}
-          >
-            <div className="flex justify-between items-start mb-4">
-              <div className="flex items-center space-x-3">
-                <div
-                  className={`p-2 rounded-lg ${selectedAgent.id === agent.id ? 'bg-[#00FF9D]/10 text-[#00FF9D]' : 'bg-white/5 text-white/50'}`}
-                >
-                  <Bot size={18} />
+        <div className="grid grid-cols-3 gap-6">
+          {/* Telegram */}
+          <div className="relative p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all flex flex-col justify-between h-48 group">
+            {connections.telegram && (
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-[#00E5FF] shadow-[0_0_15px_#00E5FF] rounded-b-full" />
+            )}
+            <div className="flex justify-between items-start">
+              <div className="p-3 bg-[#00E5FF]/10 text-[#00E5FF] rounded-2xl">
+                <Send size={24} />
+              </div>
+              <button
+                onClick={() => toggleConnection('telegram')}
+                className={`text-[10px] font-bold px-3 py-1.5 rounded-xl border transition-all ${connections.telegram ? 'border-[#00E5FF]/30 text-[#00E5FF] bg-[#00E5FF]/10' : 'border-white/10 text-white/50 hover:text-white'}`}
+              >
+                {connections.telegram ? 'ACTIVE' : 'CONNECT'}
+              </button>
+            </div>
+            <div>
+              <h3 className="text-base font-medium text-white">Telegram Bot</h3>
+              <p className="text-xs text-white/40 mt-1">Secure webhook via BotFather.</p>
+            </div>
+          </div>
+
+          {/* WhatsApp */}
+          <div className="relative p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all flex flex-col justify-between h-48 group">
+            {connections.whatsapp && (
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-[#00FF9D] shadow-[0_0_15px_#00FF9D] rounded-b-full" />
+            )}
+            <div className="flex justify-between items-start">
+              <div className="p-3 bg-[#00FF9D]/10 text-[#00FF9D] rounded-2xl">
+                <MessageSquare size={24} />
+              </div>
+              <button
+                onClick={() => toggleConnection('whatsapp')}
+                className={`text-[10px] font-bold px-3 py-1.5 rounded-xl border transition-all ${connections.whatsapp ? 'border-[#00FF9D]/30 text-[#00FF9D] bg-[#00FF9D]/10' : 'border-white/10 text-white/50 hover:text-white'}`}
+              >
+                {connections.whatsapp ? 'ACTIVE' : 'CONNECT'}
+              </button>
+            </div>
+            <div>
+              <h3 className="text-base font-medium text-white">WhatsApp</h3>
+              <p className="text-xs text-white/40 mt-1">Direct integration via Meta Graph API.</p>
+            </div>
+          </div>
+
+          {/* IRIS Mobile (Coming Soon) */}
+          <div className="relative p-6 rounded-3xl border border-white/5 bg-black/40 backdrop-blur-xl flex flex-col justify-between h-48 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
+            <div className="flex justify-between items-start opacity-50">
+              <div className="p-3 bg-white/5 text-white rounded-2xl">
+                <Smartphone size={24} />
+              </div>
+              <span className="text-[9px] font-bold px-3 py-1.5 rounded-xl border border-white/20 text-white/50 flex items-center">
+                <Lock size={10} className="mr-1" /> SOON
+              </span>
+            </div>
+            <div className="opacity-50">
+              <h3 className="text-base font-medium text-white">IRIS Native App</h3>
+              <p className="text-xs text-white/40 mt-1">Dedicated iOS/Android control client.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* PHASE 2: INTEGRATIONS */}
+      <div>
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="h-px bg-white/10 flex-1" />
+          <span className="text-[10px] uppercase tracking-widest text-[#00FF9D] font-semibold">
+            2. System Authorizations
+          </span>
+          <div className="h-px bg-white/10 flex-1" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          {/* GitHub Card */}
+          <div className="p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all">
+            <div className="flex justify-between items-start mb-6">
+              <div className="flex items-center space-x-4">
+                <div className="p-4 bg-white/5 text-white rounded-2xl border border-white/10">
+                  <BsGithub size={28} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-white">{agent.name}</h3>
-                  <p className="text-[11px] text-white/40 uppercase tracking-wider mt-0.5">
-                    {agent.model}
-                  </p>
+                  <h3 className="text-lg font-medium text-white">GitHub Local</h3>
+                  <p className="text-xs text-white/40">Read/Write repository access.</p>
                 </div>
               </div>
+              <button
+                onClick={() => toggleConnection('github')}
+                className={`text-[10px] font-bold px-4 py-2 rounded-xl border transition-all ${connections.github ? 'border-[#00FF9D]/30 text-[#00FF9D] bg-[#00FF9D]/10' : 'border-white/10 text-white hover:bg-white/10'}`}
+              >
+                {connections.github ? 'AUTHORIZED' : 'AUTHORIZE'}
+              </button>
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center text-[11px] text-white/50">
+                <CheckCircle2 size={12} className="mr-2 text-[#00FF9D]" /> Clone, pull, and commit
+                via terminal.
+              </div>
+              <div className="flex items-center text-[11px] text-white/50">
+                <CheckCircle2 size={12} className="mr-2 text-[#00FF9D]" /> Read local directory
+                structures.
+              </div>
+            </div>
+          </div>
+
+          {/* Google Workspace */}
+          <div className="p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all">
+            <div className="flex justify-between items-start mb-6">
+              <div className="flex items-center space-x-4">
+                <div className="p-4 bg-white/5 text-white rounded-2xl border border-white/10">
+                  <Mail size={28} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-medium text-white">Google Workspace</h3>
+                  <p className="text-xs text-white/40">Gmail & Calendar API integration.</p>
+                </div>
+              </div>
+              <button
+                onClick={() => toggleConnection('google')}
+                className={`text-[10px] font-bold px-4 py-2 rounded-xl border transition-all ${connections.google ? 'border-[#00FF9D]/30 text-[#00FF9D] bg-[#00FF9D]/10' : 'border-white/10 text-white hover:bg-white/10'}`}
+              >
+                {connections.google ? 'AUTHORIZED' : 'AUTHORIZE'}
+              </button>
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center text-[11px] text-white/50">
+                <CheckCircle2 size={12} className="mr-2 text-[#00FF9D]" /> Draft and read emails
+                natively.
+              </div>
+              <div className="flex items-center text-[11px] text-white/50">
+                <CheckCircle2 size={12} className="mr-2 text-[#00FF9D]" /> Schedule and modify
+                Calendar events.
+              </div>
+            </div>
+          </div>
+
+          {/* VS Code */}
+          <div className="p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl hover:bg-white/[0.04] transition-all">
+            <div className="flex justify-between items-start mb-6">
+              <div className="flex items-center space-x-4">
+                <div className="p-4 bg-[#00E5FF]/10 text-[#00E5FF] rounded-2xl border border-[#00E5FF]/20">
+                  <Code2 size={28} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-medium text-white">VS Code Engine</h3>
+                  <p className="text-xs text-white/40">Direct IDE manipulation.</p>
+                </div>
+              </div>
+              <button
+                onClick={() => toggleConnection('vscode')}
+                className={`text-[10px] font-bold px-4 py-2 rounded-xl border transition-all ${connections.vscode ? 'border-[#00FF9D]/30 text-[#00FF9D] bg-[#00FF9D]/10' : 'border-white/10 text-white hover:bg-white/10'}`}
+              >
+                {connections.vscode ? 'AUTHORIZED' : 'AUTHORIZE'}
+              </button>
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center text-[11px] text-white/50">
+                <CheckCircle2 size={12} className="mr-2 text-[#00FF9D]" /> Open specific files and
+                inject code.
+              </div>
+              <div className="flex items-center text-[11px] text-white/50">
+                <CheckCircle2 size={12} className="mr-2 text-[#00FF9D]" /> Manage local dev servers.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+
+  const renderBehaviorView = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -15 }}
+      className="flex flex-col w-full max-w-4xl mx-auto pt-12 pb-40"
+    >
+      <div className="mb-8">
+        <h2 className="text-3xl font-semibold text-white mb-2 tracking-tight">
+          Core Neural Engine
+        </h2>
+        <p className="text-sm text-white/40">
+          Configure the central AI instructions and security bounds for your system.
+        </p>
+      </div>
+
+      <div className="space-y-8">
+        {/* System Prompt */}
+        <div className="p-8 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl">
+          <div className="flex justify-between items-center mb-6">
+            <label className="text-xs font-semibold text-white/60 uppercase tracking-widest flex items-center">
+              <Cpu size={16} className="mr-2 text-[#00FF9D]" /> Master Instructions
+            </label>
+            <span className="text-[10px] text-[#00FF9D] border border-[#00FF9D]/30 px-2 py-1 rounded bg-[#00FF9D]/10">
+              MODEL: GEMINI 1.5 PRO
+            </span>
+          </div>
+          <textarea
+            className="w-full h-48 bg-[#020202] border border-white/10 rounded-2xl p-6 text-sm font-mono text-white/80 focus:border-[#00FF9D]/50 focus:ring-1 focus:ring-[#00FF9D]/50 transition-all outline-none resize-none leading-relaxed"
+            defaultValue="You are the IRIS System Core. Your objective is to parse incoming mobile payloads, determine necessary local actions, and utilize authorized tool integrations to execute workflows. You are running with root privileges on this machine. Never bypass the security bounds."
+          />
+        </div>
+
+        {/* Security Bounds */}
+        <div className="p-8 rounded-3xl border border-red-500/10 bg-red-500/5 backdrop-blur-xl flex justify-between items-center">
+          <div>
+            <h3 className="text-base font-medium text-white flex items-center">
+              <Shield size={18} className="mr-2 text-red-400" /> Strict Mobile Confirmation
+            </h3>
+            <p className="text-xs text-white/50 mt-1 max-w-md">
+              Commands requiring `sudo` or mass file deletion will halt execution and ping the
+              mobile uplink for manual authorization.
+            </p>
+          </div>
+          <div className="w-12 h-6 rounded-full bg-red-500/20 relative cursor-pointer border border-red-500/30">
+            <div className="absolute top-0.5 left-6 w-5 h-5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)] transition-transform" />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+
+  const renderCronView = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -15 }}
+      className="flex flex-col w-full max-w-4xl mx-auto pt-12 pb-40"
+    >
+      <div className="flex justify-between items-end mb-10">
+        <div>
+          <h2 className="text-3xl font-semibold text-white mb-2 tracking-tight">Cron Workflows</h2>
+          <p className="text-sm text-white/40">
+            Schedule headless AI tasks to run automatically on this machine.
+          </p>
+        </div>
+        <button className="bg-white/10 hover:bg-white/15 text-white px-5 py-2.5 rounded-xl text-xs font-semibold tracking-widest transition-all border border-white/10 flex items-center">
+          <Zap size={14} className="mr-2 text-[#00E5FF]" /> NEW JOB
+        </button>
+      </div>
+
+      <div className="space-y-4">
+        {[
+          {
+            name: 'Daily Git Sync',
+            schedule: 'Every day at 00:00',
+            prompt: 'Pull origin main across all active workspaces in /dev.',
+            status: 'Active'
+          },
+          {
+            name: 'Log Analyzer',
+            schedule: 'Every Friday at 18:00',
+            prompt: 'Scan PM2 logs for errors and email summary.',
+            status: 'Paused'
+          }
+        ].map((job, i) => (
+          <div
+            key={i}
+            className="p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl flex justify-between items-center hover:bg-white/[0.04] transition-colors cursor-pointer group"
+          >
+            <div className="flex items-start space-x-4">
               <div
-                className={`w-2 h-2 rounded-full ${agent.status === 'active' ? 'bg-[#00FF9D] shadow-[0_0_8px_#00FF9D]' : 'bg-white/20'}`}
+                className={`p-3 rounded-2xl ${job.status === 'Active' ? 'bg-[#00E5FF]/10 text-[#00E5FF]' : 'bg-white/5 text-white/30'}`}
+              >
+                <CalendarClock size={24} />
+              </div>
+              <div>
+                <div className="flex items-center space-x-3 mb-1">
+                  <h3 className="text-base font-medium text-white">{job.name}</h3>
+                  <span className="text-[10px] text-white/40 tracking-widest uppercase">
+                    {job.schedule}
+                  </span>
+                </div>
+                <p className="text-xs text-white/50 font-mono truncate max-w-lg">{job.prompt}</p>
+              </div>
+            </div>
+            <div
+              className={`w-10 h-5 rounded-full relative transition-colors ${job.status === 'Active' ? 'bg-[#00E5FF]/30' : 'bg-white/10'}`}
+            >
+              <div
+                className={`absolute top-0.5 w-4 h-4 rounded-full transition-transform ${job.status === 'Active' ? 'bg-[#00E5FF] translate-x-5 shadow-[0_0_8px_#00E5FF]' : 'bg-white/40 translate-x-0.5'}`}
               />
             </div>
           </div>
         ))}
       </div>
-
-      <div className="flex-1 bg-[#0A0A0A] border border-white/5 rounded-3xl p-8 flex flex-col relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#00FF9D]/5 rounded-full blur-[100px] pointer-events-none" />
-
-        <div className="mb-8 z-10">
-          <h2 className="text-2xl font-semibold text-white mb-1">{selectedAgent.name}</h2>
-          <p className="text-sm text-white/40">
-            Configure system limits, context, and capabilities.
-          </p>
-        </div>
-
-        <div className="space-y-8 z-10 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-          <div>
-            <label className="text-[11px] font-medium text-white/50 uppercase tracking-widest mb-3 block">
-              System Context
-            </label>
-            <textarea
-              className="w-full h-32 bg-background border border-white/10 rounded-xl p-4 text-sm font-mono text-white/80 focus:border-[#00E5FF]/50 focus:ring-1 focus:ring-[#00E5FF]/50 transition-all outline-none resize-none"
-              value={selectedAgent.prompt}
-              onChange={(e) => setSelectedAgent({ ...selectedAgent, prompt: e.target.value })}
-            />
-          </div>
-
-          <div>
-            <label className="text-[11px] font-medium text-white/50 uppercase tracking-widest mb-3 block">
-              Authorized Tooling
-            </label>
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { id: 'term', name: 'Terminal Access', icon: Terminal, active: true },
-                { id: 'fs', name: 'File System (R/W)', icon: FolderGit2, active: true },
-                { id: 'net', name: 'Network Requests', icon: Globe, active: false }
-              ].map((tool) => (
-                <div
-                  key={tool.id}
-                  className={`flex items-center justify-between p-4 rounded-xl border transition-all ${tool.active ? 'border-[#00E5FF]/30 bg-[#00E5FF]/5' : 'border-white/5 bg-background opacity-60 hover:opacity-100 cursor-pointer'}`}
-                >
-                  <div className="flex items-center space-x-3">
-                    <tool.icon
-                      size={16}
-                      className={tool.active ? 'text-[#00E5FF]' : 'text-white/40'}
-                    />
-                    <span className="text-xs font-medium">{tool.name}</span>
-                  </div>
-                  <div
-                    className={`w-8 h-4 rounded-full relative transition-colors ${tool.active ? 'bg-[#00E5FF]/30' : 'bg-white/10'}`}
-                  >
-                    <div
-                      className={`absolute top-0.5 w-3 h-3 rounded-full transition-transform ${tool.active ? 'bg-[#00E5FF] translate-x-4.5' : 'bg-white/40 translate-x-0.5'}`}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="p-5 border border-red-500/10 bg-red-500/5 rounded-xl">
-            <div className="flex justify-between items-center mb-2">
-              <div className="flex items-center space-x-2 text-red-400">
-                <Shield size={14} />
-                <span className="text-xs font-semibold">Strict Mobile Confirmation</span>
-              </div>
-              <div className="w-8 h-4 rounded-full bg-red-500/30 relative">
-                <div className="absolute top-0.5 w-3 h-3 rounded-full bg-red-500 translate-x-4.5" />
-              </div>
-            </div>
-            <p className="text-[11px] text-white/40 leading-relaxed">
-              Commands requiring `sudo` or file deletion will halt execution and ping the mobile
-              uplink for authorization.
-            </p>
-          </div>
-        </div>
-      </div>
     </motion.div>
   )
 
-  const renderIntegrationsView = () => (
+  const renderSettingsView = () => (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className="flex flex-col items-center justify-center h-full w-full max-w-4xl mx-auto pt-10 pb-32"
+      exit={{ opacity: 0, y: -15 }}
+      className="flex flex-col w-full max-w-4xl mx-auto pt-12 pb-40"
     >
-      <div className="w-full mb-8 text-center">
-        <h2 className="text-2xl font-semibold text-white mb-2">Access & Gateways</h2>
-        <p className="text-sm text-white/40">
-          Manage remote control surfaces and local authorizations.
-        </p>
-      </div>
-
-      <div className="w-full grid grid-cols-2 gap-6">
-        <div className="col-span-2 p-6 rounded-2xl border border-[#00FF9D]/20 bg-[#00FF9D]/5 flex justify-between items-center">
-          <div className="flex items-center space-x-5">
-            <div className="p-4 bg-[#00FF9D]/10 text-[#00FF9D] rounded-xl">
-              <Smartphone size={24} />
-            </div>
-            <div>
-              <h3 className="text-base font-medium text-white mb-1">IRIS Mobile Uplink</h3>
-              <p className="text-xs text-white/50">WSS Tunnel Active • Device: iPhone 15 Pro</p>
-            </div>
-          </div>
-          <span className="text-[10px] font-bold text-[#00FF9D] px-3 py-1.5 border border-[#00FF9D]/30 rounded-lg bg-[#00FF9D]/10">
-            CONNECTED
-          </span>
-        </div>
-
-        {[
-          { name: 'GitHub Local', icon: BsGithub, desc: 'Repository access', status: 'Active' },
-          { name: 'Google Workspace', icon: Mail, desc: 'OAuth token required', status: 'Connect' }
-        ].map((app, i) => (
-          <div
-            key={i}
-            className="p-6 rounded-2xl border border-white/5 bg-[#0A0A0A] hover:border-white/10 transition-colors flex flex-col justify-between h-40"
-          >
-            <div className="flex items-center space-x-4">
-              <div className="p-3 bg-white/5 text-white/70 rounded-xl">
-                <app.icon size={20} />
-              </div>
-              <h3 className="text-sm font-medium">{app.name}</h3>
-            </div>
-            <div className="flex justify-between items-end">
-              <p className="text-xs text-white/40">{app.desc}</p>
-              <button
-                className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border transition-all ${
-                  app.status === 'Active'
-                    ? 'border-white/10 text-white/50 bg-white/5'
-                    : 'border-[#00E5FF]/30 text-[#00E5FF] hover:bg-[#00E5FF]/10'
-                }`}
-              >
-                {app.status}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </motion.div>
-  )
-
-  const renderTelemetryView = () => (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className="flex flex-col h-full w-full max-w-5xl mx-auto pt-10 pb-32"
-    >
-      <div className="grid grid-cols-3 gap-6 mb-8">
-        {[
-          { label: 'Uptime', value: '42:14:05', color: 'text-white' },
-          { label: 'Active Tasks', value: '0', color: 'text-[#00FF9D]' },
-          { label: 'Total Actions', value: '1,204', color: 'text-white' }
-        ].map((stat, i) => (
-          <div
-            key={i}
-            className="p-6 rounded-2xl border border-white/5 bg-[#0A0A0A] flex flex-col items-center justify-center"
-          >
-            <span className="text-[10px] uppercase tracking-widest text-white/40 font-medium mb-2">
-              {stat.label}
-            </span>
-            <span className={`text-3xl font-light font-mono ${stat.color}`}>{stat.value}</span>
-          </div>
-        ))}
-      </div>
-
-      <div className="flex-1 rounded-2xl border border-white/5 bg-[#0A0A0A] flex flex-col overflow-hidden relative">
-        <div className="px-6 py-4 border-b border-white/5 flex justify-between items-center bg-background">
-          <span className="text-xs font-medium text-white/50 flex items-center">
-            <Activity size={14} className="mr-2" /> Headless Execution Log
-          </span>
-          <div className="w-2 h-2 rounded-full bg-[#00FF9D] animate-pulse" />
-        </div>
-        <div className="flex-1 p-6 font-mono text-sm overflow-y-auto space-y-3 opacity-80 text-white/60">
-          <div>
-            <span className="text-white/30">12:45:00</span>{' '}
-            <span className="text-[#00E5FF]">[SYSTEM]</span> WSS tunnel established.
-          </div>
-          <div>
-            <span className="text-white/30">12:45:02</span>{' '}
-            <span className="text-[#00FF9D]">[MOBILE]</span> Payload: "Sync git repo"
-          </div>
-          <div>
-            <span className="text-white/30">12:45:03</span>{' '}
-            <span className="text-white">[GitManager]</span> Executing: git status
-          </div>
-          <div>
-            <span className="text-white/30">12:45:05</span>{' '}
-            <span className="text-white">[GitManager]</span> Executing: git pull origin main
-          </div>
-          <div>
-            <span className="text-white/30">12:45:06</span>{' '}
-            <span className="text-[#00FF9D]">[SYSTEM]</span> Task complete. Standing by.
-          </div>
-          <div className="animate-pulse text-[#00FF9D] pt-2">_</div>
-        </div>
+      <h2 className="text-3xl font-semibold text-white mb-2 tracking-tight">System Settings</h2>
+      <p className="text-sm text-white/40">Platform configuration and API keys.</p>
+      {/* Placeholder for settings */}
+      <div className="mt-10 p-8 rounded-3xl border border-white/10 bg-white/[0.02] flex items-center justify-center h-64 text-white/30 text-sm font-mono tracking-widest">
+        [ SETTINGS MODULE UNAVAILABLE IN SECURE BOOT ]
       </div>
     </motion.div>
   )
 
   return (
     <div className="relative h-screen w-screen bg-[#020202] text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-[#00E5FF]/2 rounded-full blur-[120px] pointer-events-none" />
+      {/* Subtle Background Lighting */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#00E5FF]/[0.02] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-[#00FF9D]/[0.015] rounded-full blur-[150px] pointer-events-none" />
 
-      <div className="h-full w-full px-8 overflow-y-auto">
+      {/* Main Content Render */}
+      <div className="h-full w-full overflow-y-auto px-6">
         <AnimatePresence mode="wait">
-          {activeView === 'agents' && renderAgentsView()}
-          {activeView === 'integrations' && renderIntegrationsView()}
-          {activeView === 'telemetry' && renderTelemetryView()}
+          {activeView === 'apps' && renderAppsView()}
+          {activeView === 'behavior' && renderBehaviorView()}
+          {activeView === 'cron' && renderCronView()}
+          {activeView === 'settings' && renderSettingsView()}
         </AnimatePresence>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50">
-        <div className="flex items-center space-x-2 p-2 rounded-2xl bg-white/3 border border-white/10 backdrop-blur-2xl shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
-          <div className="px-3 flex items-center justify-center border-r border-white/10 mr-1">
-            <div className="w-8 h-8 rounded-full bg-linear-to-br from-[#00FF9D]/20 to-[#00E5FF]/20 flex items-center justify-center border border-white/10 shadow-[0_0_15px_rgba(0,255,157,0.1)]">
-              <Cpu size={16} className="text-[#00FF9D]" />
-            </div>
-          </div>
-
+      {/* FLOATING DOCK */}
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
+        <div className="flex items-center space-x-3 p-3 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
           {[
-            { id: 'agents', icon: Bot, label: 'Agents' },
-            { id: 'integrations', icon: Plug, label: 'Gateways' },
-            { id: 'telemetry', icon: Activity, label: 'Telemetry' }
+            { id: 'apps', icon: Plug, label: 'Gateways' },
+            { id: 'behavior', icon: Cpu, label: 'Behavior' },
+            { id: 'cron', icon: CalendarClock, label: 'Cron Jobs' },
+            { id: 'settings', icon: Settings, label: 'Settings' }
           ].map((item) => {
             const isActive = activeView === item.id
             return (
-              <motion.button
+              <button
                 key={item.id}
                 onClick={() => setActiveView(item.id as ViewState)}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className={`relative group flex flex-col items-center justify-center w-14 h-14 rounded-xl transition-all duration-200 ${
+                className={`relative group flex items-center justify-center w-14 h-14 rounded-2xl transition-all duration-300 ${
                   isActive
-                    ? 'bg-white/10 text-white'
+                    ? 'bg-white/10 text-white shadow-inner'
                     : 'text-white/40 hover:text-white hover:bg-white/5'
                 }`}
               >
-                <item.icon size={22} className="relative z-10" />
+                <item.icon
+                  size={22}
+                  className={`relative z-10 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}
+                />
+
+                {/* Active Indicator Dot */}
                 {isActive && (
                   <motion.div
                     layoutId="activeDot"
-                    className="absolute bottom-1 w-1 h-1 rounded-full bg-[#00FF9D] shadow-[0_0_8px_#00FF9D]"
+                    className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-[#00FF9D] shadow-[0_0_10px_#00FF9D]"
                   />
                 )}
-                <div className="absolute -top-10 scale-0 group-hover:scale-100 transition-transform bg-[#111] border border-white/10 px-3 py-1 rounded-lg text-[10px] font-medium tracking-widest pointer-events-none">
+
+                {/* Tooltip */}
+                <div className="absolute -top-12 scale-0 group-hover:scale-100 transition-transform origin-bottom bg-[#111] border border-white/10 px-3 py-1.5 rounded-xl text-[10px] font-bold tracking-widest text-white/80 pointer-events-none shadow-xl">
                   {item.label}
                 </div>
-              </motion.button>
+              </button>
             )
           })}
-
-          <div className="w-px h-8 bg-white/10 mx-2" />
-
-          <motion.button
-            whileHover={{ scale: 1.05, y: -2 }}
-            className="w-14 h-14 flex items-center justify-center rounded-xl text-white/40 hover:text-white hover:bg-white/5 transition-colors"
-          >
-            <Settings size={22} />
-          </motion.button>
         </div>
       </div>
     </div>
