@@ -15,12 +15,11 @@ export default function ChatConsole() {
     endOfChatRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Auto-resize textarea logic
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 200)}px`; // Max height 200px
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 200)}px`;
     }
   };
 
@@ -32,7 +31,6 @@ export default function ChatConsole() {
     setMessages((prev) => [...prev, userMsg]);
     setInputValue('');
 
-    // Reset textarea height after sending
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
     }
@@ -49,7 +47,6 @@ export default function ChatConsole() {
     }, 1000);
   };
 
-  // Handle Enter to send, Shift+Enter for new line
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
