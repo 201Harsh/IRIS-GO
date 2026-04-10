@@ -2,7 +2,7 @@ import { Activity } from 'lucide-react';
 
 export default function Header() {
   return (
-    <div className="h-14 border-b border-white/5 flex items-center justify-between px-6 bg-[#020202] z-20 relative">
+    <div className="h-14 border-b border-white/5 flex items-center justify-between px-8 py-3 bg-[#020202] z-20 relative">
       <div className="flex items-center space-x-2 font-semibold">
         <Activity size={18} className="text-[#00FF9D]" />
         <span className="tracking-wide text-white">
