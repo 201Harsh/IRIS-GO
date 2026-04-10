@@ -74,7 +74,7 @@ export default function Dashboard() {
           backgroundSize: '40px 40px',
         }}
       />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[#00FF9D]/[0.03] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-150 bg-[#00FF9D]/3 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="w-20 border-r border-[#00FF9D]/10 flex flex-col items-center py-6 bg-[#020202]/80 backdrop-blur-md z-20 shadow-[4px_0_24px_rgba(0,0,0,0.5)]">
         <div className="w-12 h-12 border border-[#00FF9D]/30 rounded-xl flex items-center justify-center bg-[#00FF9D]/10 text-[#00FF9D] font-black tracking-tighter mb-8 shadow-[0_0_15px_rgba(0,255,157,0.15)]">
@@ -106,7 +106,7 @@ export default function Dashboard() {
             </button>
           ))}
         </div>
-        <div className="flex-grow" />
+        <div className="grow" />
         <button className="text-white/30 hover:text-white p-3 transition-colors">
           <Settings size={22} />
         </button>
@@ -119,7 +119,7 @@ export default function Dashboard() {
               <Activity size={16} className="mr-2" /> ENGINE v1.0
             </span>
 
-            <div className="flex items-center space-x-3 hidden sm:flex">
+            <div className="items-center space-x-3 hidden sm:flex">
               <span className="text-white/40">CPU:</span>
               <span className="text-[#00FF9D]">14%</span>
               <div className="w-16 h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/10">
@@ -127,7 +127,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="flex items-center space-x-3 hidden sm:flex">
+            <div className="items-center space-x-3 hidden sm:flex">
               <span className="text-white/40">RAM:</span>
               <span className="text-[#00E5FF]">2.1GB</span>
               <div className="w-16 h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/10">
@@ -143,7 +143,7 @@ export default function Dashboard() {
         </div>
         <div className="flex-1 flex p-6 gap-6 overflow-hidden">
           <div className="flex-1 border border-[#00FF9D]/10 bg-[#050505] rounded-2xl flex flex-col overflow-hidden shadow-2xl relative">
-            <div className="h-10 border-b border-[#00FF9D]/10 bg-white/[0.02] flex items-center px-4 justify-between">
+            <div className="h-10 border-b border-[#00FF9D]/10 bg-white/2 flex items-center px-4 justify-between">
               <div className="flex space-x-2">
                 <div className="w-3 h-3 rounded-full bg-red-500/50 border border-red-500/20" />
                 <div className="w-3 h-3 rounded-full bg-yellow-500/50 border border-yellow-500/20" />
@@ -172,7 +172,7 @@ export default function Dashboard() {
               <div ref={endOfTerminalRef} />
             </div>
 
-            <div className="p-4 border-t border-[#00FF9D]/10 bg-white/[0.01]">
+            <div className="p-4 border-t border-[#00FF9D]/10 bg-white/1]">
               <form
                 onSubmit={handleCommand}
                 className="flex items-center bg-[#020202] border border-white/10 rounded-xl focus-within:border-[#00FF9D]/50 focus-within:shadow-[0_0_15px_rgba(0,255,157,0.1)] transition-all px-2"
