@@ -1,4 +1,17 @@
-# IRISX ⚡
+<div align="center">
+  
+# 🧠 IRIS GO
+**The Headless Neural OS for Visual Automation**
+
+[![Version](https://img.shields.io/badge/Version-1.0.0-00FF9D?style=for-the-badge&logoColor=black)](#)
+[![Architecture](https://img.shields.io/badge/Architecture-IRIS_GO-020202?style=for-the-badge&logoColor=00FF9D&color=020202&labelColor=00FF9D)](#)
+[![License](https://img.shields.io/badge/License-MIT-00FF9D?style=for-the-badge&logoColor=black)](#)
+
+IRIS GO is an enterprise-grade, local AI orchestration engine. It bypasses standard cloud limitations by running a headless Express + Vite middleware monolith directly on your machine, granting autonomous agent squads root-level access to your terminal, file system, and Git workflows.
+
+**[ Watch the Visual Automation Engine in Action ]** _(Insert a high-quality GIF of your terminal chat UI working here)_
+
+</div>
 
 **Agentic AI CLI + SDK for Real-World Automation**
 
@@ -191,11 +204,11 @@ iris ui
 ### Create an Agent
 
 ```ts
-import { createAgent } from "irisx";
+import { createAgent } from 'irisx';
 
 const agent = createAgent({
-  goal: "analyze and optimize codebase",
-  tools: ["fs", "terminal"],
+  goal: 'analyze and optimize codebase',
+  tools: ['fs', 'terminal'],
 });
 
 await agent.run();
@@ -206,10 +219,10 @@ await agent.run();
 ### Create Custom Tool
 
 ```ts
-import { createTool } from "irisx";
+import { createTool } from 'irisx';
 
 export const myTool = createTool({
-  name: "runCommand",
+  name: 'runCommand',
   execute: async ({ command }) => {
     // custom logic
   },
@@ -221,9 +234,9 @@ export const myTool = createTool({
 ### Create Workflow
 
 ```ts
-import { createWorkflow } from "irisx";
+import { createWorkflow } from 'irisx';
 
-const workflow = createWorkflow(["analyze", "plan", "execute"]);
+const workflow = createWorkflow(['analyze', 'plan', 'execute']);
 
 await workflow.run();
 ```
