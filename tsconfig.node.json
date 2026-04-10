@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "composite": true,
+    "types": ["node"]
+  },
+  "include": [
+    "src/kernel/**/*",
+    "index.ts",
+    "app.ts",
+    "cli.ts",
+    "iris.vite.config.ts"
+  ]
+}   
