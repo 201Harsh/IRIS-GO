@@ -108,7 +108,7 @@ export default function ChatConsole() {
             onKeyDown={handleKeyDown}
             rows={1}
             placeholder="Ask IRIS to execute a task..."
-            className="flex-1 bg-transparent text-white placeholder-white/30 outline-none py-2 px-3 text-sm resize-none custom-scrollbar overflow-y-auto max-h-[200px]"
+            className="flex-1 bg-transparent text-white placeholder-white/30 outline-none py-2 px-3 text-sm resize-none custom-scrollbar overflow-y-auto max-h-50"
           />
           <button
             type="submit"
