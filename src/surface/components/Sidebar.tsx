@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, Network, Settings } from 'lucide-react';
 import { GiGearStick } from 'react-icons/gi';
