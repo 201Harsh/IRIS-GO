@@ -15,6 +15,7 @@
     "skipLibCheck": true,
     "composite": true,
     "baseUrl": ".",
+    "noUnusedLocals": true,
     "paths": {
       "@surface/*": ["src/surface/*"]
     }

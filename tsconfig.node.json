@@ -11,6 +11,7 @@
     "outDir": "./dist",
     "rootDir": ".",
     "composite": true,
+    "noUnusedLocals": true,
     "types": ["node"]
   },
   "include": [
@@ -20,4 +21,4 @@
     "cli.ts",
     "iris.vite.config.ts"
   ]
-}   
+}
