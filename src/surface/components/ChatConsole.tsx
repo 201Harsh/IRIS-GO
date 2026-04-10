@@ -1,159 +1,108 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Cpu, ShieldAlert, Send, Command, GitBranch, FolderCode } from 'lucide-react';
+import { Send, Bot, User } from 'lucide-react';
 
-export default function TerminalConsole() {
+export default function ChatConsole() {
   const [inputValue, setInputValue] = useState('');
-  const endOfTerminalRef = useRef<HTMLDivElement>(null);
+  const endOfChatRef = useRef<HTMLDivElement>(null);
 
-  const [logs, setLogs] = useState([
-    {
-      time: '00:00:01',
-      source: 'SYSTEM',
-      text: 'Kernel initialized. WSS tunnel active.',
-      color: 'text-[#00FF9D]',
-    },
-    {
-      time: '00:00:02',
-      source: 'ORCHESTRATOR',
-      text: 'Awaiting mobile payload...',
-      color: 'text-white/50',
-    },
+  // Chat-style state
+  const [messages, setMessages] = useState([
+    { id: 1, role: 'system', text: 'IRIS Engine initialized. How can I help you automate today?' },
   ]);
 
   useEffect(() => {
-    endOfTerminalRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [logs]);
+    endOfChatRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
-  const handleCommand = (e: React.FormEvent) => {
+  const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
-    const newLog = {
-      time: new Date().toLocaleTimeString('en-US', { hour12: false }),
-      source: 'USER',
-      text: inputValue,
-      color: 'text-white',
-    };
-
-    setLogs((prev) => [...prev, newLog]);
+    // Add user message
+    const userMsg = { id: Date.now(), role: 'user', text: inputValue };
+    setMessages((prev) => [...prev, userMsg]);
     setInputValue('');
 
+    // Simulate AI response
     setTimeout(() => {
-      setLogs((prev) => [
+      setMessages((prev) => [
         ...prev,
         {
-          time: new Date().toLocaleTimeString('en-US', { hour12: false }),
-          source: 'EXECUTOR',
-          text: `Executing local tool: [fs.readFile] on workspace...`,
-          color: 'text-[#00E5FF]',
+          id: Date.now() + 1,
+          role: 'system',
+          text: 'Executing that workflow now. I have synced the repository and updated the local files.',
         },
       ]);
-    }, 600);
+    }, 1000);
   };
 
   return (
-    <div className="flex-1 flex p-6 gap-6 overflow-hidden">
-      {/* Left: Terminal */}
-      <div className="flex-1 border border-[#00FF9D]/10 bg-[#050505] rounded-2xl flex flex-col overflow-hidden shadow-2xl relative">
-        <div className="h-10 border-b border-[#00FF9D]/10 bg-white/2 flex items-center px-4 justify-between">
-          <div className="flex space-x-2">
-            <div className="w-3 h-3 rounded-full bg-red-500/50 border border-red-500/20" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500/50 border border-yellow-500/20" />
-            <div className="w-3 h-3 rounded-full bg-green-500/50 border border-green-500/20" />
-          </div>
-          <span className="text-[10px] font-bold text-white/30 tracking-widest">
-            LOCAL EXECUTION LOG
-          </span>
-        </div>
-
-        <div className="flex-1 p-6 overflow-y-auto custom-scrollbar font-mono text-xs leading-relaxed space-y-3">
-          <AnimatePresence>
-            {logs.map((log, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="flex items-start space-x-4"
-              >
-                <span className="text-white/20 shrink-0">{log.time}</span>
-                <span className={`w-24 shrink-0 font-bold ${log.color}`}>[{log.source}]</span>
-                <span className="text-white/80 whitespace-pre-wrap">{log.text}</span>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-          <div ref={endOfTerminalRef} />
-        </div>
-
-        <div className="p-4 border-t border-[#00FF9D]/10 bg-white/1]">
-          <form
-            onSubmit={handleCommand}
-            className="flex items-center bg-[#020202] border border-white/10 rounded-xl focus-within:border-[#00FF9D]/50 focus-within:shadow-[0_0_15px_rgba(0,255,157,0.1)] transition-all px-2"
-          >
-            <Command size={16} className="text-[#00FF9D]/50 ml-3" />
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Inject payload..."
-              className="flex-1 bg-transparent text-white placeholder-white/20 outline-none py-3 px-4 text-sm font-mono"
-            />
-            <button
-              type="submit"
-              disabled={!inputValue.trim()}
-              className="p-2 mr-1 text-[#00FF9D] disabled:text-white/10 hover:bg-[#00FF9D]/10 rounded-lg transition-colors"
+    <div className="flex-1 flex flex-col h-full bg-transparent max-w-4xl mx-auto w-full">
+      {/* Chat Messages Area */}
+      <div className="flex-1 p-4 md:p-8 overflow-y-auto custom-scrollbar space-y-6">
+        <AnimatePresence>
+          {messages.map((msg) => (
+            <motion.div
+              key={msg.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <Send size={16} />
-            </button>
-          </form>
-        </div>
+              <div
+                className={`flex max-w-[85%] md:max-w-[75%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
+              >
+                {/* Avatar */}
+                <div
+                  className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-auto ${
+                    msg.role === 'user' ? 'bg-white/10 ml-3' : 'bg-[#00FF9D]/10 text-[#00FF9D] mr-3'
+                  }`}
+                >
+                  {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
+                </div>
+
+                {/* Message Bubble */}
+                <div
+                  className={`p-4 rounded-2xl text-sm leading-relaxed ${
+                    msg.role === 'user'
+                      ? 'bg-white/10 text-white rounded-br-sm'
+                      : 'bg-[#00FF9D]/5 border border-[#00FF9D]/20 text-white/90 rounded-bl-sm shadow-[0_4px_20px_rgba(0,255,157,0.05)]'
+                  }`}
+                >
+                  {msg.text}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+        <div ref={endOfChatRef} className="h-4" />
       </div>
 
-      {/* Right: Context Panels */}
-      <div className="w-80 flex flex-col space-y-6">
-        <div className="p-5 border border-[#00FF9D]/10 bg-[#050505] rounded-2xl">
-          <h3 className="text-[10px] text-white/50 font-bold tracking-widest mb-4 flex items-center border-b border-white/5 pb-2">
-            <Cpu size={14} className="mr-2 text-[#00FF9D]" /> ORCHESTRATOR STATUS
-          </h3>
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <span className="text-xs text-white/60">Current Goal</span>
-              <span className="text-[10px] text-[#00FF9D] bg-[#00FF9D]/10 px-2 py-1 rounded">
-                IDLE
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-xs text-white/60">Sub-Agents</span>
-              <span className="text-xs font-bold text-white">3 Deployed</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex-1 p-5 border border-white/5 bg-[#050505] rounded-2xl">
-          <h3 className="text-[10px] text-white/50 font-bold tracking-widest mb-4 flex items-center border-b border-white/5 pb-2">
-            <ShieldAlert size={14} className="mr-2 text-[#00E5FF]" /> AUTHORIZED TOOLS
-          </h3>
-          <div className="space-y-3">
-            {[
-              { name: 'Local Terminal', icon: Terminal, active: true },
-              { name: 'File System R/W', icon: FolderCode, active: true },
-              { name: 'Git Operations', icon: GitBranch, active: true },
-            ].map((tool, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between p-3 rounded-xl border border-white/5 bg-[#020202]"
-              >
-                <div className="flex items-center space-x-3">
-                  <tool.icon
-                    size={16}
-                    className={tool.active ? 'text-[#00FF9D]' : 'text-white/20'}
-                  />
-                  <span className="text-xs font-medium text-white/80">{tool.name}</span>
-                </div>
-                <div className="w-2 h-2 rounded-full bg-[#00FF9D] shadow-[0_0_8px_#00FF9D]" />
-              </div>
-            ))}
-          </div>
+      {/* Input Bar */}
+      <div className="p-4 md:p-8 pt-0">
+        <form
+          onSubmit={handleSend}
+          className="flex items-center bg-[#050505] border border-white/10 rounded-2xl focus-within:border-[#00FF9D]/50 focus-within:ring-1 focus-within:ring-[#00FF9D]/50 transition-all p-1 shadow-lg"
+        >
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Ask IRIS to execute a task..."
+            className="flex-1 bg-transparent text-white placeholder-white/30 outline-none py-3 px-4 text-sm"
+          />
+          <button
+            type="submit"
+            disabled={!inputValue.trim()}
+            className="p-3 bg-[#00FF9D]/10 text-[#00FF9D] disabled:opacity-30 disabled:text-white/50 hover:bg-[#00FF9D]/20 rounded-xl transition-colors m-1"
+          >
+            <Send size={18} className="ml-1" />
+          </button>
+        </form>
+        <div className="text-center mt-3">
+          <span className="text-[10px] text-white/30 tracking-wider">
+            IRIS GO Engine has root access to authorized tools.
+          </span>
         </div>
       </div>
     </div>
