@@ -26,13 +26,11 @@ export default function Sidebar({
 
   const handleNavClick = (id: string) => {
     setActiveTab(id);
-    // Auto-close mobile menu when an item is clicked
     if (isMobileMenuOpen) setIsMobileMenuOpen(false);
   };
 
   return (
     <>
-      {/* Mobile Backdrop Overlay */}
       {isMobileMenuOpen && (
         <div
           className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
@@ -40,7 +38,6 @@ export default function Sidebar({
         />
       )}
 
-      {/* The Sidebar / Drawer */}
       <div
         className={`
           fixed md:relative top-0 left-0 h-full z-50
@@ -50,9 +47,7 @@ export default function Sidebar({
           border-r border-white/5 flex flex-col items-start py-6 bg-[#020202]/95 backdrop-blur-xl shadow-2xl md:shadow-none
         `}
       >
-        {/* Header/Toggle Area */}
         <div className="w-full flex items-center justify-between px-5 mb-8">
-          {/* Desktop Expand Toggle / Mobile Logo */}
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="flex items-center space-x-3 cursor-pointer outline-none pointer-events-auto md:pointer-events-auto pointer-events-none"
@@ -61,7 +56,6 @@ export default function Sidebar({
               IG
             </div>
 
-            {/* Show text if expanded on desktop, or ALWAYS show on mobile drawer */}
             <AnimatePresence>
               {(isExpanded || isMobileMenuOpen) && (
                 <motion.span
@@ -76,7 +70,6 @@ export default function Sidebar({
             </AnimatePresence>
           </button>
 
-          {/* Desktop Collapse Button */}
           {isExpanded && !isMobileMenuOpen && (
             <button
               onClick={() => setIsExpanded(false)}
@@ -86,7 +79,6 @@ export default function Sidebar({
             </button>
           )}
 
-          {/* Mobile Close Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(false)}
             className="md:hidden text-white/50 hover:text-white p-2"
@@ -95,7 +87,6 @@ export default function Sidebar({
           </button>
         </div>
 
-        {/* Navigation Items */}
         <div className="flex flex-col space-y-2 w-full items-start px-3">
           {navItems.map((item) => (
             <button
@@ -135,7 +126,6 @@ export default function Sidebar({
 
         <div className="flex grow" />
 
-        {/* Settings Button */}
         <div className="flex w-full px-3">
           <button
             className={`flex items-center text-white/40 hover:text-white px-4 py-3 w-full rounded-xl hover:bg-white/5 transition-colors ${isExpanded || isMobileMenuOpen ? 'justify-start' : 'justify-center'}`}
