@@ -24,7 +24,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           <button
             key={item.id}
             onClick={() => setActiveTab(item.id)}
-            className={`relative group p-3 rounded-xl transition-all duration-300 ${
+            className={`cursor-pointer relative group p-3 rounded-xl transition-all duration-300 ${
               activeTab === item.id
                 ? 'bg-[#00FF9D]/10 text-[#00FF9D]'
                 : 'text-white/40 hover:text-white hover:bg-white/5'
