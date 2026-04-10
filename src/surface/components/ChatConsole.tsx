@@ -6,7 +6,6 @@ export default function ChatConsole() {
   const [inputValue, setInputValue] = useState('');
   const endOfChatRef = useRef<HTMLDivElement>(null);
 
-  // Chat-style state
   const [messages, setMessages] = useState([
     { id: 1, role: 'system', text: 'IRIS Engine initialized. How can I help you automate today?' },
   ]);
@@ -19,12 +18,10 @@ export default function ChatConsole() {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
-    // Add user message
     const userMsg = { id: Date.now(), role: 'user', text: inputValue };
     setMessages((prev) => [...prev, userMsg]);
     setInputValue('');
 
-    // Simulate AI response
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
@@ -39,7 +36,6 @@ export default function ChatConsole() {
 
   return (
     <div className="flex-1 flex flex-col h-full bg-transparent max-w-4xl mx-auto w-full">
-      {/* Chat Messages Area */}
       <div className="flex-1 p-4 md:p-8 overflow-y-auto custom-scrollbar space-y-6">
         <AnimatePresence>
           {messages.map((msg) => (
@@ -52,7 +48,6 @@ export default function ChatConsole() {
               <div
                 className={`flex max-w-[85%] md:max-w-[75%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
               >
-                {/* Avatar */}
                 <div
                   className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-auto ${
                     msg.role === 'user' ? 'bg-white/10 ml-3' : 'bg-[#00FF9D]/10 text-[#00FF9D] mr-3'
@@ -61,7 +56,6 @@ export default function ChatConsole() {
                   {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
                 </div>
 
-                {/* Message Bubble */}
                 <div
                   className={`p-4 rounded-2xl text-sm leading-relaxed ${
                     msg.role === 'user'
@@ -78,7 +72,6 @@ export default function ChatConsole() {
         <div ref={endOfChatRef} className="h-4" />
       </div>
 
-      {/* Input Bar */}
       <div className="p-4 md:p-8 pt-0">
         <form
           onSubmit={handleSend}
