@@ -56,7 +56,6 @@ export default function ChatConsole() {
 
   return (
     <div className="flex-1 flex flex-col h-full bg-transparent max-w-4xl mx-auto w-full">
-      {/* Chat History */}
       <div className="flex-1 p-4 md:p-8 overflow-y-auto custom-scrollbar space-y-6">
         <AnimatePresence>
           {messages.map((msg) => (
@@ -94,13 +93,11 @@ export default function ChatConsole() {
         <div className="h-20"></div>
       </div>
 
-      {/* Input Tray */}
       <div className="p-4 pb-6 md:p-8 pt-0 relative w-full">
         <form
           onSubmit={handleSend}
           className="flex flex-col bg-[#1A1A1A] border border-white/10 rounded-3xl focus-within:border-[#00FF9D]/50 focus-within:ring-1 focus-within:ring-[#00FF9D]/50 transition-all p-3 md:p-4 shadow-2xl"
         >
-          {/* Top: Auto-resizing Textarea */}
           <textarea
             ref={textareaRef}
             value={inputValue}
@@ -111,9 +108,7 @@ export default function ChatConsole() {
             className="w-full bg-transparent text-white placeholder-white/40 outline-none p-1 text-sm resize-none custom-scrollbar overflow-y-auto max-h-[200px]"
           />
 
-          {/* Bottom: Action Bar */}
           <div className="flex items-center justify-between mt-3 pt-1 w-full">
-            {/* Left Actions */}
             <div className="flex items-center space-x-4 text-white/50">
               <button
                 type="button"
@@ -130,7 +125,6 @@ export default function ChatConsole() {
               </button>
             </div>
 
-            {/* Right Actions */}
             <div className="flex items-center space-x-4">
               <button
                 type="button"
@@ -158,7 +152,6 @@ export default function ChatConsole() {
           </div>
         </form>
 
-        {/* Footer Text */}
         <div className="text-center mt-3">
           <span className="text-[10px] text-white/30 tracking-wider">
             IRIS GO Engine has root access to authorized tools.
