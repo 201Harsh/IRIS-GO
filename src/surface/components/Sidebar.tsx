@@ -9,7 +9,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const navItems = [
     { id: 'console', icon: MessageSquare, label: 'Chat' },
