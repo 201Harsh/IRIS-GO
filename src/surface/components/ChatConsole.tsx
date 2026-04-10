@@ -49,7 +49,7 @@ export default function ChatConsole() {
                 className={`flex max-w-[85%] md:max-w-[75%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
               >
                 <div
-                  className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-auto ${
+                  className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-auto ${
                     msg.role === 'user' ? 'bg-white/10 ml-3' : 'bg-[#00FF9D]/10 text-[#00FF9D] mr-3'
                   }`}
                 >
