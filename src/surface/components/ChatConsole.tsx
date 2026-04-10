@@ -72,7 +72,7 @@ export default function ChatConsole() {
         <div ref={endOfChatRef} className="h-4" />
       </div>
 
-      <div className="p-4 md:p-8 pt-0">
+      <div className="p-4 pb-10 md:p-8 pt-0">
         <form
           onSubmit={handleSend}
           className="flex items-center bg-[#050505] border border-white/10 rounded-2xl focus-within:border-[#00FF9D]/50 focus-within:ring-1 focus-within:ring-[#00FF9D]/50 transition-all p-1 shadow-lg"
