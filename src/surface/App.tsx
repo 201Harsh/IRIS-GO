@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
-import TerminalConsole from './components/TerminalConsole';
+import TerminalConsole from './components/ChatConsole';
 import Gateways from './components/Gateways';
 import SystemConfig from './components/SystemConfig';
 
