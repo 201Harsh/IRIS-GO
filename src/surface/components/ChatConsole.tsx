@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Bot, User } from 'lucide-react';
+import { Send, Bot, User, Plus, SlidersHorizontal, ChevronDown } from 'lucide-react';
 
 export default function ChatConsole() {
   const [inputValue, setInputValue] = useState('');
@@ -56,6 +56,7 @@ export default function ChatConsole() {
 
   return (
     <div className="flex-1 flex flex-col h-full bg-transparent max-w-4xl mx-auto w-full">
+      {/* Chat History */}
       <div className="flex-1 p-4 md:p-8 overflow-y-auto custom-scrollbar space-y-6">
         <AnimatePresence>
           {messages.map((msg) => (
@@ -90,31 +91,61 @@ export default function ChatConsole() {
           ))}
         </AnimatePresence>
         <div ref={endOfChatRef} className="h-4" />
-        <div className="h-40"></div>
+        <div className="h-20"></div>
       </div>
 
-      <div className="p-4 pb-10 md:p-8 pt-0">
+      {/* Input Tray */}
+      <div className="p-4 pb-6 md:p-8 pt-0 relative">
         <form
           onSubmit={handleSend}
-          className="flex items-end bg-[#050505] border border-white/10 rounded-2xl focus-within:border-[#00FF9D]/50 focus-within:ring-1 focus-within:ring-[#00FF9D]/50 transition-all p-2 shadow-lg"
+          className="flex items-end bg-[#1A1A1A]/80 backdrop-blur-md border border-white/10 rounded-3xl focus-within:border-[#00FF9D]/50 focus-within:ring-1 focus-within:ring-[#00FF9D]/50 transition-all p-2 px-4 shadow-2xl"
         >
+          {/* Left Actions (Plus & Tools) */}
+          <div className="flex items-center space-x-4 mb-2 mr-2 text-white/40">
+            <button type="button" className="hover:text-white transition-colors cursor-pointer">
+              <Plus size={22} />
+            </button>
+            <button
+              type="button"
+              className="flex items-center space-x-1.5 hover:text-white transition-colors cursor-pointer"
+            >
+              <SlidersHorizontal size={18} />
+              <span className="text-sm font-medium">Tools</span>
+            </button>
+          </div>
+
+          {/* Auto-resizing Textarea */}
           <textarea
             ref={textareaRef}
             value={inputValue}
             onChange={handleInput}
             onKeyDown={handleKeyDown}
-            rows={2}
+            rows={1}
             placeholder="Ask IRIS to execute a task..."
-            className="flex-1 bg-transparent text-white placeholder-white/30 outline-none py-2 px-3 text-sm resize-none custom-scrollbar overflow-y-auto max-h-50"
+            className="flex-1 bg-transparent text-white placeholder-white/30 outline-none py-2.5 px-2 text-sm resize-none custom-scrollbar overflow-y-auto max-h-[200px]"
           />
-          <button
-            type="submit"
-            disabled={!inputValue.trim()}
-            className="cursor-pointer p-4 mb-1 bg-[#00FF9D]/10 text-[#00FF9D] disabled:opacity-30 disabled:text-white/50 hover:bg-[#00FF9D]/20 rounded-xl transition-colors ml-2"
-          >
-            <Send size={18} />
-          </button>
+
+          {/* Right Actions (Pro & Send) */}
+          <div className="flex items-center space-x-4 mb-2 ml-2">
+            <button
+              type="button"
+              className="flex items-center space-x-1 text-white/40 hover:text-white transition-colors cursor-pointer"
+            >
+              <span className="text-sm font-medium">Pro</span>
+              <ChevronDown size={14} />
+            </button>
+
+            <button
+              type="submit"
+              disabled={!inputValue.trim()}
+              className="cursor-pointer text-white disabled:text-white/20 hover:text-[#00FF9D] transition-colors"
+            >
+              <Send size={20} className={inputValue.trim() ? 'text-[#00FF9D]' : ''} />
+            </button>
+          </div>
         </form>
+
+        {/* Footer Text */}
         <div className="text-center mt-3">
           <span className="text-[10px] text-white/30 tracking-wider">
             IRIS GO Engine has root access to authorized tools.
