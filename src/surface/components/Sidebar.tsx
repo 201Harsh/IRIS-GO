@@ -16,7 +16,7 @@ export default function Sidebar({
   isMobileMenuOpen,
   setIsMobileMenuOpen,
 }: SidebarProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const navItems = [
     { id: 'console', icon: MessageSquare, label: 'Chat' },
@@ -128,7 +128,7 @@ export default function Sidebar({
 
         <div className="flex w-full px-3">
           <button
-            className={`flex items-center text-white/40 hover:text-white px-4 py-3 w-full rounded-xl hover:bg-white/5 transition-colors ${isExpanded || isMobileMenuOpen ? 'justify-start' : 'justify-center'}`}
+            className={`cursor-pointer flex items-center text-white/40 hover:text-white px-4 py-3 w-full rounded-xl hover:bg-white/5 transition-colors ${isExpanded || isMobileMenuOpen ? 'justify-start' : 'justify-center'}`}
           >
             <Settings size={22} className="shrink-0" />
             <AnimatePresence>
