@@ -8,9 +8,7 @@ interface HeaderProps {
 export default function Header({ onMenuClick }: HeaderProps) {
   return (
     <div className="h-16 border-b border-[#00FF9D]/10 flex items-center justify-between px-4 md:px-6 bg-[#020202]/80 backdrop-blur-xl z-20 sticky top-0 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
-      {/* Left: Hamburger Menu (Mobile) + Model Selector */}
       <div className="flex items-center space-x-3">
-        {/* Mobile Hamburger Button */}
         <button
           onClick={onMenuClick}
           className="md:hidden p-2 -ml-2 text-white/50 hover:text-white transition-colors cursor-pointer"
@@ -18,18 +16,12 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <Menu size={22} />
         </button>
 
-        <button className="flex items-center space-x-3 bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 hover:border-white/10 px-3 md:px-4 py-2 rounded-xl transition-all cursor-pointer group">
-          <div className="flex items-center">
-            <span className="text-white font-bold tracking-wider text-sm">IRIS</span>
-            <span className="text-[#00FF9D] font-mono text-[9px] font-bold tracking-widest ml-2 bg-[#00FF9D]/10 px-1.5 py-0.5 rounded border border-[#00FF9D]/20 uppercase">
-              v1.0 Local
-            </span>
-          </div>
-          <ChevronDown
-            size={14}
-            className="text-white/30 group-hover:text-white transition-colors"
-          />
-        </button>
+        <div className="flex items-center">
+          <span className="text-white font-bold tracking-wider text-sm">IRIS</span>
+          <span className="text-[#00FF9D] font-mono text-[9px] font-bold tracking-widest ml-2 bg-[#00FF9D]/10 px-1.5 py-0.5 rounded border border-[#00FF9D]/20 uppercase">
+            v1.0 Local
+          </span>
+        </div>
       </div>
 
       {/* Right: Telemetry & Status */}
