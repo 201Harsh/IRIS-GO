@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* Custom Scrollbar for the Dashboard */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
