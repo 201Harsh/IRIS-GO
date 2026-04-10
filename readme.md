@@ -4,7 +4,7 @@
 **The Headless Neural OS for Visual Automation**
 
 [![Version](https://img.shields.io/badge/Version-1.0.0-006400?style=for-the-badge&logoColor=black)](#)
-[![Architecture](https://img.shields.io/badge/Architecture-Vite_Middleware-000000?style=for-the-badge&logoColor=006400&labelcolor=000000&labelColor=006400)](#)
+[![Architecture](https://img.shields.io/badge/Architecture-IRIS_GO-000000?style=for-the-badge&logoColor=006400&labelcolor=000000&labelColor=006400)](#)
 [![License](https://img.shields.io/badge/License-MIT-006400?style=for-the-badge&logoColor=black)](#)
 
 IRIS GO is an enterprise-grade, local AI orchestration engine. It bypasses standard cloud limitations by running a headless Express + Vite middleware monolith directly on your machine, granting autonomous agent squads root-level access to your terminal, file system, and Git workflows.
@@ -54,16 +54,19 @@ iris "analyze this repo and fix the typescript errors"
 ```
 
 ### 🧩 Tools
+
 - File system access
 - Terminal execution
 - Browser automation
 - Custom SDK tools
 
 ### 🧠 Local Runtime
+
 - Runs on your machine
 - No cloud dependency
 
 ### 🔄 Workflows
+
 - JSON / programmatic automation
 
 ---
@@ -97,7 +100,7 @@ import { createAgent } from '@iris/go';
 
 const agent = createAgent({
   goal: 'optimize code',
-  tools: ['fs', 'terminal']
+  tools: ['fs', 'terminal'],
 });
 
 await agent.run();
@@ -115,21 +118,25 @@ docker-compose up -d
 ---
 
 ## 🧠 Philosophy
+
 Execution > Conversation  
 Local-first  
-Developer-first  
+Developer-first
 
 ---
 
 ## ⚠️ Disclaimer
+
 Use responsibly. System-level execution enabled.
 
 ---
 
 ## 👨‍💻 Author
+
 Harsh Pandey
 
 ---
 
 ## 📜 License
+
 MIT
