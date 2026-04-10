@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function App() {
   return (
     <div className="flex flex-col items-center justify-center h-screen w-screen bg-[#020202] text-[#00FF9D] font-mono relative overflow-hidden">
