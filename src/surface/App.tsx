@@ -23,17 +23,13 @@ export default function App() {
 
   return (
     <div className="flex h-[100dvh] w-screen bg-[#020202] text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black relative">
-      {/* Subtle Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#00FF9D]/[0.02] rounded-full blur-[100px] pointer-events-none" />
 
-      {/* Sidebar (Side on Desktop, Bottom on Mobile) */}
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      {/* Main Content Area */}
       <div className="flex-1 flex flex-col relative z-10 w-full md:pb-0 pb-16">
         <Header />
 
-        {/* Render Tab Content */}
         <div className="flex-1 overflow-hidden relative">{renderContent()}</div>
       </div>
     </div>
