@@ -19,7 +19,6 @@ export default function Dashboard() {
   const [inputValue, setInputValue] = useState('');
   const endOfTerminalRef = useRef<HTMLDivElement>(null);
 
-  // Simulated Visual Automation Logs
   const [logs, setLogs] = useState([
     {
       time: '00:00:01',
@@ -35,7 +34,6 @@ export default function Dashboard() {
     },
   ]);
 
-  // Auto-scroll terminal
   useEffect(() => {
     endOfTerminalRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [logs]);
@@ -54,7 +52,6 @@ export default function Dashboard() {
     setLogs((prev) => [...prev, newLog]);
     setInputValue('');
 
-    // Simulate Orchestrator delegating to Executor
     setTimeout(() => {
       setLogs((prev) => [
         ...prev,
@@ -70,7 +67,6 @@ export default function Dashboard() {
 
   return (
     <div className="flex h-screen w-screen bg-[#020202] text-white font-mono overflow-hidden selection:bg-[#00FF9D] selection:text-black">
-      {/* Background Mesh/Glow */}
       <div
         className="absolute inset-0 z-0 pointer-events-none opacity-20"
         style={{
@@ -80,7 +76,6 @@ export default function Dashboard() {
       />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[#00FF9D]/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
-      {/* SIDEBAR: Navigation */}
       <div className="w-20 border-r border-[#00FF9D]/10 flex flex-col items-center py-6 bg-[#020202]/80 backdrop-blur-md z-20 shadow-[4px_0_24px_rgba(0,0,0,0.5)]">
         <div className="w-12 h-12 border border-[#00FF9D]/30 rounded-xl flex items-center justify-center bg-[#00FF9D]/10 text-[#00FF9D] font-black tracking-tighter mb-8 shadow-[0_0_15px_rgba(0,255,157,0.15)]">
           IG
@@ -117,9 +112,7 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col relative z-10">
-        {/* HEADER: Telemetry & Status */}
         <div className="h-14 border-b border-[#00FF9D]/10 flex items-center justify-between px-8 bg-[#020202]/80 backdrop-blur-md">
           <div className="flex items-center space-x-8 text-[11px] tracking-widest font-bold">
             <span className="text-[#00FF9D] text-sm flex items-center">
@@ -148,10 +141,7 @@ export default function Dashboard() {
             <span>MIDDLEWARE: ACTIVE</span>
           </div>
         </div>
-
-        {/* WORKSPACE: Visual Automation Console */}
         <div className="flex-1 flex p-6 gap-6 overflow-hidden">
-          {/* Left: Live Terminal Feed */}
           <div className="flex-1 border border-[#00FF9D]/10 bg-[#050505] rounded-2xl flex flex-col overflow-hidden shadow-2xl relative">
             <div className="h-10 border-b border-[#00FF9D]/10 bg-white/[0.02] flex items-center px-4 justify-between">
               <div className="flex space-x-2">
@@ -182,7 +172,6 @@ export default function Dashboard() {
               <div ref={endOfTerminalRef} />
             </div>
 
-            {/* Command Input Tray */}
             <div className="p-4 border-t border-[#00FF9D]/10 bg-white/[0.01]">
               <form
                 onSubmit={handleCommand}
@@ -207,9 +196,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Right: Active Tools / Context */}
           <div className="w-80 flex flex-col space-y-6">
-            {/* Context Card */}
             <div className="p-5 border border-[#00FF9D]/10 bg-[#050505] rounded-2xl">
               <h3 className="text-[10px] text-white/50 font-bold tracking-widest mb-4 flex items-center border-b border-white/5 pb-2">
                 <Cpu size={14} className="mr-2 text-[#00FF9D]" /> ORCHESTRATOR STATUS
@@ -228,7 +215,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Allowed Capabilities */}
             <div className="flex-1 p-5 border border-white/5 bg-[#050505] rounded-2xl">
               <h3 className="text-[10px] text-white/50 font-bold tracking-widest mb-4 flex items-center border-b border-white/5 pb-2">
                 <ShieldAlert size={14} className="mr-2 text-[#00E5FF]" /> AUTHORIZED TOOLS
