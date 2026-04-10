@@ -12,12 +12,10 @@ export async function createApp() {
   app.use(cors());
   app.use(express.json());
 
-  // --- KERNEL API ROUTES ---
   app.get("/api/health", (req, res) => {
     res.json({ status: "IRIS_ENGINE_ONLINE", mode: process.env.NODE_ENV });
   });
 
-  // --- SURFACE UI ROUTING ---
   const isProd = process.env.NODE_ENV === "production";
 
   if (!isProd) {
