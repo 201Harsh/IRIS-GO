@@ -103,16 +103,16 @@ export default function ChatConsole() {
             value={inputValue}
             onChange={handleInput}
             onKeyDown={handleKeyDown}
-            rows={1}
+            rows={2}
             placeholder="Ask IRIS to execute a task..."
             className="flex-1 bg-transparent text-white placeholder-white/30 outline-none py-2 px-3 text-sm resize-none custom-scrollbar overflow-y-auto max-h-50"
           />
           <button
             type="submit"
             disabled={!inputValue.trim()}
-            className="p-2 mb-0.5 bg-[#00FF9D]/10 text-[#00FF9D] disabled:opacity-30 disabled:text-white/50 hover:bg-[#00FF9D]/20 rounded-xl transition-colors ml-2"
+            className="cursor-pointer p-4 mb-1 bg-[#00FF9D]/10 text-[#00FF9D] disabled:opacity-30 disabled:text-white/50 hover:bg-[#00FF9D]/20 rounded-xl transition-colors ml-2"
           >
-            <Send size={18} className="ml-1" />
+            <Send size={18} />
           </button>
         </form>
         <div className="text-center mt-3">
