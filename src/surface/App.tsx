@@ -8,7 +8,6 @@ import SystemConfig from './components/SystemConfig';
 export default function App() {
   const [activeTab, setActiveTab] = useState('console');
 
-  // NEW: State to control the mobile sidebar drawer
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const renderContent = () => {
@@ -26,10 +25,8 @@ export default function App() {
 
   return (
     <div className="flex h-[100dvh] w-screen bg-[#020202] text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black relative">
-      {/* Subtle Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#00FF9D]/[0.02] rounded-full blur-[100px] pointer-events-none" />
 
-      {/* Sidebar now receives mobile menu state */}
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -38,7 +35,6 @@ export default function App() {
       />
 
       <div className="flex-1 flex flex-col relative z-10 w-full">
-        {/* Header now receives a function to open the menu */}
         <Header onMenuClick={() => setIsMobileMenuOpen(true)} />
 
         <div className="flex-1 overflow-hidden relative">{renderContent()}</div>
