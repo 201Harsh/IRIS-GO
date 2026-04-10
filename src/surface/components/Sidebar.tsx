@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Network, Settings, PanelLeftClose } from 'lucide-react';
 import { GiGearStick } from 'react-icons/gi';
@@ -9,7 +9,6 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
-  // State to handle slideable sidebar on desktop
   const [isExpanded, setIsExpanded] = useState(false);
 
   const navItems = [
@@ -24,7 +23,6 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
         isExpanded ? 'md:w-64' : 'md:w-20'
       } w-full md:h-full h-16 border-t md:border-t-0 md:border-r border-white/5 flex md:flex-col flex-row items-center md:items-start justify-around md:justify-start md:py-6 bg-[#020202]/90 backdrop-blur-xl z-30 absolute md:relative bottom-4 md:bottom-0`}
     >
-      {/* Desktop Header/Toggle */}
       <div className="hidden md:flex w-full items-center justify-between px-5 mb-8">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
