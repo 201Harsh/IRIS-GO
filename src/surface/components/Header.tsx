@@ -1,5 +1,4 @@
-import React from 'react';
-import { ChevronDown, Activity, ShieldCheck, Menu } from 'lucide-react';
+import { Activity, ShieldCheck, Menu } from 'lucide-react';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -26,7 +25,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
       {/* Right: Telemetry & Status */}
       <div className="flex items-center space-x-4">
-        <div className="hidden md:flex items-center space-x-2 text-[10px] font-mono font-medium text-white/40 bg-white/[0.02] px-2.5 py-1.5 rounded-lg border border-white/5">
+        <div className="hidden md:flex items-center space-x-2 text-[10px] font-mono font-medium text-white/40 bg-white/2 px-2.5 py-1.5 rounded-lg border border-white/5">
           <Activity size={12} className="text-[#00E5FF]" />
           <span>SYSTEM IDLE</span>
         </div>
