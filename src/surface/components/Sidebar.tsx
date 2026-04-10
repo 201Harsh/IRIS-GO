@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Network, Settings, PanelLeftClose, X } from 'lucide-react';
 import { GiGearStick } from 'react-icons/gi';
@@ -50,7 +50,7 @@ export default function Sidebar({
         <div className="w-full flex items-center justify-between px-5 mb-8">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="flex items-center space-x-3 cursor-pointer outline-none pointer-events-auto md:pointer-events-auto pointer-events-none"
+            className="flex items-center space-x-3 cursor-pointer outline-none md:pointer-events-auto pointer-events-none"
           >
             <div className="w-10 h-10 border border-[#00FF9D]/30 rounded-xl flex items-center justify-center bg-[#00FF9D]/10 text-[#00FF9D] font-black shadow-[0_0_15px_rgba(0,255,157,0.1)] shrink-0">
               IG
