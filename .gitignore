@@ -1,27 +1,15 @@
-# =========================
-# Dependencies
-# =========================
 node_modules/
 .pnp
 .pnp.*
 
-# =========================
-# Build Outputs
-# =========================
 dist/
 build/
 Release/
 
-# =========================
-# Environment Variables
-# =========================
 .env
 .env.*
 !.env.example
 
-# =========================
-# Logs
-# =========================
 logs/
 *.log
 npm-debug.log*
@@ -30,36 +18,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# =========================
-# Vite specific
-# =========================
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
-
-# =========================
-# TypeScript
-# =========================
 *.tsbuildinfo
 
-# =========================
-# Caches & Diagnostic
-# =========================
 .npm
 .eslintcache
 .stylelintcache
 .node_repl_history
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-# =========================
-# Testing & Coverage
-# =========================
 coverage/
 .nyc_output/
-
-# =========================
-# OS Generated Files
-# =========================
 .DS_Store
 .DS_Store?
 ._*
@@ -68,8 +39,5 @@ coverage/
 ehthumbs.db
 Thumbs.db
 
-# =========================
-# Secrets & Misc
-# =========================
 *.pem
 *.local
