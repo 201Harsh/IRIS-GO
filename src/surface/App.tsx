@@ -1,8 +1,7 @@
 export default function App() {
   return (
     <div className="flex flex-col items-center justify-center h-screen w-screen bg-[#020202] text-[#00FF9D] font-mono relative overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#00FF9D]/[0.03] rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-[#00FF9D]/3 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="text-center space-y-6 z-10">
         <div className="inline-flex items-center space-x-2 border border-[#00FF9D]/30 px-3 py-1 rounded bg-[#00FF9D]/5 mb-2">
