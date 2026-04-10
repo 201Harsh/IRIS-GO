@@ -8,11 +8,11 @@
   },
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=development tsx watch --ignore src/surface/**/* index.ts",
+    "dev": "cross-env NODE_ENV=development tsx watch --ignore src/surface/**/* index.ts",
     "build:surface": "vite build -c iris.vite.config.ts",
     "build:kernel": "tsc -p tsconfig.node.json",
     "build": "npm run build:surface && npm run build:kernel",
-    "start": "NODE_ENV=production node dist/index.js",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
     "format": "prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
