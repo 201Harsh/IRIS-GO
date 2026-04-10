@@ -5,6 +5,7 @@ import { Send, Bot, User } from 'lucide-react';
 export default function ChatConsole() {
   const [inputValue, setInputValue] = useState('');
   const endOfChatRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const [messages, setMessages] = useState([
     { id: 1, role: 'system', text: 'IRIS Engine initialized. How can I help you automate today?' },
@@ -14,13 +15,27 @@ export default function ChatConsole() {
     endOfChatRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSend = (e: React.FormEvent) => {
-    e.preventDefault();
+  // Auto-resize textarea logic
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputValue(e.target.value);
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 200)}px`; // Max height 200px
+    }
+  };
+
+  const handleSend = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!inputValue.trim()) return;
 
     const userMsg = { id: Date.now(), role: 'user', text: inputValue };
     setMessages((prev) => [...prev, userMsg]);
     setInputValue('');
+
+    // Reset textarea height after sending
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+    }
 
     setTimeout(() => {
       setMessages((prev) => [
@@ -32,6 +47,14 @@ export default function ChatConsole() {
         },
       ]);
     }, 1000);
+  };
+
+  // Handle Enter to send, Shift+Enter for new line
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
   };
 
   return (
@@ -57,7 +80,7 @@ export default function ChatConsole() {
                 </div>
 
                 <div
-                  className={`p-4 rounded-2xl text-sm leading-relaxed ${
+                  className={`p-4 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.role === 'user'
                       ? 'bg-white/10 text-white rounded-br-sm'
                       : 'bg-[#00FF9D]/5 border border-[#00FF9D]/20 text-white/90 rounded-bl-sm shadow-[0_4px_20px_rgba(0,255,157,0.05)]'
@@ -76,19 +99,21 @@ export default function ChatConsole() {
       <div className="p-4 pb-10 md:p-8 pt-0">
         <form
           onSubmit={handleSend}
-          className="flex items-center bg-[#050505] border border-white/10 rounded-2xl focus-within:border-[#00FF9D]/50 focus-within:ring-1 focus-within:ring-[#00FF9D]/50 transition-all p-1 shadow-lg"
+          className="flex items-end bg-[#050505] border border-white/10 rounded-2xl focus-within:border-[#00FF9D]/50 focus-within:ring-1 focus-within:ring-[#00FF9D]/50 transition-all p-2 shadow-lg"
         >
-          <input
-            type="text"
+          <textarea
+            ref={textareaRef}
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={handleInput}
+            onKeyDown={handleKeyDown}
+            rows={1}
             placeholder="Ask IRIS to execute a task..."
-            className="flex-1 bg-transparent text-white placeholder-white/30 outline-none py-3 px-4 text-sm"
+            className="flex-1 bg-transparent text-white placeholder-white/30 outline-none py-2 px-3 text-sm resize-none custom-scrollbar overflow-y-auto max-h-[200px]"
           />
           <button
             type="submit"
             disabled={!inputValue.trim()}
-            className="p-3 bg-[#00FF9D]/10 text-[#00FF9D] disabled:opacity-30 disabled:text-white/50 hover:bg-[#00FF9D]/20 rounded-xl transition-colors m-1"
+            className="p-2 mb-0.5 bg-[#00FF9D]/10 text-[#00FF9D] disabled:opacity-30 disabled:text-white/50 hover:bg-[#00FF9D]/20 rounded-xl transition-colors ml-2"
           >
             <Send size={18} className="ml-1" />
           </button>
