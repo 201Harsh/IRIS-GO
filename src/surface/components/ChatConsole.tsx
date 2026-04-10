@@ -70,6 +70,7 @@ export default function ChatConsole() {
           ))}
         </AnimatePresence>
         <div ref={endOfChatRef} className="h-4" />
+        <div className="h-40"></div>
       </div>
 
       <div className="p-4 pb-10 md:p-8 pt-0">
