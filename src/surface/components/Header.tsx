@@ -15,7 +15,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <Menu size={22} />
         </button>
 
-        <div className="cursor-pointer flex items-center bg-white/2 border border-white/5 px-3 md:px-4 py-1.5 rounded-xl cursor-default select-none">
+        <div className="cursor-pointer flex items-center bg-white/2 border border-white/5 px-3 md:px-4 py-1.5 rounded-xl select-none">
           <span className="text-white font-black tracking-widest text-lg drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]">
             IRIS{' '}
             <span className="text-[#00FF9D] drop-shadow-[0_0_12px_rgba(0,255,157,0.4)]">GO</span>
