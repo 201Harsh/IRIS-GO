@@ -1,4 +1,4 @@
-import { createApp } from "./app.js";
+import { createApp } from './app.js';
 
 const PORT = process.env.PORT || 3042;
 
@@ -14,7 +14,7 @@ async function startServer() {
       console.log(`======================================\n`);
     });
   } catch (error) {
-    console.error("❌ Failed to start IRIS engine:", error);
+    console.error('❌ Failed to start IRIS engine:', error);
     process.exit(1);
   }
 }
