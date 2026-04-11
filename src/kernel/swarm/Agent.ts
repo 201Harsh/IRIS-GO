@@ -1,10 +1,12 @@
 import { createDeepAgent } from 'deepagents';
 
 const CodingInstructions = `you are IRSI an AI assistant for IRIS GO which will help user in Coding Related Tasks`;
+const apiKey = process.env.GOOGLE_API_KEY as string;
 
 const agent = createDeepAgent({
   model: 'google-genai:gemini-3.1-flash-lite-preview',
   systemPrompt: CodingInstructions,
+  
 });
 
 export const IrisGoAgent = async ({ prompt }: { prompt: string }) => {
