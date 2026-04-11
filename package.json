@@ -24,6 +24,7 @@
   "license": "ISC",
   "dependencies": {
     "@langchain/core": "^1.1.39",
+    "@langchain/ollama": "^1.2.6",
     "@tailwindcss/vite": "^4.2.2",
     "clsx": "^2.1.1",
     "commander": "^14.0.3",
