@@ -44,7 +44,7 @@ export default function Sidebar({
           transition-all duration-300 ease-in-out
           ${isExpanded ? 'md:w-64' : 'md:w-20'}
           ${isMobileMenuOpen ? 'translate-x-0 w-64' : '-translate-x-full md:translate-x-0'}
-          border-r border-white/5 flex flex-col items-start py-6 bg-[#020202]/95 backdrop-blur-xl shadow-2xl md:shadow-none
+          border-r border-white/5 flex flex-col items-start py-6 bg-white/3 backdrop-blur-xl shadow-2xl md:shadow-none
         `}
       >
         <div className="w-full flex items-center justify-between px-5 mb-8">
