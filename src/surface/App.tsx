@@ -24,7 +24,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-dvh w-screen bg-[#020202] text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black relative">
+    <div className="flex h-dvh w-screen bg-[#111111] text-white font-sans overflow-hidden selection:bg-[#00FF9D] selection:text-black relative">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-[#00FF9D]/2 rounded-full blur-[100px] pointer-events-none" />
 
       <Sidebar
