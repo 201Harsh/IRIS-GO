@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { createDeepAgent } from 'deepagents';
 import { z } from 'zod';
 

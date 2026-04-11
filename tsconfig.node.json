@@ -16,6 +16,7 @@
   },
   "include": [
     "src/kernel/**/*",
+    "config/**/*",
     "index.ts",
     "app.ts",
     "cli.ts",
