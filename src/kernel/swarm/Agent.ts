@@ -8,12 +8,17 @@ const agent = createDeepAgent({
 });
 
 export const IrisGoAgent = async ({ prompt }: { prompt: string }) => {
-  const result = await agent.invoke({
-    messages: [{ role: 'user', content: prompt }],
-  });
-  const responseResult = result.messages[result.messages.length - 1].content;
-  console.log(responseResult);
-  return responseResult;
+  try {
+    const result = await agent.invoke({
+      messages: [{ role: 'user', content: prompt }],
+    });
+    const responseResult = result.messages[result.messages.length - 1].content;
+    console.log(responseResult);
+    return responseResult;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
 };
 
 export default IrisGoAgent;
