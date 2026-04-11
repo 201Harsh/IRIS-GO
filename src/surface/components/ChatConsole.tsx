@@ -56,7 +56,7 @@ export default function ChatConsole() {
 
   return (
     <div className="flex-1 flex flex-col h-full bg-transparent max-w-4xl mx-auto w-full">
-      <div className="flex-1 p-4 md:p-8 overflow-y-auto scrollbar-small space-y-6">
+      <div className="flex-1 p-4 md:p-8 overflow-y-auto custom-scrollbar space-y-6">
         <AnimatePresence>
           {messages.map((msg) => (
             <motion.div
