@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Bot, User, Plus, SlidersHorizontal, ChevronDown } from 'lucide-react';
+import { Send, Bot, User, Plus, SlidersHorizontal, ChevronDown, Loader2 } from 'lucide-react';
 
 export default function ChatConsole() {
   const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // Added loading state
   const endOfChatRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -13,7 +14,7 @@ export default function ChatConsole() {
 
   useEffect(() => {
     endOfChatRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, isLoading]); // Scroll on loading state change too
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
@@ -23,11 +24,13 @@ export default function ChatConsole() {
     }
   };
 
-  const handleSend = (e?: React.FormEvent) => {
+  const handleSend = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isLoading) return;
 
-    const userMsg = { id: Date.now(), role: 'user', text: inputValue };
+    const currentPrompt = inputValue;
+    const userMsg = { id: Date.now(), role: 'user', text: currentPrompt };
+
     setMessages((prev) => [...prev, userMsg]);
     setInputValue('');
 
@@ -35,16 +38,42 @@ export default function ChatConsole() {
       textareaRef.current.style.height = 'auto';
     }
 
-    setTimeout(() => {
+    setIsLoading(true);
+
+    try {
+      // API call to the backend
+      const response = await fetch('/ai/iris/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: currentPrompt }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Engine failed to respond');
+      }
+
       setMessages((prev) => [
         ...prev,
         {
           id: Date.now() + 1,
           role: 'system',
-          text: 'Executing that workflow now. I have synced the repository and updated the local files.',
+          text: data.result,
         },
       ]);
-    }, 1000);
+    } catch (error: any) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          role: 'system',
+          text: `[KERNEL ERROR] ${error.message}`,
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -80,7 +109,9 @@ export default function ChatConsole() {
                   className={`p-4 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.role === 'user'
                       ? 'bg-white/10 text-white rounded-br-sm'
-                      : 'bg-[#00FF9D]/5 border border-[#00FF9D]/20 text-white/90 rounded-bl-sm shadow-[0_4px_20px_rgba(0,255,157,0.05)]'
+                      : msg.text.includes('[KERNEL ERROR]')
+                        ? 'bg-red-500/10 border border-red-500/20 text-red-400 rounded-bl-sm'
+                        : 'bg-[#00FF9D]/5 border border-[#00FF9D]/20 text-white/90 rounded-bl-sm shadow-[0_4px_20px_rgba(0,255,157,0.05)]'
                   }`}
                 >
                   {msg.text}
@@ -88,6 +119,24 @@ export default function ChatConsole() {
               </div>
             </motion.div>
           ))}
+
+          {/* Thinking Animation */}
+          {isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex w-full justify-start"
+            >
+              <div className="flex max-w-[85%] md:max-w-[75%] flex-row">
+                <div className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-auto bg-[#00FF9D]/10 text-[#00FF9D] mr-3">
+                  <Loader2 size={16} className="animate-spin" />
+                </div>
+                <div className="p-4 rounded-2xl text-sm leading-relaxed bg-[#00FF9D]/5 border border-[#00FF9D]/20 text-white/50 rounded-bl-sm italic flex items-center">
+                  Processing...
+                </div>
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
         <div ref={endOfChatRef} className="h-4" />
         <div className="h-20"></div>
@@ -103,22 +152,25 @@ export default function ChatConsole() {
             value={inputValue}
             onChange={handleInput}
             onKeyDown={handleKeyDown}
+            disabled={isLoading}
             rows={1}
-            placeholder="Ask IRIS to execute a task..."
-            className="w-full bg-transparent text-white placeholder-white/40 outline-none p-1 text-sm resize-none custom-scrollbar overflow-y-auto max-h-50"
+            placeholder={isLoading ? 'Engine is processing...' : 'Ask IRIS to execute a task...'}
+            className="w-full bg-transparent text-white placeholder-white/40 outline-none p-1 text-sm resize-none custom-scrollbar overflow-y-auto max-h-50 disabled:opacity-50"
           />
 
           <div className="flex items-center justify-between mt-3 pt-1 w-full">
             <div className="flex items-center space-x-4 text-white/50">
               <button
                 type="button"
-                className="hover:text-white transition-colors cursor-pointer p-1"
+                disabled={isLoading}
+                className="hover:text-white transition-colors cursor-pointer p-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Plus size={20} />
               </button>
               <button
                 type="button"
-                className="flex items-center space-x-2 hover:text-white transition-colors cursor-pointer p-1"
+                disabled={isLoading}
+                className="flex items-center space-x-2 hover:text-white transition-colors cursor-pointer p-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <SlidersHorizontal size={18} />
                 <span className="text-sm font-medium">Tools</span>
@@ -128,7 +180,8 @@ export default function ChatConsole() {
             <div className="flex items-center space-x-4">
               <button
                 type="button"
-                className="flex items-center space-x-1.5 text-white/50 hover:text-white transition-colors cursor-pointer p-1"
+                disabled={isLoading}
+                className="flex items-center space-x-1.5 text-white/50 hover:text-white transition-colors cursor-pointer p-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <span className="text-sm font-medium">Pro</span>
                 <ChevronDown size={16} />
@@ -136,17 +189,21 @@ export default function ChatConsole() {
 
               <button
                 type="submit"
-                disabled={!inputValue.trim()}
+                disabled={!inputValue.trim() || isLoading}
                 className={`p-2 rounded-full transition-all cursor-pointer flex items-center justify-center ${
-                  inputValue.trim()
+                  inputValue.trim() && !isLoading
                     ? 'bg-[#00FF9D] text-black hover:bg-[#00FF9D]/80 shadow-[0_0_15px_rgba(0,255,157,0.3)]'
-                    : 'bg-white/10 text-white/30 disabled:opacity-50'
+                    : 'bg-white/10 text-white/30 disabled:opacity-50 disabled:cursor-not-allowed'
                 }`}
               >
-                <Send
-                  size={16}
-                  className={inputValue.trim() ? 'translate-x-0.5 -translate-y-0.5' : ''}
-                />
+                {isLoading ? (
+                  <Loader2 size={16} className="animate-spin text-white/50" />
+                ) : (
+                  <Send
+                    size={16}
+                    className={inputValue.trim() ? 'translate-x-0.5 -translate-y-0.5' : ''}
+                  />
+                )}
               </button>
             </div>
           </div>
