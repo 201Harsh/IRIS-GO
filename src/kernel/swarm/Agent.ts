@@ -17,3 +17,4 @@ export const IrisGoAgent = async ({ prompt }: { prompt: string }) => {
 };
 
 export default IrisGoAgent;
+
