@@ -10,7 +10,7 @@ const contextSchema = z.object({
 });
 
 const agent = createDeepAgent({
-  model: 'ollama:qwen2.5-coder:0.5b',
+  model: 'google-genai:gemini-3.1-flash-lite-preview',
   systemPrompt: CodingInstructions,
   contextSchema,
 });
@@ -22,7 +22,6 @@ export const IrisGoAgent = async ({ prompt }: { prompt: string }) => {
       { context: { apiKey } }
     );
     const responseResult = result.messages[result.messages.length - 1].content;
-    console.log(responseResult);
     return responseResult;
   } catch (error) {
     console.log(error);
