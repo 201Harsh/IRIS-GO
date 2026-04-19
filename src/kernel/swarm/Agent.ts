@@ -22,6 +22,7 @@ export const IrisGoAgent = async ({ prompt }: { prompt: string }) => {
       { context: { apiKey } }
     );
     const responseResult = result.messages[result.messages.length - 1].content;
+    console.log(responseResult);
     return responseResult;
   } catch (error) {
     console.log(error);
