@@ -41,7 +41,6 @@ export default function ChatConsole() {
     setIsLoading(true);
 
     try {
-      // API call to the backend
       const response = await fetch('/ai/iris/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -49,6 +48,7 @@ export default function ChatConsole() {
       });
 
       const data = await response.json();
+      console.log(data);
 
       if (!response.ok) {
         throw new Error(data.message || 'Engine failed to respond');
@@ -120,7 +120,6 @@ export default function ChatConsole() {
             </motion.div>
           ))}
 
-          {/* Thinking Animation */}
           {isLoading && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
