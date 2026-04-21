@@ -3,7 +3,6 @@
   <p><b>Your Personal, Open Source, Remote Multi-AI Agent Ecosystem</b></p>
   <p>Control your AI agents from anywhere via Mobile or Dashboard. 100% Local. 100% Free. Bring Your Own API Keys (BYOAK).</p>
 
-  <!-- Badges -->
   <p>
     <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg" />
     <img alt="Open Source" src="https://img.shields.io/badge/Open%20Source-%E2%9D%A4-red.svg" />
@@ -36,6 +35,7 @@ Follow these instructions to get your local IRIS GO environment up and running.
 ### Prerequisites
 
 Ensure you have the following installed on your machine:
+
 - [Node.js](https://nodejs.org/) (v18 or higher recommended)
 - [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 - Git
@@ -43,24 +43,29 @@ Ensure you have the following installed on your machine:
 ### Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/201Harsh/IRIS-GO.git
    cd IRIS-GO
    ```
 
 2. **Install Dependencies:**
+
    ```bash
    npm install
    ```
 
 3. **Configure Environment Variables:**
    Rename `.env.example` to `.env` and plug in your API keys.
+
    ```bash
    cp .env.example .env
    ```
-   *Edit the `.env` file with your preferred API keys.*
+
+   _Edit the `.env` file with your preferred API keys._
 
 4. **Start the Application:**
+
    ```bash
    npm run dev
    ```
@@ -71,12 +76,15 @@ Ensure you have the following installed on your machine:
 ## 🎮 Usage
 
 ### 1. Dashboard Management
+
 Once the server is running, log into the local dashboard to create new agents, assign them roles, and equip them with tools. You can monitor their internal thought processes and inter-agent communication in real-time.
 
 ### 2. Mobile Access
+
 The IRIS GO dashboard is fully responsive. Simply connect your mobile phone to the same Wi-Fi network as your host machine, enter your host's local IP address in the browser, and command your agents seamlessly.
 
 ### 3. Adding Your API Keys (BYOAK)
+
 Navigate to the "Settings" > "Providers" section in the dashboard to securely add and manage your API keys, or update them directly in your `.env` file. We support a wide array of LLM providers.
 
 ## 🤝 Contributing
@@ -94,6 +102,7 @@ IRIS GO is driven by the open-source community! We welcome contributions, from b
 Distributed under the [MIT License](LICENSE). See `LICENSE` for more information.
 
 ---
+
 <div align="center">
   <b>Built with ❤️ by the Open Source Community.</b>
 </div>
