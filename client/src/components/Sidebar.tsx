@@ -1,4 +1,3 @@
-// src/components/Sidebar.tsx
 import {
   MessageSquare,
   Grid,
