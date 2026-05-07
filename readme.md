@@ -8,7 +8,8 @@
 
 **IRIS GO** is a local-first, open-source Multi-Agent AI System that runs entirely on your machine — a team of specialized AI agents that think, plan, and execute real tasks autonomously.
 
-Not a chatbot. Not an assistant. **An AI workforce. Yours.**
+
+Not a chatbot. Not an assistant. **An AI Team. Yours.**
 
 <br/>
 
@@ -21,6 +22,7 @@ Not a chatbot. Not an assistant. **An AI workforce. Yours.**
 <br/>
 
 > _"Chat karo. System obeys."_
+
 
 </div>
 
