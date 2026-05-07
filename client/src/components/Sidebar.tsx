@@ -10,14 +10,11 @@ import {
 export default function Sidebar() {
   return (
     <div className="flex h-full border-r border-white bg-black/10 backdrop-blur-sm z-20">
-      {/* Pane 1: Thin Navigation Strip */}
       <div className="w-16 flex flex-col items-center py-4 border-r border-black/50 bg-black/10">
-        {/* Logo/Main Icon */}
         <div className="w-10 h-10 rounded-xl border border-cyan-400/30 flex items-center justify-center mb-8 shadow-[0_0_15px_rgba(34,211,238,0.15)]">
           <div className="w-4 h-4 bg-cyan-400 rounded-sm shadow-[0_0_10px_rgba(34,211,238,0.5)]"></div>
         </div>
 
-        {/* Global Nav Icons */}
         <div className="flex flex-col gap-6 flex-1 text-slate-100">
           <button className="text-cyan-400 hover:text-cyan-300 transition-colors drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]">
             <MessageSquare size={20} />
@@ -36,7 +33,6 @@ export default function Sidebar() {
           </button>
         </div>
 
-        {/* Bottom Nav */}
         <div className="flex flex-col gap-6 text-slate-100 pb-4">
           <div className="w-8 h-8 rounded-full bg-black/30 flex items-center justify-center text-xs text-cyan-400 border border-cyan-400">
             H
@@ -44,9 +40,7 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {/* Pane 2: Context Sidebar */}
       <div className="w-64 flex flex-col h-full bg-black/60 p-4 overflow-y-auto">
-        {/* Header & Search */}
         <div className="mb-6">
           <h2 className="text-xs tracking-widest text-slate-100 mb-4 font-semibold uppercase">
             IRIS GO
@@ -64,7 +58,6 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* Chats Section */}
         <div className="mb-6">
           <h3 className="text-[10px] tracking-wider text-slate-100 mb-3 uppercase">
             Chats
@@ -99,7 +92,6 @@ export default function Sidebar() {
           </ul>
         </div>
 
-        {/* Agent Status Monitor */}
         <div className="mt-auto pt-4">
           <div className="p-3 border border-black/80 rounded-xl bg-gray-900">
             <h3 className="text-[10px] tracking-wider text-slate-100 mb-3 uppercase">
