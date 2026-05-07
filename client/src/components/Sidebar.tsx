@@ -5,7 +5,6 @@ import {
   Activity,
   FileText,
   Search,
-  CircleDashed,
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -39,9 +38,6 @@ export default function Sidebar() {
 
         {/* Bottom Nav */}
         <div className="flex flex-col gap-6 text-slate-100 pb-4">
-          <button className="hover:text-slate-300 transition-colors">
-            <CircleDashed size={20} />
-          </button>
           <div className="w-8 h-8 rounded-full bg-black/30 flex items-center justify-center text-xs text-cyan-400 border border-cyan-400">
             H
           </div>
@@ -105,7 +101,7 @@ export default function Sidebar() {
 
         {/* Agent Status Monitor */}
         <div className="mt-auto pt-4">
-          <div className="p-3 border border-black/80 rounded-xl bg-slate-950/50">
+          <div className="p-3 border border-black/80 rounded-xl bg-gray-900">
             <h3 className="text-[10px] tracking-wider text-slate-100 mb-3 uppercase">
               Agent Status
             </h3>
