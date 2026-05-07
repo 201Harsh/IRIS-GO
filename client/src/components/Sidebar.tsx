@@ -5,7 +5,6 @@ import {
   Activity,
   FileText,
   Search,
-  Settings,
   CircleDashed,
 } from "lucide-react";
 
